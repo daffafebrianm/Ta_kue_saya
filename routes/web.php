@@ -16,8 +16,6 @@ use App\Http\Controllers\admin\KeranjangController;
 
 Route::get('/', [LandingPageController::class, 'admin']);
 // Route::get('/dashboard', [LandingPageController::class, 'user']);
-
-
 // LOGIN
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
