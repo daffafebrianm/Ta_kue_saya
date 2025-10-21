@@ -27,10 +27,10 @@ class LoginController extends Controller
 
             // Arahkan berdasarkan role
             if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin');
+                return redirect()->route('dashboard');
             }
 
-            return redirect()->route('home');
+            return redirect()->route('landing');
         }
 
         return back()->withErrors([
@@ -45,6 +45,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('landing');
     }
 }

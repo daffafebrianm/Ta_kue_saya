@@ -14,12 +14,13 @@ use App\Http\Controllers\admin\KeranjangController;
 
 // LANDING PAGE (Tampilan awal user & admin)
 
-Route::get('/', [LandingPageController::class, 'admin']);
+Route::get('/', [LandingPageController::class, 'user'])->name('landing');
 // Route::get('/dashboard', [LandingPageController::class, 'user']);
 // LOGIN
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LoginController::class, 'logout']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // REGISTER
@@ -29,27 +30,11 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::middleware(['isAdmin'])->group(function () {
 
-     Route::get('/dashboard', [DashboardAdminController::class, 'index']);
+    Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard');
 
+    Route::resource('/produk', ProdukController::class);
+    Route::resource('/kategori', KategoriController::class);
 
-  Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
-        Route::get('/produk/create', [ProdukController::class, 'create'])->name('produk.create');
-        Route::post('/produk', [ProdukController::class, 'store'])->name('produk.store');
-        Route::get('/produk/{id}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
-        Route::put('/produk/{id}', [ProdukController::class, 'update'])->name('produk.update');
-        Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
-
-        // KATEGORI
-
-        Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
-        Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
-        Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
-        Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
-        Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
-        Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
-
-
-        // USER
 
         Route::get('/user', [UserController::class, 'index'])->name('user.index');
         Route::get('/user/create', [UserController::class, 'create'])->name('user.create');

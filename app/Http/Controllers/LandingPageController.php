@@ -8,7 +8,7 @@ class LandingPageController extends Controller
 {
     public function admin()
     {
-        return view('admin.layouts.main');
+        return view('admin.Dashboard');
     }
 
     public function user()

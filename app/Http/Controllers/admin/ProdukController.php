@@ -11,9 +11,6 @@ use App\Http\Controllers\Controller;
 
 class ProdukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $produks = Produk::with('kategori')->paginate(10);
@@ -21,35 +18,32 @@ class ProdukController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-
-
-    /**
-     * Store a newly created resource in storage.
+     * Tampilkan form tambah produk baru.
      */
     public function create()
-{
-    $kategoris = Kategori::all();
-    return view('admin.product.create', compact('kategoris'));
-}
+    {
+        $kategoris = Kategori::all();
+        return view('admin.product.create', compact('kategoris'));
+    }
 
+    /**
+     * Simpan data produk baru ke database.
+     */
     public function store(Request $request)
     {
-        $validateData= $request->validate([
-        'id_kategori' => 'required|integer|exists:kategoris,id',
-        'nama'        => 'required|string|max:150',
-        'deskripsi'   => 'required|string',
-        'harga'       => 'required|numeric|min:0',
-        'stok'        => 'required|integer|min:0',
-        'gambar'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'berat'       => 'required|numeric|min:0',
-        'status'      => 'required|in:aktif,nonaktif',
-        ],
-        [
+        $validatedData = $request->validate([
+            'id_kategori' => 'required|integer|exists:kategoris,id',
+            'nama'        => 'required|string|max:150',
+            'deskripsi'   => 'required|string',
+            'harga'       => 'required|numeric|min:0',
+            'stok'        => 'required|integer|min:0',
+            'gambar'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'berat'       => 'required|numeric|min:0',
+            'status'      => 'required|in:aktif,nonaktif',
+        ], [
             'id_kategori.required' => 'Kategori wajib dipilih.',
             'id_kategori.integer'  => 'Kategori harus berupa angka.',
-            'id_kategori.exists'   => 'Kategori tidak ditemukan dalam database.',
+            'id_kategori.exists'   => 'Kategori tidak ditemukan di database.',
 
             'nama.required' => 'Nama produk wajib diisi.',
             'nama.string'   => 'Nama produk harus berupa teks.',
@@ -76,95 +70,85 @@ class ProdukController extends Controller
 
             'status.required' => 'Status wajib diisi.',
             'status.in'       => 'Status hanya boleh diisi dengan "aktif" atau "nonaktif".',
-        ]
-        );
+        ]);
 
-        Produk::create($validateData);
+        Produk::create($validatedData);
 
-        return redirect()->route('admin.produk.index')->with('sucsess','produk berhasil di tambahkan');
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
-
     /**
-     * Display the specified resource.
+     * Tampilkan form edit produk.
      */
-    public function show(string $id){}
+    public function edit(string $id)
+    {
+        $produk = Produk::findOrFail($id);
+        $kategoris = Kategori::all();
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-public function edit(string $id)
-{
-    $produk = Produk::findOrFail($id);
-    $kategoris = Kategori::all(); // <— ini bagian penting
-
-    return view('admin.product.edit', compact('produk', 'kategoris'));
-}
-
-
+        return view('admin.product.edit', compact('produk', 'kategoris'));
+    }
 
     /**
-     * Update the specified resource in storage.
+     * Update data produk di database.
      */
     public function update(Request $request, $id)
     {
-        $produks   =  Produk::findOrFail($id);
+        $produk = Produk::findOrFail($id);
 
         $validatedData = $request->validate([
-        'id_kategori' => 'required|integer|exists:kategoris,id',
-        'nama'        => 'required|string|max:150',
-        'deskripsi'   => 'required|string',
-        'harga'       => 'required|numeric|min:0',
-        'stok'        => 'required|integer|min:0',
-        'gambar'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'berat'       => 'required|numeric|min:0',
-        'status'      => 'required|in:aktif,nonaktif',
-    ], [
-        'id_kategori.required' => 'Kategori wajib dipilih.',
-        'id_kategori.integer'  => 'Kategori harus berupa angka.',
-        'id_kategori.exists'   => 'Kategori tidak ditemukan di database.',
+            'id_kategori' => 'required|integer|exists:kategoris,id',
+            'nama'        => 'required|string|max:150',
+            'deskripsi'   => 'required|string',
+            'harga'       => 'required|numeric|min:0',
+            'stok'        => 'required|integer|min:0',
+            'gambar'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'berat'       => 'required|numeric|min:0',
+            'status'      => 'required|in:aktif,nonaktif',
+        ], [
+            'id_kategori.required' => 'Kategori wajib dipilih.',
+            'id_kategori.integer'  => 'Kategori harus berupa angka.',
+            'id_kategori.exists'   => 'Kategori tidak ditemukan di database.',
 
-        'nama.required' => 'Nama produk wajib diisi.',
-        'nama.string'   => 'Nama produk harus berupa teks.',
-        'nama.max'      => 'Nama produk tidak boleh lebih dari 150 karakter.',
+            'nama.required' => 'Nama produk wajib diisi.',
+            'nama.string'   => 'Nama produk harus berupa teks.',
+            'nama.max'      => 'Nama produk tidak boleh lebih dari 150 karakter.',
 
-        'deskripsi.required' => 'Deskripsi wajib diisi.',
-        'deskripsi.string'   => 'Deskripsi harus berupa teks.',
+            'deskripsi.required' => 'Deskripsi wajib diisi.',
+            'deskripsi.string'   => 'Deskripsi harus berupa teks.',
 
-        'harga.required' => 'Harga wajib diisi.',
-        'harga.numeric'  => 'Harga harus berupa angka.',
-        'harga.min'      => 'Harga tidak boleh kurang dari 0.',
+            'harga.required' => 'Harga wajib diisi.',
+            'harga.numeric'  => 'Harga harus berupa angka.',
+            'harga.min'      => 'Harga tidak boleh kurang dari 0.',
 
-        'stok.required' => 'Stok wajib diisi.',
-        'stok.integer'  => 'Stok harus berupa angka.',
-        'stok.min'      => 'Stok minimal 0.',
+            'stok.required' => 'Stok wajib diisi.',
+            'stok.integer'  => 'Stok harus berupa angka.',
+            'stok.min'      => 'Stok minimal 0.',
 
-        'gambar.image' => 'File gambar harus berupa format gambar.',
-        'gambar.mimes' => 'Gambar harus berformat jpg, jpeg, atau png.',
-        'gambar.max'   => 'Ukuran gambar maksimal 2MB.',
+            'gambar.image' => 'File yang diunggah harus berupa gambar.',
+            'gambar.mimes' => 'Gambar harus berformat jpg, jpeg, atau png.',
+            'gambar.max'   => 'Ukuran gambar maksimal 2MB.',
 
-        'berat.required' => 'Berat wajib diisi.',
-        'berat.numeric'  => 'Berat harus berupa angka.',
-        'berat.min'      => 'Berat tidak boleh kurang dari 0.',
+            'berat.required' => 'Berat wajib diisi.',
+            'berat.numeric'  => 'Berat harus berupa angka.',
+            'berat.min'      => 'Berat tidak boleh kurang dari 0.',
 
-        'status.required' => 'Status wajib diisi.',
-        'status.in'       => 'Status hanya boleh "aktif" atau "nonaktif".',
-    ]);
-    $produks-> update($validatedData);
+            'status.required' => 'Status wajib diisi.',
+            'status.in'       => 'Status hanya boleh diisi dengan "aktif" atau "nonaktif".',
+        ]);
 
-    return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil diperbarui');
+        $produk->update($validatedData);
 
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus produk dari database.
      */
     public function destroy(string $id)
     {
         $produk = Produk::findOrFail($id);
         $produk->delete();
 
-        return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil dihapus');
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus.');
     }
 }

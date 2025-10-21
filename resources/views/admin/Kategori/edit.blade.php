@@ -1,28 +1,59 @@
 @extends('admin.layouts.main')
 @section('content')
 
-<div class="container">
-    <h1>Edit Kategori</h1>
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Kategori</h2>
 
-    <form action="{{ route('admin.kategori.update', $kategori->id) }}" method="POST">
+    <!-- Notifikasi sukses -->
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    <!-- Tampilkan error validasi -->
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Terjadi kesalahan:</strong>
+            <ul class="mb-0 mt-2">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('kategori.update', $kategori->id) }}" method="POST">
         @csrf
         @method('PUT')
 
+        <!-- Nama Kategori -->
         <div class="mb-3">
-            <label>Nama Kategori</label>
-            <input type="text" name="nama" value="{{ old('nama', $kategori->nama) }}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Slug</label>
-            <input type="text" name="slug" value="{{ old('slug', $kategori->slug) }}" class="form-control">
+            <label for="nama" class="form-label">Nama Kategori</label>
+            <input type="text" name="nama" id="nama" value="{{ old('nama', $kategori->nama) }}" class="form-control" required>
         </div>
 
+        <!-- Slug -->
         <div class="mb-3">
-            <label>Deskripsi</label>
-            <textarea name="deskripsi" class="form-control">{{ old('deskripsi', $kategori->deskripsi) }}</textarea>
+            <label for="slug" class="form-label">Slug</label>
+            <input type="text" name="slug" id="slug" value="{{ old('slug', $kategori->slug) }}" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        <!-- Deskripsi -->
+        <div class="mb-3">
+            <label for="deskripsi" class="form-label">Deskripsi</label>
+            <textarea name="deskripsi" id="deskripsi" class="form-control">{{ old('deskripsi', $kategori->deskripsi) }}</textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="{{ route('kategori.index') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left-circle"></i> Kembali
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-circle"></i> Simpan Perubahan
+            </button>
+        </div>
     </form>
 </div>
 
