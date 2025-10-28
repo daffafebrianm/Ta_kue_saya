@@ -22,6 +22,8 @@ return new class extends Migration
             $table->decimal('berat', 10, 2); // decimal(10,2)
             $table->enum('status', ['aktif', 'nonaktif'])->default('aktif'); // enum
             $table->timestamps();
+
+            $table->foreign('id_kategori')->references('id')->on('kategoris')->onDelete('cascade');
         });
     }
 

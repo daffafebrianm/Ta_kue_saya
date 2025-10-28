@@ -1,16 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardAdminController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LandingPageController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\admin\ProdukController;
-use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\KategoriController;
 use App\Http\Controllers\admin\OrderController;
-use App\Http\Controllers\admin\KeranjangController;
-
+use App\Http\Controllers\admin\ProdukController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\User\KeranjangController;
+use Illuminate\Support\Facades\Route;
 
 // LANDING PAGE (Tampilan awal user & admin)
 
@@ -27,7 +26,6 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-
 Route::middleware(['isAdmin'])->group(function () {
 
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard');
@@ -35,73 +33,46 @@ Route::middleware(['isAdmin'])->group(function () {
     Route::resource('/produk', ProdukController::class);
     Route::resource('/kategori', KategoriController::class);
 
+    Route::get('/users', [UserController::class, 'index'])->name('user.index');
+    Route::post('/users', [UserController::class, 'store'])->name('user.store');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
-        Route::get('/user', [UserController::class, 'index'])->name('user.index');
-        Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
-        Route::post('/user', [UserController::class, 'store'])->name('user.store');
-        Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-        Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
-        Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-
-        // ORDER
-
-        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-        Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-
-
+    // ORDER
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 });
 
-// ROUTE UNTUK ADMIN
-// Route::middleware(['web', 'auth', 'isadmin'])
-//     ->prefix('admin')
-//     ->name('admin.')
-//     ->group(function () {
-//         // DASHBOARD
-//         Route::get('/dashboard', function () {
-//             return view('admin.dashboard');
-//         })->name('dashboard');
+Route::middleware(['isCustomer'])->group(function () {
+    // =========================
+    // PRODUK (browse & detail)
+    // =========================
+    Route::get('/products', [\App\Http\Controllers\user\ProdukController::class, 'index'])->name('products.index');
+    Route::get('/products/{product:slug}', [\App\Http\Controllers\user\ProdukController::class, 'show'])->name('products.show');
 
-//         // PRODUK
-//         Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
-//         Route::get('/produk/create', [ProdukController::class, 'create'])->name('produk.create');
-//         Route::post('/produk', [ProdukController::class, 'store'])->name('produk.store');
-//         Route::get('/produk/{id}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
-//         Route::put('/produk/{id}', [ProdukController::class, 'update'])->name('produk.update');
-//         Route::delete('/produk/{id}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+    // =========================
+    // KERANJANG
+    // =========================
+    Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
+    Route::post('/keranjang', [KeranjangController::class, 'addToCart'])->name('keranjang.store');
+    Route::patch('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
+    Route::delete('/keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
+    Route::delete('/keranjang', [KeranjangController::class, 'clear'])->name('keranjang.clear');
 
-//         // KATEGORI
+    // =========================
+    // CHECKOUT & PEMBAYARAN
+    // =========================
+    // Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout.create');  // Form alamat/metode bayar
+    // Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');   // Buat Order
 
-//         Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
-//         Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
-//         Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
-//         Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
-//         Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
-//         Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+    // // Inisiasi bayar (redirect ke gateway / buat VA/QR)
+    // Route::post('/payments/{order}', [PaymentController::class, 'pay'])->name('payments.pay');
 
-
-//         // USER
-
-//         Route::get('/user', [UserController::class, 'index'])->name('user.index');
-//         Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
-//         Route::post('/user', [UserController::class, 'store'])->name('user.store');
-//         Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-//         Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
-//         Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-
-//         // ORDER
-
-//         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-//         Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-
-//         // KERANJANG
-
-//         Route::get('/keranjangs', [KeranjangController::class, 'index'])->name('keranjang.index');
-//         Route::get('/keranjangs/create', [KeranjangController::class, 'create'])->name('keranjang.create');
-//         Route::post('/keranjangs', [KeranjangController::class, 'store'])->name('keranjang.store');
-//         Route::delete('/keranjangs/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
-//         Route::post('/keranjang/add', [KeranjangController::class, 'addToCart'])->name('keranjang.add');
-//     });
-
+    // // Callback URL setelah kembali dari gateway (sukses/gagal)
+    // Route::get('/payments/{order}/success', [PaymentController::class, 'success'])->name('payments.success');
+    // Route::get('/payments/{order}/failed', [PaymentController::class, 'failed'])->name('payments.failed');
+});
 
 //     Route::middleware(['auth'])->group(function () {
 //     Route::get('/customer/dashboard', function () {
@@ -113,4 +84,3 @@ Route::middleware(['isAdmin'])->group(function () {
 //     $route = app('router')->getRoutes()->getByName('admin.dashboard');
 //     return $route ? $route->gatherMiddleware() : 'Route not found';
 // });
-

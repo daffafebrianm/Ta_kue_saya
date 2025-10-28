@@ -26,7 +26,7 @@
                 <td>{{ ucfirst($order->payment_status) }}</td>
                 <td>{{ ucfirst($order->shipping_status) }}</td>
                 <td>
-                    <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-primary btn-sm">Lihat</a>
+                    <a href="{{ route('orders.show', $order->id) }}" class="btn btn-primary btn-sm">Lihat</a>
                 </td>
             </tr>
             @empty

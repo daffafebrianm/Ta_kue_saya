@@ -6,13 +6,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Focus - Bootstrap Admin Dashboard </title>
+    <title>Waroeng Kue</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <link href="{{ asset('admin/assets/vendor/pg-calendar/css/pignose.calendar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/vendor/chartist/css/chartist.min.css') }}"rel="stylesheet ">
     <link href="{{ asset('admin/assets/css/style.css') }}"rel="stylesheet" >
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+
 
 
 </head>
@@ -74,8 +76,8 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>
+                <p>pembuat © Designed &amp; by daffa febrian mukthar <a href="#" target="_blank"></a> 2019</p>
+                <p>Distributed by waroeng koe</p>
             </div>
         </div>
         <!--**********************************
@@ -109,6 +111,9 @@
     <script src="{{ asset('admin/assets/vendor/moment/moment.min.js')}}"></script>
     <script src="{{ asset('admin/assets/vendor/pg-calendar/js/pignose.calendar.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- BEFORE </body>: Choices JS -->
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
 
 
     <script src="{{ asset('admin/assets/js/dashboard/dashboard-2.js')}}"></script>

@@ -1,17 +1,17 @@
 <?php
 
-// app/Http/Middleware/IsAdmin.php
+// app/Http/Middleware/IsCustomer.php
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 
-class IsAdmin
+class IsCustomer
 {
     public function handle(Request $request, Closure $next)
     {
         // Periksa apakah pengguna sudah login dan memiliki role 'admin'
-        if (auth()->check() && auth()->user()->role === 'admin') {
+        if (auth()->check() && auth()->user()->role === 'customer') {
             return $next($request);
         }
 

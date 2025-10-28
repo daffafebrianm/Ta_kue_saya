@@ -34,6 +34,7 @@ class Kernel extends HttpKernel
 protected $routeMiddleware = [
     'auth' => \App\Http\Middleware\Authenticate::class,
     'isadmin' => \App\Http\Middleware\IsAdmin::class, // ✅ tambahkan ini
+    'iscustomer' => \App\Http\Middleware\IsCustomer::class, // ✅ tambahkan ini
 ];
 
 

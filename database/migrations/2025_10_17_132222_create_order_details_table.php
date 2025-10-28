@@ -19,6 +19,9 @@ return new class extends Migration
             $table->decimal('harga', 15, 2); // harga satuan
             $table->decimal('total', 15, 2); // total harga (harga * jumlah)
             $table->timestamps();
+
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('produk_id')->references('id')->on('produks')->onDelete('cascade');
         });
     }
 
@@ -27,6 +30,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_details');
+        Schema::table('order_details', function (Blueprint $table) {
+            $table->dropForeign(['order_id']);
+            $table->dropForeign(['product_id']);
+            $table->dropColumn(['order_id','product_id']);
+        });
     }
 };

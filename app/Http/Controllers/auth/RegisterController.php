@@ -17,21 +17,19 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         // Validasi input
-        $request->validate([
-            'nama' => 'required|string|max:100',
-            'username' => 'required|string|max:100|unique:users',
-            'email' => 'required|string|email|max:150|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+        $validated = $request->validate([
+            'nama' => ['required', 'string', 'max:50'],
+            'username' => ['required', 'string', 'max:50', 'alpha_dash', 'unique:users,username'],
+            'email' => ['required', 'email', 'max:50', 'unique:users,email'],
+            // 'phone_number' => ['nullable', 'string', 'max:20'],
+            'password' => ['required', 'confirmed', 'min:8'], // gunakan password_confirmation
         ]);
 
-        // Simpan user baru otomatis role customer
-        $user = User::create([
-            'nama' => $request->nama,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => 'customer', // otomatis customer
-        ]);
+        // role default = customer (abaikan input role jika ada)
+        $validated['role'] = 'customer';
+
+        // password akan auto-hash karena cast 'hashed' di model
+        $user = User::create($validated);
 
         // Login otomatis
         Auth::login($user);

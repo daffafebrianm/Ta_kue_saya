@@ -26,16 +26,16 @@
                     </li>
                     <li>
 
-                        <a href="/user">
+                        <a href="/users">
                             <i class="icon icon-single-04"></i>
                             <span class="nav-text">User</span>
                         </a>
                     </li>
                     <li>
 
-                        <a href="./index.html">
+                        <a href="/orders">
                             <i class="icon icon-single-04"></i>
-                            <span class="nav-text">Dashboard</span>
+                            <span class="nav-text">Order</span>
                         </a>
                     </li>
                     <li>

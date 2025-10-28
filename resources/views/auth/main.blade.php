@@ -11,12 +11,12 @@
     <link href="{{ asset('auth/assets/css/style.css') }}" rel="stylesheet">
 
 </head>
- @yield('content')
+@yield('content')
 
-    <!-- Required vendors -->
-    <script src="{{ asset('auth/assets/vendor/global/global.min.js') }}"></script>
-    <script src="{{ asset('auth/assets/js/quixnav-init.js') }}"></script>
-    <script src="{{ asset('auth/assets/js/custom.min.js') }}"></script>
+<!-- Required vendors -->
+<script src="{{ asset('auth/assets/vendor/global/global.min.js') }}"></script>
+<script src="{{ asset('auth/assets/js/quixnav-init.js') }}"></script>
+<script src="{{ asset('auth/assets/js/custom.min.js') }}"></script>
 
 </body>
 

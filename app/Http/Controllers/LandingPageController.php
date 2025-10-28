@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
@@ -13,6 +14,7 @@ class LandingPageController extends Controller
 
     public function user()
     {
-        return view('user.layouts.main');
+        $produks = Produk::aktif()->latest()->take(12)->get();
+        return view('user.home', compact('produks'));
     }
 }
