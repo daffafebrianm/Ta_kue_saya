@@ -59,6 +59,17 @@
                                                 @enderror
                                             </div>
 
+                                            {{-- Telepon --}}
+                                            <div class="form-group">
+                                                <label><strong>No Telepon</strong></label>
+                                                <input type="text"
+                                                    class="form-control @error('phone_number') is-invalid @enderror" name="phone_number"
+                                                    value="{{ old('phone_number') }}" placeholder="Nomor Telepon" required>
+                                                @error('phone_number')
+                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
                                             {{-- Password --}}
                                             <div class="form-group">
                                                 <label><strong>Password</strong></label>

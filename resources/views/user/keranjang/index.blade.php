@@ -47,10 +47,10 @@
                                     <td class="text-center">{{ $no++ }}</td>
                                     <!-- Menampilkan gambar produk -->
                                     <td class="text-center">
-                                        <img src="{{ $keranjang->produk->gambar_produk ? Storage::url($keranjang->produk->gambar_produk) : asset('default-image.jpg') }}" width="100" alt="Gambar Produk">
+                                        <img src="{{ $keranjang->produk->gambar ? Storage::url($keranjang->produk->gambar) : asset('default-image.jpg') }}" width="100" alt="Gambar Produk">
                                     </td>
                                     <!-- Menampilkan nama produk -->
-                                    <td class="text-center">{{ $keranjang->produk->nama_produk }}</td>
+                                    <td class="text-center">{{ $keranjang->produk->nama }}</td>
                                     <td>
                                         <!-- Form untuk mengupdate jumlah produk -->
                                         <form action="{{ route('keranjang.update', $keranjang->id) }}" method="post" class="d-flex align-items-center justify-content-center" id="form-keranjang-{{ $keranjang->id }}">
@@ -121,6 +121,13 @@
                                 </tr>  --}}
                             </tbody>
                         </table>
+                    </div>
+
+                     <!-- Tombol Checkout -->
+                    <div class="text-end mt-3">
+                        <a href="{{ route('Checkout.index') }}" class="btn btn-success">
+                            <i class="fa fa-check"></i> Checkout
+                        </a>
                     </div>
                     @else
                     <!-- Menampilkan pesan jika keranjang kosong -->

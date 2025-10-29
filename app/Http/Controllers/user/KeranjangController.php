@@ -12,22 +12,27 @@ use Illuminate\Support\Facades\DB;
 class KeranjangController extends Controller
 {
     // GET /customer/keranjang
-    public function index()
-    {
-        $keranjangs = Keranjang::query()
-            ->with(['produk:id,nama,harga,stok,status']) // sesuaikan kolom yang dipakai di view
-            ->where('user_id', Auth::id())
-            ->latest()
-            ->paginate(10);
+public function index()
+{
+    // Mengambil data keranjang milik pengguna yang sedang login
+    $keranjangs = Keranjang::query()
+        ->with(['produk:id,gambar,nama,harga,stok,status']) // Memuat data produk terkait
+        ->where('user_id', Auth::id()) // Menyaring keranjang berdasarkan user_id yang sedang login
+        ->latest() // Mengurutkan berdasarkan yang terbaru
+        ->paginate(10); // Membatasi hasil dengan pagination
 
-        $subtotal = $keranjangs->getCollection()->sum(function ($k) {
-            $harga = (float) ($k->produk->harga ?? 0);
+    // Menghitung subtotal dari semua item keranjang
+    $subtotal = $keranjangs->getCollection()->sum(function ($k) {
+        $harga = (float) ($k->produk->harga ?? 0); // Mengambil harga produk, jika tidak ada, set ke 0
+        return $harga * (int) $k->jumlah; // Menghitung subtotal berdasarkan harga dan jumlah
+    });
+    // Periksa data produk yang dikirim ke view
 
-            return $harga * (int) $k->jumlah;
-        });
 
-        return view('user.keranjang.index', compact('keranjangs', 'subtotal'));
-    }
+    // Mengembalikan view dengan data keranjang dan subtotal
+    return view('user.keranjang.index', compact('keranjangs', 'subtotal'));
+}
+
 
     // POST /customer/keranjang  (tambah item)
     public function addToCart(Request $request)

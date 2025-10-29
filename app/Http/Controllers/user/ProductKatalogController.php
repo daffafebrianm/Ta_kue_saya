@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\user;
 
+use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class ProdukController extends Controller
+class ProductKatalogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $produks = Produk::with('kategori')->paginate(10);
@@ -36,10 +33,7 @@ class ProdukController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Produk $product)
-    {
-        return view('products.show', compact('product'));
-    }
+
 
     /**
      * Show the form for editing the specified resource.

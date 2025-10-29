@@ -21,7 +21,7 @@ class RegisterController extends Controller
             'nama' => ['required', 'string', 'max:50'],
             'username' => ['required', 'string', 'max:50', 'alpha_dash', 'unique:users,username'],
             'email' => ['required', 'email', 'max:50', 'unique:users,email'],
-            // 'phone_number' => ['nullable', 'string', 'max:20'],
+            'phone_number' => ['nullable', 'string', 'max:20'],
             'password' => ['required', 'confirmed', 'min:8'], // gunakan password_confirmation
         ]);
 

@@ -16,8 +16,6 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Kategori</th>
-                    <th>Slug</th>
-                    <th>Deskripsi</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -26,8 +24,6 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $kategori->nama }}</td>
-                        <td>{{ $kategori->slug }}</td>
-                        <td>{{ Str::limit($kategori->deskripsi, 50, '...') }}</td>
                         <td>
                             <a href="{{ route('kategori.edit', $kategori->id) }}" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil-fill"></i> Edit

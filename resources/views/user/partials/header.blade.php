@@ -71,50 +71,53 @@
                         <li class="nav-item"><a class="nav-link me-4 active" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link me-4" href="{{ url('/about_us') }}">About us</a></li>
                         {{-- agar selalu menuju section produk di home --}}
-                        <li class="nav-item"><a class="nav-link me-4"
-                                href="{{ url('/products') }}">Products</a></li>
+                        <li class="nav-item"><a class="nav-link me-4" href="{{ url('/products') }}">Products</a></li>
                         <li class="nav-item"><a class="nav-link me-4" href="{{ url('/contact') }}">Contact</a></li>
-
-                        @guest
-                            <li class="nav-item"><a class="nav-link me-4" href="{{ route('login') }}">Login</a></li>
-                            <li class="nav-item"><a class="nav-link me-4" href="{{ route('register') }}">Register</a></li>
-                        @else
-                            {{-- contoh: tampilkan nama singkat --}}
-                            <li class="nav-item"><span
-                                    class="nav-link me-4">{{ Str::limit(auth()->user()->name, 14) }}</span></li>
-                        @endguest
 
                         <li class="nav-item">
                             <div class="user-items ps-5">
                                 <ul class="d-flex justify-content-end list-unstyled">
+                                    {{-- Menampilkan ikon jika pengguna sudah login --}}
+                                    @auth
+                                        <li class="pe-3 dropdown">
+                                            <a href="#" class="dropdown-toggle d-flex align-items-center gap-2"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <svg class="user">
+                                                    <use xlink:href="#user"></use>
+                                                </svg>
+                                                <span>{{ Auth::user()->username ?? (Auth::user()->nama ?? Auth::user()->email) }}</span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="/Profile">Profile</a></li>
+                                                <li><a class="dropdown-item" href="/Riwayat-Pesanan">Riwayat Pesanan</a>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                            </ul>
+                                        </li>
 
-                                    <li class="pe-3 dropdown">
-                                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <svg class="user">
-                                                <use xlink:href="#user"></use>
-                                            </svg>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                                        </ul>
-                                    </li>
+                                        <li>
+                                            <a href="{{ route('keranjang.index') }}">
+                                                <svg class="/cart">
+                                                    <use xlink:href="#cart"></use>
+                                                </svg>
+                                            </a>
+                                        </li>
+                                    @endauth
 
-                                    <li>
-                                        <a href="{{ route('keranjang.index') }}">
-                                            <svg class="cart">
-                                                <use xlink:href="#cart"></use>
-                                            </svg>
-                                        </a>
-                                    </li>
+                                    {{-- Menampilkan tombol login dan register jika pengguna belum login --}}
+                                    @guest
+                                        <li class="nav-item"><a class="nav-link me-4"
+                                                href="{{ route('login') }}">Login</a></li>
+                                        <li class="nav-item"><a class="nav-link me-4"
+                                                href="{{ route('register') }}">Register</a></li>
+                                    @endguest
                                 </ul>
                             </div>
                         </li>
+
 
                     </ul>
                 </div>

@@ -9,10 +9,13 @@
             <tr>
                 <th>No</th>
                 <th>Order Code</th>
-                <th>User</th>
+                <th>Nama</th>
+                <th>Alamat</th>
                 <th>Total</th>
                 <th>Payment Status</th>
                 <th>Shipping Status</th>
+                <th>Tanggal Pesanan</th>
+                <th>Note</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -22,9 +25,13 @@
                 <td>{{ $orders->firstItem() + $index }}</td>
                 <td>{{ $order->order_code }}</td>
                 <td>{{ $order->user->nama ?? '-' }}</td>
-                <td>Rp {{ number_format($order->total,0,',','.') }}</td>
+                <td>{{ $order->alamat }}</td>
+                <td>Rp {{ number_format($order->totalharga,0,',','.') }}</td>
                 <td>{{ ucfirst($order->payment_status) }}</td>
                 <td>{{ ucfirst($order->shipping_status) }}</td>
+                <td>{{ ucfirst($order->shipping_method) }}</td>
+                <td>{{ $order->order_date }}</td>
+                <td>{{ $order->note }}</td>
                 <td>
                     <a href="{{ route('orders.show', $order->id) }}" class="btn btn-primary btn-sm">Lihat</a>
                 </td>

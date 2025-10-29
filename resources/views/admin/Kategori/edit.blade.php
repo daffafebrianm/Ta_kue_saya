@@ -34,17 +34,6 @@
             <input type="text" name="nama" id="nama" value="{{ old('nama', $kategori->nama) }}" class="form-control" required>
         </div>
 
-        <!-- Slug -->
-        <div class="mb-3">
-            <label for="slug" class="form-label">Slug</label>
-            <input type="text" name="slug" id="slug" value="{{ old('slug', $kategori->slug) }}" class="form-control">
-        </div>
-
-        <!-- Deskripsi -->
-        <div class="mb-3">
-            <label for="deskripsi" class="form-label">Deskripsi</label>
-            <textarea name="deskripsi" id="deskripsi" class="form-control">{{ old('deskripsi', $kategori->deskripsi) }}</textarea>
-        </div>
 
         <div class="d-flex justify-content-between">
             <a href="{{ route('kategori.index') }}" class="btn btn-secondary">

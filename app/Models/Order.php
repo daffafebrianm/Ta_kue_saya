@@ -11,13 +11,15 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'total',
+        'totalharga',
+        'nama',
         'payment_status',
+        'phone_number',
         'shipping_status',
         'shipping_method',
-        'tracking_number',
         'alamat',
         'order_code',
+        'order_date',
         'note',
     ];
 
@@ -30,13 +32,11 @@ class Order extends Model
     // Relasi ke OrderDetail
     public function orderDetails()
     {
-        return $this->hasMany(OrderDetail::class);
+        return $this->hasMany(OrderDetail::class,'order_id');
     }
 
     public function products()
     {
-        return $this->belongsToMany(Produk::class, 'order_details', 'order_id', 'product_id')
-            ->withPivot(['jumlah', 'harga', 'total'])
-            ->withTimestamps();
+        return $this->belongsTo(Produk::class, 'produk_id');
     }
 }

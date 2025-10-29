@@ -149,6 +149,11 @@ class ProdukController extends Controller
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
+        public function show()
+    {
+      //
+    }
+
     /**
      * Hapus produk dari database.
      */

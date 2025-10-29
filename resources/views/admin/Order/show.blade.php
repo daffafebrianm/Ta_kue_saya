@@ -4,7 +4,7 @@
 <div class="container">
     <h3>Order {{ $order->order_code }}</h3>
     <p>User: {{ $order->user->nama ?? '-' }}</p>
-    <p>Total: Rp {{ number_format($order->total,0,',','.') }}</p>
+    <p>Total: Rp {{ number_format($order->totalharga,0,',','.') }}</p>
 
     <table class="table table-bordered table-hover text-center">
         <thead>

@@ -14,14 +14,16 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id'); // relasi ke user
-            $table->decimal('total', 15, 2); // total harga
-            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending'); // status pembayaran
-            $table->enum('shipping_status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending'); // status pengiriman
-            $table->string('shipping_method', 100)->nullable(); // metode pengiriman
-            $table->string('tracking_number', 100)->nullable(); // nomor resi
+            $table->string('order_code', 50); // kode pesanan unik
+            $table->string('nama', 100);
             $table->text('alamat'); // alamat pengiriman
-            $table->string('order_code', 50)->unique(); // kode pesanan unik
+            $table->string('phone_number', 20);
+            $table->decimal('totalharga', 15, 2); // total harga
+            $table->enum('payment_status', ['pending', 'paid'])->default('pending'); // status pembayaran
+            $table->enum('shipping_status', ['pending', 'processing', 'shipped', 'completed', 'cancelled'])->default('pending'); // status pengiriman
+            $table->enum('shipping_method', ['picked up','delivered']); // metode pengiriman
             $table->text('note')->nullable(); // catatan tambahan
+            $table->date('order_date'); // catatan tambahan
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

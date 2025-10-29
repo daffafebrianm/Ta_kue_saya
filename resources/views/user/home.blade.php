@@ -55,7 +55,7 @@
 
                                     <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
                                         <h3 class="card-title text-uppercase m-0" style="font-size:1rem;">
-                                            <a href="{{ route('products.show', $p->id) }}">{{ $p->nama }}</a>
+                                            <a href="{{ route('detai.index', $p->id) }}">{{ $p->nama }}</a>
                                         </h3>
                                         <span class="item-price text-primary">Rp
                                             {{ number_format($p->harga, 0, ',', '.') }}</span>

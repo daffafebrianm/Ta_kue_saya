@@ -29,18 +29,11 @@ class KategoriController extends Controller
     {
         $validatedData = $request->validate([
             'nama'      => 'required|string|max:100',
-            'slug'      => 'required|string|max:100|unique:kategoris,slug',
-            'deskripsi' => 'required|string',
         ], [
             'nama.required'      => 'Nama wajib diisi.',
             'nama.string'        => 'Nama harus berupa teks.',
             'nama.max'           => 'Nama maksimal 100 karakter.',
-            'slug.required'      => 'Slug wajib diisi.',
-            'slug.string'        => 'Slug harus berupa teks.',
-            'slug.max'           => 'Slug maksimal 100 karakter.',
-            'slug.unique'        => 'Slug sudah digunakan, gunakan nama lain.',
-            'deskripsi.required' => 'Deskripsi wajib diisi.',
-            'deskripsi.string'   => 'Deskripsi harus berupa teks.',
+
         ]);
 
         Kategori::create($validatedData);
@@ -74,8 +67,6 @@ class KategoriController extends Controller
 
         $validatedData = $request->validate([
             'nama'      => 'required|string|max:100',
-            'slug'      => 'required|string|max:100|unique:kategoris,slug,' . $kategori->id,
-            'deskripsi' => 'required|string',
         ]);
 
         $kategori->update($validatedData);

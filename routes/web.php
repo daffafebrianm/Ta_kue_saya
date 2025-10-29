@@ -8,8 +8,16 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\user\CekOutController;
+use App\Http\Controllers\user\DetailProdukController;
+use App\Http\Controllers\user\DetaiProduk;
 use App\Http\Controllers\User\KeranjangController;
+use App\Http\Controllers\user\PembayaranController;
+use App\Http\Controllers\user\ProductKatalogController;
+use App\Http\Controllers\user\ProfileController;
+use App\Http\Controllers\user\RiwayatPesananController;
 use Illuminate\Support\Facades\Route;
+
 
 // LANDING PAGE (Tampilan awal user & admin)
 
@@ -45,26 +53,33 @@ Route::middleware(['isAdmin'])->group(function () {
 });
 
 Route::middleware(['isCustomer'])->group(function () {
-    // =========================
-    // PRODUK (browse & detail)
-    // =========================
-    Route::get('/products', [\App\Http\Controllers\user\ProdukController::class, 'index'])->name('products.index');
-    Route::get('/products/{product:slug}', [\App\Http\Controllers\user\ProdukController::class, 'show'])->name('products.show');
 
-    // =========================
-    // KERANJANG
-    // =========================
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
     Route::post('/keranjang', [KeranjangController::class, 'addToCart'])->name('keranjang.store');
     Route::patch('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
     Route::delete('/keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
     Route::delete('/keranjang', [KeranjangController::class, 'clear'])->name('keranjang.clear');
 
+    Route::get('/Checkout', [CekOutController::class, 'index'])->name('Checkout.index');
+    Route::post('/Checkout', [CekOutController::class, 'store'])->name('Checkout.store');
+
+    Route::get('/Profile', [ProfileController::class, 'index'])->name('Profile.index');
+    Route::put('/Profile', [ProfileController::class, 'update'])->name('Profile.update');
+
+    Route::get('/Riwayat-Pesanan', [RiwayatPesananController::class, 'index'])->name('Riwayat.index');
+
+
+    Route::get('/Payment', [PembayaranController::class, 'index'])->name('Pemabayaran.index');
+
+
+
+
+
+
+
+
     // =========================
-    // CHECKOUT & PEMBAYARAN
-    // =========================
-    // Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout.create');  // Form alamat/metode bayar
-    // Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');   // Buat Order
+
 
     // // Inisiasi bayar (redirect ke gateway / buat VA/QR)
     // Route::post('/payments/{order}', [PaymentController::class, 'pay'])->name('payments.pay');
@@ -74,13 +89,11 @@ Route::middleware(['isCustomer'])->group(function () {
     // Route::get('/payments/{order}/failed', [PaymentController::class, 'failed'])->name('payments.failed');
 });
 
-//     Route::middleware(['auth'])->group(function () {
-//     Route::get('/customer/dashboard', function () {
-//         return view('customer.dashboard');
-//     })->name('customer.dashboard');
-// });
 
-// Route::get('/cek-middleware', function () {
-//     $route = app('router')->getRoutes()->getByName('admin.dashboard');
-//     return $route ? $route->gatherMiddleware() : 'Route not found';
-// });
+    Route::get('/products', [ProductKatalogController::class, 'index'])->name('products.index');
+
+
+    Route::get('/detail-products/{id}', [DetailProdukController::class, 'index'])->name('detai.index');
+
+
+

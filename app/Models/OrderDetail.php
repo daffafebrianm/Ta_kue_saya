@@ -10,11 +10,12 @@ class OrderDetail extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
-        'produk_id',
+        'order_id', // Relasi ke tabel orders
+        'produk_id', // Relasi ke produk
         'jumlah',
         'harga',
         'total',
+
     ];
 
     public function order()
