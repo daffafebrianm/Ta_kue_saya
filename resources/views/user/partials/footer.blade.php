@@ -7,9 +7,7 @@
                 <div class="footer-menu">
                     <img src="{{ asset('user/assets/images/main-logo.png') }}" alt="logo" class="mb-3"
                         style="max-height:42px">
-                    <p class="mb-3">Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit hendrerit. Gravida massa
-                        volutpat
-                        aenean odio erat nullam fringilla.</p>
+                    </p>
                     <div class="social-links">
                         <ul class="d-flex list-unstyled gap-3">
                             <li><a href="#"><svg width="20" height="20">
@@ -35,35 +33,20 @@
             {{-- Quick links --}}
             <div class="col-lg-2 col-sm-6 pb-4">
                 <div class="footer-menu text-uppercase">
-                    <h5 class="widget-title pb-2">Quick Links</h5>
+                    <h5 class="widget-title pb-2">CATEGORIES</h5>
                     <ul class="menu-list list-unstyled">
                         <li class="pb-2"><a href="{{ url('/') }}#billboard">Home</a></li>
                         <li class="pb-2"><a href="{{ url('/about_us') }}">About</a></li>
-                        <li class="pb-2"><a href="{{ route('produk.index') }}">Shop</a></li>
+                        <li class="pb-2"><a href="{{ route('products.index') }}">Shop</a></li>
                         <li class="pb-2"><a href="#">Blogs</a></li>
                         <li class="pb-2"><a href="{{ url('/contact') }}">Contact</a></li>
                     </ul>
                 </div>
             </div>
-
-            {{-- Help & info --}}
-            <div class="col-lg-3 col-sm-6 pb-4">
-                <div class="footer-menu text-uppercase">
-                    <h5 class="widget-title pb-2">Help & Info</h5>
-                    <ul class="menu-list list-unstyled">
-                        <li class="pb-2"><a href="#">Track Your Order</a></li>
-                        <li class="pb-2"><a href="#">Returns Policies</a></li>
-                        <li class="pb-2"><a href="#">Shipping + Delivery</a></li>
-                        <li class="pb-2"><a href="{{ url('/contact') }}">Contact Us</a></li>
-                        <li class="pb-2"><a href="#">FAQs</a></li>
-                    </ul>
-                </div>
-            </div>
-
             {{-- Contact --}}
             <div class="col-lg-4 col-sm-6 pb-4">
                 <div class="footer-menu contact-item">
-                    <h5 class="widget-title text-uppercase pb-2">Contact Us</h5>
+                    <h5 class="widget-title text-uppercase pb-2">INFORMATION</h5>
                     <p class="mb-1">Any queries or suggestions? <a
                             href="mailto:yourinfo@gmail.com">yourinfo@gmail.com</a></p>
                     <p class="mb-3">Need support? Call us: <a href="tel:+5511122233344">+55 111 222 333 44</a></p>
@@ -91,14 +74,6 @@
         </div>
 
         <hr>
-
-        <div class="row py-3">
-            <div class="col text-center">
-                <p class="mb-0">© {{ date('Y') }} Waroeng koe. Design by
-                    <a href="https://templatesjungle.com/" target="_blank" rel="noopener">TemplatesJungle</a>.
-                    Distribution by <a href="https://themewagon.com" target="_blank" rel="noopener">ThemeWagon</a>.
-                </p>
-            </div>
-        </div>
+    </div>
     </div>
 </footer>

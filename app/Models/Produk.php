@@ -40,11 +40,10 @@ class Produk extends Model
             ->withTimestamps();
     }
 
-    public function orderDetails()
-    {
-        return $this->hasMany(OrderDetail::class); // order_details.product_id
-    }
-
+   public function orderDetails()
+{
+    return $this->hasMany(OrderDetail::class);
+}
     public function keranjang()
     {
         return $this->hasMany(Kategori::class);

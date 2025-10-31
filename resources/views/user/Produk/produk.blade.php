@@ -2,10 +2,10 @@
 @section('content')
 
 <style>
-/* CSS untuk Produk Store yang baru */
+/* CSS untuk Produk Store */
 .product-store-new {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 180px; /* jarak dari navbar */
+    padding-bottom: 50px;
 }
 
 .product-card-new {
@@ -80,20 +80,63 @@
     background-color: #c0392b;
 }
 
-.category-buttons {
-    margin-bottom: 20px;
-}
-
-.btn-outline-secondary {
-    border-radius: 5px;
-    padding: 8px 16px;
-    font-size: 1rem;
-    margin-right: 8px;
+/* 🔽 Judul "Produk" dengan garis bawah */
+.display-header-new {
+    margin-top: 120px;
+    margin-bottom: 40px;
+    text-align: center;
+    position: relative;
 }
 
 .display-header-new h2 {
     font-size: 2rem;
     font-weight: 600;
+    color: #333;
+    display: inline-block;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+/* Garis bawah di bawah tulisan "Produk" */
+.display-header-new h2::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100px; /* panjang garis */
+    height: 3px;
+    background-color: #e74c3c; /* warna merah senada tombol */
+    border-radius: 5px;
+}
+
+/* 🔘 Tombol kategori berbentuk oval panjang */
+.category-buttons {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn-category-oval {
+    border: 2px solid #b78b6f;
+    background-color: transparent;
+    color: #7a5230;
+    border-radius: 50px; /* membuat oval */
+    padding: 10px 35px; /* oval panjang */
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-category-oval:hover,
+.btn-category-oval.active {
+    background-color: #b78b6f;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(183, 139, 111, 0.3);
 }
 
 .swiper-pagination {
@@ -101,46 +144,41 @@
 }
 
 @media (max-width: 768px) {
-    .product-card-new {
-        margin-bottom: 30px;
+    .display-header-new {
+        margin-top: 100px;
     }
-    .cart-concern-new {
-        position: static;
-        display: block;
-        padding: 10px;
+
+    .btn-category-oval {
+        padding: 8px 25px;
+        font-size: 0.9rem;
     }
 }
-
 </style>
 
 <section id="product-store-new" class="product-store-new position-relative padding-large no-padding-top">
     <div class="container">
         <div class="row">
-            <div class="display-header-new d-flex justify-content-between pb-3">
-                <h2 class="display-7 text-dark text-uppercase">Produk</h2>
-            </div>
-            <!-- Search bar moved to the top -->
-            <div class="row mb-3">
-                <div class="col-12">
-                    <input type="text" class="form-control" placeholder="Search Product" aria-label="Search Product">
-                </div>
-            </div>
-            <!-- Category Buttons -->
-            <div class="category-buttons d-flex mb-4">
-                <button class="btn btn-outline-secondary mx-2">Cakes</button>
-                <button class="btn btn-outline-secondary mx-2">Dry Cake</button>
-                <button class="btn btn-outline-secondary mx-2">Hampers</button>
-                <button class="btn btn-outline-secondary mx-2">Gifting</button>
+            <!-- 🔽 Judul Produk dengan garis bawah -->
+            <div class="display-header-new pb-3">
+                <h2 class="display-7 text-uppercase">Produk</h2>
             </div>
 
-            <div class="row">
+            <!-- Tombol kategori berbentuk oval -->
+            <div class="category-buttons">
+                <button class="btn-category-oval active">Cakes</button>
+                <button class="btn-category-oval">Dry Cake</button>
+                <button class="btn-category-oval">Hampers</button>
+                <button class="btn-category-oval">Gifting</button>
+            </div>
+
+            <!-- Produk -->
+            <div class="row products-container">
                 @forelse ($produks as $p)
                     @php
                         $img = $p->gambar ? asset('storage/' . $p->gambar) : asset('user/assets/images/placeholder-product.jpg');
                     @endphp
                     <div class="col-md-4 col-sm-6 mb-4">
                         <div class="product-card-new position-relative">
-                            <!-- Gambar menjadi link ke halaman detail produk -->
                             <a href="{{ route('detai.index', $p->id) }}">
                                 <div class="image-holder-new">
                                     <img src="{{ $img }}" alt="{{ $p->nama }}" class="img-fluid product-image-new">
@@ -168,10 +206,11 @@
                     </div>
                 @empty
                     <div class="swiper-slide">
-                        <p class="text-muted">Belum ada produk.</p>
+                        <p class="text-muted text-center">Belum ada produk.</p>
                     </div>
                 @endforelse
             </div>
+
             <div class="swiper-pagination position-absolute text-center"></div>
         </div>
     </div>

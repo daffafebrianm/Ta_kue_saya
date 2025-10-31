@@ -85,7 +85,8 @@ class CekOutController extends Controller
         Keranjang::where('user_id', Auth::id())->delete();
 
         // Redirect atau kembali ke halaman lain dengan pesan sukses
-        return redirect()->route('Checkout.index')->with('success', 'Pesanan berhasil diproses');
+        return redirect()->route('Pembayaran.index', ['orderId' => $pesanan->id])->with('success', 'Pesanan berhasil diproses');
+
     }
 
     private function generateOdrId()

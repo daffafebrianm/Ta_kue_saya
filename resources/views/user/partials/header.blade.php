@@ -11,27 +11,13 @@
         <path
             d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
     </symbol>
-    <symbol id="chevron-left" viewBox="0 0 16 16">
-        <path fill-rule="evenodd"
-            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 1 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-    </symbol>
-    <symbol id="chevron-right" viewBox="0 0 16 16">
-        <path fill-rule="evenodd"
-            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354z" />
-    </symbol>
-    <symbol id="cart-outline" viewBox="0 0 16 16">
-        <path
-            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
-    </symbol>
-    {{-- Tambahkan symbol lain jika diperlukan --}}
 </svg>
 
 {{-- Search popup (opsional) --}}
 <div class="search-popup">
     <div class="search-popup-container">
         <form role="search" method="get" class="search-form" action="#">
-            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter"
-                name="s" />
+            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" name="s" />
             <button type="submit" class="search-submit">
                 <svg class="search">
                     <use xlink:href="#search"></use>
@@ -41,85 +27,87 @@
     </div>
 </div>
 
-<header id="header" class="site-header header-scrolled position-fixed text-black bg-light w-100">
+<header id="header" class="site-header header-scrolled position-fixed text-black bg-light w-100 shadow-sm">
     <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
-        <div class="container-fluid">
+        <div class="container">
+
+            {{-- Logo di kiri --}}
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('user/assets/images/main-logo.png') }}" class="logo" alt="logo">
+                <img src="{{ asset('user/assets/images/main-logo.png') }}" class="logo" alt="logo" style="height:50px;">
             </a>
 
+            {{-- Tombol toggle untuk mobile --}}
             <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <svg class="navbar-icon">
+                <svg class="navbar-icon" width="24" height="24">
                     <use xlink:href="#navbar-icon"></use>
                 </svg>
             </button>
 
+            {{-- Offcanvas menu --}}
             <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar">
                 <div class="offcanvas-header px-4 pb-0">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="{{ asset('user/assets/images/main-logo.png') }}" class="logo" alt="logo">
+                        <img src="{{ asset('user/assets/images/main-logo.png') }}" class="logo" alt="logo" style="height:50px;">
                     </a>
                     <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
                 </div>
 
-                <div class="offcanvas-body">
+                <div class="offcanvas-body d-flex align-items-center justify-content-between w-100">
+
+                    {{-- Menu Tengah --}}
                     <ul id="navbar"
-                        class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
-                        <li class="nav-item"><a class="nav-link me-4 active" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link me-4" href="{{ url('/about_us') }}">About us</a></li>
-                        {{-- agar selalu menuju section produk di home --}}
-                        <li class="nav-item"><a class="nav-link me-4" href="{{ url('/products') }}">Products</a></li>
-                        <li class="nav-item"><a class="nav-link me-4" href="{{ url('/contact') }}">Contact</a></li>
-
-                        <li class="nav-item">
-                            <div class="user-items ps-5">
-                                <ul class="d-flex justify-content-end list-unstyled">
-                                    {{-- Menampilkan ikon jika pengguna sudah login --}}
-                                    @auth
-                                        <li class="pe-3 dropdown">
-                                            <a href="#" class="dropdown-toggle d-flex align-items-center gap-2"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <svg class="user">
-                                                    <use xlink:href="#user"></use>
-                                                </svg>
-                                                <span>{{ Auth::user()->username ?? (Auth::user()->nama ?? Auth::user()->email) }}</span>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="/Profile">Profile</a></li>
-                                                <li><a class="dropdown-item" href="/Riwayat-Pesanan">Riwayat Pesanan</a>
-                                                </li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                                            </ul>
-                                        </li>
-
-                                        <li>
-                                            <a href="{{ route('keranjang.index') }}">
-                                                <svg class="/cart">
-                                                    <use xlink:href="#cart"></use>
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    @endauth
-
-                                    {{-- Menampilkan tombol login dan register jika pengguna belum login --}}
-                                    @guest
-                                        <li class="nav-item"><a class="nav-link me-4"
-                                                href="{{ route('login') }}">Login</a></li>
-                                        <li class="nav-item"><a class="nav-link me-4"
-                                                href="{{ route('register') }}">Register</a></li>
-                                    @endguest
-                                </ul>
-                            </div>
-                        </li>
-
-
+                        class="navbar-nav text-uppercase justify-content-center align-items-center flex-grow-1 pe-3">
+                        <li class="nav-item"><a class="nav-link me-4 active fw-bold" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link me-4 fw-bold" href="{{ url('/about_us') }}">About Us</a></li>
+                        <li class="nav-item"><a class="nav-link me-4 fw-bold" href="{{ url('/products') }}">Products</a></li>
+                        <li class="nav-item"><a class="nav-link me-4 fw-bold" href="{{ url('/contact') }}">Contact</a></li>
                     </ul>
+
+                    {{-- Bagian kanan (User & Cart) --}}
+                    <div class="user-items ps-3">
+                        <ul class="d-flex justify-content-end align-items-center list-unstyled mb-0" style="gap: 15px;">
+
+                            @auth
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg class="user" width="20" height="20">
+                                            <use xlink:href="#user"></use>
+                                        </svg>
+                                        <span>{{ Auth::user()->username ?? (Auth::user()->nama ?? Auth::user()->email) }}</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="/Profile">Profile</a></li>
+                                        <li><a class="dropdown-item" href="/Riwayat-Pesanan">Riwayat Pesanan</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="{{ route('keranjang.index') }}" class="text-decoration-none">
+                                        <svg class="cart" width="22" height="22" style="cursor:pointer;">
+                                            <use xlink:href="#cart"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                            @endauth
+
+                            @guest
+                                <li>
+                                    <a href="{{ route('login') }}" class="text-decoration-none d-flex align-items-center">
+                                        <svg class="user" width="20" height="20">
+                                            <use xlink:href="#user"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                            @endguest
+
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

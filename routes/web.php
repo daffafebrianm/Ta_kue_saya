@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\user\AboutUsController;
 use App\Http\Controllers\user\CekOutController;
 use App\Http\Controllers\user\DetailProdukController;
 use App\Http\Controllers\user\DetaiProduk;
@@ -68,8 +69,10 @@ Route::middleware(['isCustomer'])->group(function () {
 
     Route::get('/Riwayat-Pesanan', [RiwayatPesananController::class, 'index'])->name('Riwayat.index');
 
+    Route::get('/about_us', [AboutUsController::class, 'index'])->name('about.index');
 
-    Route::get('/Payment', [PembayaranController::class, 'index'])->name('Pemabayaran.index');
+
+    Route::get('/Payment/{orderId}', [PembayaranController::class, 'index'])->name('Pembayaran.index');
 
 
 

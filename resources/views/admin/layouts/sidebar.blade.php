@@ -38,13 +38,6 @@
                             <span class="nav-text">Order</span>
                         </a>
                     </li>
-                    <li>
-
-                        <a href="./index.html">
-                            <i class="icon icon-single-04"></i>
-                            <span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
 
 
 

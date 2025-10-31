@@ -1,142 +1,238 @@
 @extends('user.layouts.main')
-
 @section('content')
-<div class="container my-4">
+
+<style>
+body {
+    background-color: #fdf8f2;
+}
+
+/* 🔽 Container utama diturunkan */
+.cart-page {
+    padding: 160px 0 60px 0;
+}
+
+/* 🔽 Judul "Cart" rata kiri + garis bawah */
+.cart-title {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #333;
+    text-align: left;
+    margin-left: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+/* Garis bawah ungu di bawah Cart */
+.cart-title::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 70px;
+    height: 4px;
+    background-color: #7a3eb1;
+    border-radius: 3px;
+}
+
+/* Card item produk */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Gambar produk */
+.cart-item img {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* Info produk */
+.cart-info {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.cart-info h5 {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.cart-info p {
+    color: #777;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+.cart-info .price {
+    font-weight: 700;
+    color: #000;
+    font-size: 1.1rem;
+}
+
+/* Quantity control */
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-control button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    background: none;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.quantity-control input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font-weight: 600;
+}
+
+/* Order Summary */
+.summary-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.summary-card h5 {
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.summary-card h5::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #7a3eb1;
+    margin-top: 6px;
+    border-radius: 2px;
+}
+
+/* Tombol checkout */
+.btn-checkout {
+    background: #7a3eb1;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 10px;
+    padding: 15px;
+    transition: background 0.3s ease;
+    width: 100%;
+    border: none;
+}
+
+.btn-checkout:hover {
+    background: #692e97;
+}
+</style>
+
+<div class="container cart-page">
     <div class="row">
-        <div class="col-md-12 mb-3">
-            <a href="{{ url('/') }}" class="btn btn-outline-primary btn-sm rounded-pill"><i class="fa fa-arrow-left"></i> Kembali</a>
-        </div>
+        <!-- CART ITEMS -->
+        <div class="col-md-7">
+            <h4 class="cart-title">Cart</h4>
 
+            @forelse($keranjangs as $keranjang)
+            <div class="cart-item">
+                <img src="{{ $keranjang->produk->gambar ? Storage::url($keranjang->produk->gambar) : asset('default-image.jpg') }}" alt="Produk">
 
-        <div class="col-md-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb bg-light p-3 rounded-4">
-                    <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
-                </ol>
-            </nav>
-        </div>
-
-        <div class="col-md-12">
-            <div class="card shadow-lg border-0 rounded-4 mb-4">
-                <div class="card-body p-5">
-                    <h3 class="fw-bold"><i class="fa fa-shopping-cart"></i> Keranjang</h3>
-
-                    @if($keranjangs->count() > 0)
-                    <!-- Menampilkan tanggal pemesanan -->
-
-
-                    <div class="table-responsive">
-                        <!-- Tabel yang menampilkan produk dalam keranjang -->
-                        <table class="table table-striped table-bordered mt-3">
-                            <thead class="text-center">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Gambar</th>
-                                    <th>Nama Produk</th>
-                                    <th>Jumlah</th>
-                                    <th>Harga</th>
-                                    <th>Total Harga</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php $no = 1; @endphp
-                                @foreach($keranjangs as $keranjang)
-                                <tr>
-                                    <td class="text-center">{{ $no++ }}</td>
-                                    <!-- Menampilkan gambar produk -->
-                                    <td class="text-center">
-                                        <img src="{{ $keranjang->produk->gambar ? Storage::url($keranjang->produk->gambar) : asset('default-image.jpg') }}" width="100" alt="Gambar Produk">
-                                    </td>
-                                    <!-- Menampilkan nama produk -->
-                                    <td class="text-center">{{ $keranjang->produk->nama }}</td>
-                                    <td>
-                                        <!-- Form untuk mengupdate jumlah produk -->
-                                        <form action="{{ route('keranjang.update', $keranjang->id) }}" method="post" class="d-flex align-items-center justify-content-center" id="form-keranjang-{{ $keranjang->id }}">
-                                            @csrf
-                                            @method('PATCH')
-
-                                            <!-- Tombol untuk mengurangi jumlah -->
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" id="btn-minus-{{ $keranjang->id }}" @if($keranjang->jumlah <= 1) disabled @endif>-</button>
-
-                                            <!-- Input untuk jumlah produk -->
-                                            <input type="number" name="jumlah" id="jumlah-{{ $keranjang->id }}" value="{{ $keranjang->jumlah }}" class="form-control mx-2 text-center" style="width: 70px;" min="1" max="{{ $keranjang->produk->stok }}" readonly>
-
-                                            <!-- Tombol untuk menambah jumlah -->
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" id="btn-plus-{{ $keranjang->id }}" @if($keranjang->jumlah >= $keranjang->produk->stok) disabled @endif>+</button>
-                                        </form>
-                                    </td>
-
-                                    <script>
-                                        // Menambahkan event listener pada tombol minus dan plus
-                                        document.getElementById('btn-minus-{{ $keranjang->id }}').addEventListener('click', function() {
-                                            var jumlahInput = document.getElementById('jumlah-{{ $keranjang->id }}');
-                                            var jumlah = parseInt(jumlahInput.value);
-
-                                            if (jumlah > 1) {
-                                                jumlahInput.value = jumlah - 1; // Kurangi jumlah
-                                                // Mengirimkan form dengan jumlah yang baru
-                                                document.getElementById('form-keranjang-{{ $keranjang->id }}').submit();
-                                            }
-                                        });
-
-                                        document.getElementById('btn-plus-{{ $keranjang->id }}').addEventListener('click', function() {
-                                            var jumlahInput = document.getElementById('jumlah-{{ $keranjang->id }}');
-                                            var jumlah = parseInt(jumlahInput.value);
-
-                                            if (jumlah < {{ $keranjang->produk->stok }}) {
-                                                jumlahInput.value = jumlah + 1; // Tambah jumlah
-                                                // Mengirimkan form dengan jumlah yang baru
-                                                document.getElementById('form-keranjang-{{ $keranjang->id }}').submit();
-                                            }
-                                        });
-                                    </script>
-
-                                    <!-- Menampilkan harga produk per unit -->
-                                    <td class="text-center">Rp. {{ number_format($keranjang->produk->harga, 0, ',', '.') }}</td>
-                                    <!-- Menampilkan total harga berdasarkan jumlah produk -->
-                                    <td class="text-center">Rp. {{ number_format(($keranjang->produk->harga ?? 0) * ($keranjang->jumlah ?? 0), 0, ',', '.') }}</td>
-                                    <td class="text-center">
-                                        <!-- Form untuk menghapus produk dari keranjang -->
-                                        <form action="{{ route('keranjang.destroy', $keranjang->id) }}" method="post" class="delete-form">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm delete-btn">
-                                                <i class="fa fa-trash"></i> Hapus
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                {{--  <!-- Menampilkan total harga semua produk dalam keranjang -->
-                                <tr>
-                                    <td colspan="5" class="text-end"><strong>Total Harga :</strong></td>
-                                    <td class="text-center"><strong>Rp. {{ number_format($total, 0, ',', '.') }}</strong></td>
-                                    <td class="text-center">
-                                        <a href="{{ route('order.index') }}" class="btn btn-success">
-                                            <i class="fa fa-check"></i> Checkout
-                                        </a>
-                                    </td>
-                                </tr>  --}}
-                            </tbody>
-                        </table>
-                    </div>
-
-                     <!-- Tombol Checkout -->
-                    <div class="text-end mt-3">
-                        <a href="{{ route('Checkout.index') }}" class="btn btn-success">
-                            <i class="fa fa-check"></i> Checkout
-                        </a>
-                    </div>
-                    @else
-                    <!-- Menampilkan pesan jika keranjang kosong -->
-                    <p class="text-center">Tidak ada Produk didalam keranjang  Silakan tambahkan produk ke keranjang terlebih dahulu.</p>
-                    @endif
+                <div class="cart-info">
+                    <h5>{{ $keranjang->produk->nama }}</h5>
+                    <p>{{ $keranjang->produk->deskripsi ?? 'Deskripsi produk' }}</p>
+                    <span class="price">Rp {{ number_format($keranjang->produk->harga, 0, ',', '.') }}</span>
                 </div>
+
+                <form action="{{ route('keranjang.update', $keranjang->id) }}" method="post" class="quantity-control" id="form-keranjang-{{ $keranjang->id }}">
+                    @csrf
+                    @method('PATCH')
+                    <button type="button" id="btn-minus-{{ $keranjang->id }}">-</button>
+                    <input type="text" name="jumlah" id="jumlah-{{ $keranjang->id }}" value="{{ $keranjang->jumlah }}" readonly>
+                    <button type="button" id="btn-plus-{{ $keranjang->id }}">+</button>
+                </form>
+
+                <form action="{{ route('keranjang.destroy', $keranjang->id) }}" method="post" id="form-hapus-{{ $keranjang->id }}">
+                    @csrf
+                    @method('DELETE')
+                </form>
+
+                <script>
+                    const minusBtn{{ $keranjang->id }} = document.getElementById('btn-minus-{{ $keranjang->id }}');
+                    const plusBtn{{ $keranjang->id }} = document.getElementById('btn-plus-{{ $keranjang->id }}');
+                    const jumlahInput{{ $keranjang->id }} = document.getElementById('jumlah-{{ $keranjang->id }}');
+
+                    minusBtn{{ $keranjang->id }}.addEventListener('click', function() {
+                        let val = parseInt(jumlahInput{{ $keranjang->id }}.value);
+                        if (val > 1) {
+                            jumlahInput{{ $keranjang->id }}.value = val - 1;
+                            document.getElementById('form-keranjang-{{ $keranjang->id }}').submit();
+                        } else {
+                            if (confirm('Hapus produk ini dari keranjang?')) {
+                                document.getElementById('form-hapus-{{ $keranjang->id }}').submit();
+                            }
+                        }
+                    });
+
+                    plusBtn{{ $keranjang->id }}.addEventListener('click', function() {
+                        let val = parseInt(jumlahInput{{ $keranjang->id }}.value);
+                        if (val < {{ $keranjang->produk->stok }}) {
+                            jumlahInput{{ $keranjang->id }}.value = val + 1;
+                            document.getElementById('form-keranjang-{{ $keranjang->id }}').submit();
+                        }
+                    });
+                </script>
+            </div>
+            @empty
+            <p class="text-muted">Keranjang kamu masih kosong.</p>
+            @endforelse
+        </div>
+
+        <!-- ORDER SUMMARY -->
+        <div class="col-md-5">
+            <div class="summary-card">
+                <h5>Order Summary</h5>
+                <hr>
+                @php $total = 0; @endphp
+                @foreach($keranjangs as $keranjang)
+                    @php $subtotal = $keranjang->produk->harga * $keranjang->jumlah; $total += $subtotal; @endphp
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{{ $keranjang->produk->nama }} ({{ $keranjang->jumlah }}x)</span>
+                        <strong>Rp {{ number_format($subtotal, 0, ',', '.') }}</strong>
+                    </div>
+                @endforeach
+                <hr>
+                <div class="d-flex justify-content-between mb-3">
+                    <strong>Sub Total</strong>
+                    <strong>Rp {{ number_format($total, 0, ',', '.') }}</strong>
+                </div>
+
+                <form action="{{ route('Checkout.index') }}" method="get">
+                    <button type="submit" class="btn-checkout">Proceed to Payment</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
-@endsection
 
+@endsection

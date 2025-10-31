@@ -7,8 +7,9 @@
                         <div class="col-md-6">
                             <div class="banner-content">
                                 <h1 class="display-2 text-uppercase text-dark pb-5">Your Products Are Great.</h1>
-                                <a href="{{ route('produk.index') }}"
-                                    class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
+                                <!-- Tombol menuju produk -->
+                                <a href="{{ route('products.index') }}"
+                                   class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
                                     Shop Product
                                 </a>
                             </div>
@@ -25,12 +26,13 @@
             {{-- Slide 2 --}}
             <div class="swiper-slide">
                 <div class="container">
-                    <div class="row d-flex flex-wrap align-items-center">
+                    <div class="row d-flex align-items-center">
                         <div class="col-md-6">
                             <div class="banner-content">
-                                <h1 class="display-2 text-uppercase text-dark pb-5">Technology Hack You Won't Get</h1>
-                                <a href="{{ route('produk.index') }}"
-                                    class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
+                                <h1 class="display-2 text-uppercase text-dark pb-5">Your Products Are Great.</h1>
+                                <!-- Tombol menuju produk -->
+                                <a href="{{ route('products.index') }}"
+                                   class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
                                     Shop Product
                                 </a>
                             </div>
@@ -43,7 +45,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
