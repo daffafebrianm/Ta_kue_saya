@@ -1,4 +1,4 @@
-<section id="billboard" class="position-relative overflow-hidden bg-light-blue">
+<section id="billboard" class="position-relative overflow-hidden bg-light-blue ">
     <div class="swiper main-swiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
@@ -9,7 +9,7 @@
                                 <h1 class="display-2 text-uppercase text-dark pb-5">Your Products Are Great.</h1>
                                 <!-- Tombol menuju produk -->
                                 <a href="{{ route('products.index') }}"
-                                   class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
+                                    class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
                                     Shop Product
                                 </a>
                             </div>
@@ -32,7 +32,7 @@
                                 <h1 class="display-2 text-uppercase text-dark pb-5">Your Products Are Great.</h1>
                                 <!-- Tombol menuju produk -->
                                 <a href="{{ route('products.index') }}"
-                                   class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
+                                    class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
                                     Shop Product
                                 </a>
                             </div>

@@ -4,7 +4,7 @@
     Name                 : Efron
     Author               : Quixkit
     Author Portfolio     : https://themeforest.net/user/quixkit/portfolio
-    
+
 
 
     Table of Sass Contents
@@ -16,7 +16,7 @@
         _mixin
         _variable
 
-    2. bootstrap 
+    2. bootstrap
         -Here goes all official bootstrap scss files
 
     3. Global/Base
@@ -64,8 +64,35 @@
 @import url(./../vendor/aos/css/aos.min.css);
 @import url(./../vendor/perfect-scrollbar/css/perfect-scrollbar.css);
 @import url(./../vendor/metismenu/css/metisMenu.min.css);
+
+
+/* Tombol kategori berbentuk oval panjang */
+.btn-category-oval {
+    border: 2px solid #b78b6f;  /* Warna border senada dengan desain */
+    background-color: transparent;
+    color: #7a5230;  /* Warna teks */
+    border-radius: 50px;  /* Membuat tombol berbentuk oval */
+    padding: 10px 35px;  /* Membuat tombol lebih panjang */
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    width: auto;  /* Membuat lebar tombol menyesuaikan */
+}
+
+/* Efek hover dan ketika tombol aktif */
+.btn-category-oval:hover,
+.btn-category-oval.active {
+    background-color: #b78b6f;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(183, 139, 111, 0.3);  /* Efek bayangan saat hover */
+}
+
+
+
 .gradient_one {
   background-image: linear-gradient(to right, rgba(186, 1, 181, 0.85) 0%, rgba(103, 25, 255, 0.85) 100%); }
+
 
 .gradient-1 {
   background: #f0a907;
@@ -19404,3 +19431,4 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+

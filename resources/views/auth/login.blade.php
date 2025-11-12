@@ -1,101 +1,227 @@
 @extends('auth.main')
 
 @section('content')
+    <style>
+        /* ----- Layout & Card ----- */
+        .authincation.h-100 {
+            min-height: 100vh;
+        }
 
-<style>
-    .input-group {
-        width: 100%; /* Membuat input group menggunakan seluruh lebar */
-    }
+        .login-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 40px);
+            padding: 24px;
+        }
 
-    .input-group .form-control {
-        border-right: 0; /* Menghilangkan border kanan pada input */
-    }
+        .login-card {
+            width: 100%;
+            max-width: 520px;
+            background: #FFF6EA;
+            /* krem lembut seperti contoh */
+            border-radius: 14px;
+            box-shadow: 0 14px 32px rgba(0, 0, 0, .08);
+            padding: 36px 40px;
+        }
 
 
 
-    .input-group .form-control,
-    .input-group .btn {
-        height: calc(2.25rem + 2px); /* Menyelaraskan tinggi input dan tombol */
-    }
 
-    .input-group .fa-eye,
-    .input-group .fa-eye-slash {
-        font-size: 1.25rem; /* Ukuran ikon yang sesuai */
-    }
-</style>
+        .bg-border {
+            position: relative;
+            min-height: 100vh;
+            background: #FFF6EA;
+            overflow: hidden;
+        }
 
-<body class="h-100">
-    <div class="authincation h-100">
-        <div class="container-fluid h-100">
-            <div class="row justify-content-center h-100 align-items-center">
-                <div class="col-md-6">
-                    <div class="authincation-content">
-                        <div class="row no-gutters">
-                            <div class="col-xl-12">
-                                <div class="auth-form">
-                                    <h4 class="text-center mb-4">Sign in to your account</h4>
+        .bg-border::before,
+        .bg-border::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 160px;
+            background-image: url('{{ asset('images/bg-login1.jpg') }}');
+            background-repeat: repeat-x;
+            background-size: auto 160px;
+            pointer-events: none;
+        }
 
-                                    {{-- ALERT ERROR GLOBAL --}}
-                                    @if (session('success'))
-                                        <div class="alert alert-success">{{ session('success') }}</div>
-                                    @endif
+        .bg-border::before {
+            top: 0;
+        }
 
-                                    @error('login')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+        .bg-border::after {
+            bottom: 0;
+            transform: scaleY(-1);
+        }
 
-                                    {{-- Form Login --}}
-                                    <form method="POST" action="{{ route('login') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label><strong>Email/Username</strong></label>
-                                            <input type="text"
-                                                class="form-control @error('login') is-invalid @enderror" name="login"
-                                                value="{{ old('login') }}" required autofocus>
-                                            @error('login')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label><strong>Password</strong></label>
-                                            <div class="input-group">
-                                                <input type="password" id="password" name="password"
-                                                    class="form-control @error('password') is-invalid @enderror"
-                                                    required autocomplete="current-password">
+        /* ----- Heading ----- */
+        .login-title {
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            text-align: center;
+            color: #1A2A33;
+            margin-bottom: 26px;
+            font-size: 24px;
+        }
 
-                                                <button type="button" class="btn btn-outline-secondary" id="togglePassword">
-                                                    <i class="fas fa-eye" id="eyeIcon"></i>
-                                                </button>
-                                            </div>
+        /* ----- Form ----- */
+        .form-control {
+            height: 48px;
+            border-radius: 10px;
+            border: 1px solid #E6E6E6;
+            background: #fff;
+            box-shadow: none;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
 
-                                            @error('password')
-                                                <span class="invalid-feedback d-block" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
+        .form-control:focus {
+            border-color: #CBB7F2;
+            outline: 0;
+            box-shadow: 0 0 0 3px rgba(111, 60, 195, .12);
+        }
 
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary btn-block">Sign me in</button>
-                                        </div>
-                                    </form>
+        ::placeholder {
+            color: #9FA6B2;
+        }
 
-                                    <div class="new-account mt-3">
-                                        <p>Don't have an account?
-                                            <a class="text-primary" href="{{ route('register') }}">Sign up</a>
-                                        </p>
-                                    </div>
-                                </div>
+        /* group untuk tombol eye */
+        .input-group {
+            width: 100%;
+        }
+
+        .input-group .form-control {
+            border-right: 0;
+        }
+
+        .input-group .btn {
+            height: 48px;
+            border: 1px solid #E6E6E6;
+            border-left: 0;
+            background: #fff;
+            color: #6b7280;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .input-group .fa-eye,
+        .input-group .fa-eye-slash {
+            font-size: 1.1rem;
+        }
+
+        /* ----- Button ----- */
+        .btn-login {
+            display: block;
+            width: 100%;
+            height: 50px;
+            background: #6F3CC3;
+            border: 0;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .btn-login:hover,
+        .btn-login:focus {
+            background: #5D2EAD;
+            color: #fff;
+        }
+
+        /* ----- Footer link ----- */
+        .new-account {
+            text-align: center;
+            margin-top: 18px;
+            color: #6b7280;
+        }
+
+        .new-account a {
+            color: #6F3CC3;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .new-account a:hover {
+            text-decoration: underline;
+        }
+
+        /* kecilkan label agar tak mengganggu (aksesibilitas tetap ada) */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+
+    <div class="authincation h-100 bg-border">
+        <div class="authincation h-100 bg-login">
+            <div class="container-fluid h-100">
+                <div class="login-wrap">
+                    <div class="login-card">
+                        <h2 class="login-title">Sign In</h2>
+
+                        {{-- ALERTS --}}
+                        @if (session('success'))
+                            <div class="alert alert-success mb-3">{{ session('success') }}</div>
+                        @endif
+                        @error('login')
+                            <div class="alert alert-danger mb-3">{{ $message }}</div>
+                        @enderror
+
+                        {{-- FORM LOGIN --}}
+                        <form method="POST" action="{{ route('login') }}" novalidate>
+                            @csrf
+
+                            <div class="form-group mb-3">
+                                <label class="sr-only" for="login">Email/Username</label>
+                                <input id="login" type="text" name="login"
+                                    class="form-control @error('login') is-invalid @enderror" value="{{ old('login') }}"
+                                    placeholder="Email" required autofocus>
+                                @error('login')
+                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                @enderror
                             </div>
+
+                            <div class="form-group mb-4">
+                                <label class="sr-only" for="password">Password</label>
+                                <div class="input-group">
+                                    <input type="password" id="password" name="password"
+                                        class="form-control @error('password') is-invalid @enderror" placeholder="Password"
+                                        required autocomplete="current-password">
+                                    <button type="button" class="btn" id="togglePassword"
+                                        aria-label="Toggle password visibility">
+                                        <i class="fas fa-eye" id="eyeIcon"></i>
+                                    </button>
+                                </div>
+                                @error('password')
+                                    <span class="invalid-feedback d-block"
+                                        role="alert"><strong>{{ $message }}</strong></span>
+                                @enderror
+                            </div>
+
+                            <button type="submit" class="btn-login">Login</button>
+                        </form>
+
+                        <div class="new-account">
+                            <p>Don't have an account? <a href="{{ route('register') }}">Sign Up</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {{-- Toggle password --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pwd = document.getElementById('password');
@@ -106,13 +232,10 @@
                 btn.addEventListener('click', function() {
                     const isHidden = pwd.type === 'password';
                     pwd.type = isHidden ? 'text' : 'password';
-                    // Mengubah ikon sesuai dengan status password
-                    eyeIcon.classList.toggle('fa-eye-slash', !isHidden); // Ganti ke mata terbalik jika password terlihat
-                    eyeIcon.classList.toggle('fa-eye', isHidden); // Kembali ke mata terbuka jika password tersembunyi
+                    eyeIcon.classList.toggle('fa-eye-slash', isHidden);
+                    eyeIcon.classList.toggle('fa-eye', !isHidden);
                 });
             }
         });
     </script>
-</body>
-
 @endsection

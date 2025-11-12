@@ -1019,3 +1019,6 @@ figure.instagram-item img.insta-image {
 .post-navigation:focus svg {
     fill: var(--primary-color);
 }
+#header {
+    background-color: #f5f5e3; /* Ganti dengan warna yang Anda inginkan */
+}

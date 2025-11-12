@@ -43,6 +43,13 @@
         @yield('footer')
     @endif
 
+        @hasSection('keranjang')
+        @yield('keranjang')
+    @endif
+        @hasSection('checkout')
+        @yield('checkout')
+    @endif
+
     {{-- ===== JS CORE ===== --}}
     <script src="{{ asset('user/assets/js/jquery-1.11.0.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>

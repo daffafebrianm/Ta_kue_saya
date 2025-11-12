@@ -2,104 +2,224 @@
 
 @section('content')
 
+    <style>
+        /* ===== Layout utama ===== */
+        .authincation.h-100 {
+            min-height: 100vh;
+        }
+
+        .bg-border {
+            position: relative;
+            min-height: 100vh;
+            background: #FFF6EA;
+            overflow: hidden;
+        }
+
+        /* Ornamen di bagian atas dan bawah */
+        .bg-border::before,
+        .bg-border::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 160px;
+            /* tinggi area ornamen */
+            background-image: url('{{ asset('images/bg-login1.jpg') }}');
+            background-repeat: repeat-x;
+            /* diulang ke kanan */
+            background-size: auto 160px;
+            /* biar proporsional, tidak pecah */
+            background-position: center;
+            pointer-events: none;
+            opacity: 0.95;
+        }
+
+        /* Atas */
+        .bg-border::before {
+            top: 0;
+        }
+
+        /* Bawah (dibalik agar simetris) */
+        .bg-border::after {
+            bottom: 0;
+            transform: scaleY(-1);
+        }
+
+        /* pastikan card berada di atas background */
+        .register-card {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            background: #FFF6EA;
+            border-radius: 14px;
+            box-shadow: 0 14px 32px rgba(0, 0, 0, .08);
+            padding: 36px 40px;
+            margin: 100px auto;
+            /* beri jarak dari atas dan bawah */
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Background kecil di dalam card sisi kiri & kanan */
+        .register-card::before,
+        .register-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 80px;
+            background-repeat: repeat-y;
+            background-size: 80px auto;
+            background-position: center;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        .register-card::before {
+            left: 0;
+        }
+
+        .register-card::after {
+            right: 0;
+            transform: scaleX(-1);
+        }
+
+        /* ===== Form ===== */
+        .register-title {
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+            text-align: center;
+            color: #1A2A33;
+            margin-bottom: 24px;
+        }
+
+        .form-control {
+            height: 48px;
+            border-radius: 10px;
+            border: 1px solid #E6E6E6;
+            background: #fff;
+            padding: 0 16px;
+        }
+
+        .form-control:focus {
+            border-color: #CBB7F2;
+            box-shadow: 0 0 0 3px rgba(111, 60, 195, .12);
+        }
+
+        ::placeholder {
+            color: #9FA6B2;
+        }
+
+        .btn-register {
+            width: 100%;
+            height: 50px;
+            border-radius: 10px;
+            background: #6F3CC3;
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 0;
+        }
+
+        .btn-register:hover {
+            background: #5D2EAD;
+        }
+
+        .new-account {
+            text-align: center;
+            margin-top: 18px;
+            color: #6b7280;
+        }
+
+        .new-account a {
+            color: #6F3CC3;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .new-account a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
     <body class="h-100">
-        <div class="authincation h-100">
+        <div class="authincation h-100 bg-border">
             <div class="container-fluid h-100">
                 <div class="row justify-content-center h-100 align-items-center">
                     <div class="col-md-6">
-                        <div class="authincation-content">
-                            <div class="row no-gutters">
-                                <div class="col-xl-12">
-                                    <div class="auth-form">
-                                        <h4 class="text-center mb-4">Sign up your account</h4>
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul class="mb-0">
-                                                    @foreach ($errors->all() as $e)
-                                                        <li>{{ $e }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
-                                        {{-- Laravel Register Form --}}
-                                        <form method="POST" action="{{ route('register') }}">
-                                            @csrf
+                        <div class="register-card">
+                            <h4 class="register-title">Sign Up</h4>
 
-                                            {{-- Nama --}}
-                                            <div class="form-group">
-                                                <label><strong>Nama Lengkap</strong></label>
-                                                <input type="text"
-                                                    class="form-control @error('nama') is-invalid @enderror" name="nama"
-                                                    value="{{ old('nama') }}" placeholder="Nama lengkap" required>
-                                                @error('nama')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-
-                                            {{-- Username --}}
-                                            <div class="form-group">
-                                                <label><strong>Username</strong></label>
-                                                <input type="text"
-                                                    class="form-control @error('username') is-invalid @enderror"
-                                                    name="username" value="{{ old('username') }}" placeholder="username"
-                                                    required>
-                                                @error('username')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-
-                                            {{-- Email --}}
-                                            <div class="form-group">
-                                                <label><strong>Email</strong></label>
-                                                <input type="email"
-                                                    class="form-control @error('email') is-invalid @enderror" name="email"
-                                                    value="{{ old('email') }}" placeholder="hello@example.com" required>
-                                                @error('email')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-
-                                            {{-- Telepon --}}
-                                            <div class="form-group">
-                                                <label><strong>No Telepon</strong></label>
-                                                <input type="text"
-                                                    class="form-control @error('phone_number') is-invalid @enderror" name="phone_number"
-                                                    value="{{ old('phone_number') }}" placeholder="Nomor Telepon" required>
-                                                @error('phone_number')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-
-                                            {{-- Password --}}
-                                            <div class="form-group">
-                                                <label><strong>Password</strong></label>
-                                                <input type="password"
-                                                    class="form-control @error('password') is-invalid @enderror"
-                                                    name="password" placeholder="Password" required>
-                                                @error('password')
-                                                    <span class="invalid-feedback">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-
-                                            {{-- Konfirmasi Password --}}
-                                            <div class="form-group">
-                                                <label><strong>Konfirmasi Password</strong></label>
-                                                <input type="password" class="form-control" name="password_confirmation"
-                                                    placeholder="Ulangi Password" required>
-                                            </div>
-
-                                            <div class="text-center mt-4">
-                                                <button type="submit" class="btn btn-primary btn-block">Sign me up</button>
-                                            </div>
-                                        </form>
-
-                                        <div class="new-account mt-3">
-                                            <p>Already have an account?
-                                                <a class="text-primary" href="{{ route('login') }}">Sign in</a>
-                                            </p>
-                                        </div>
-                                    </div>
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $e)
+                                            <li>{{ $e }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
+                            @endif
+
+                            <form method="POST" action="{{ route('register') }}">
+                                @csrf
+
+                                <div class="form-group mb-3">
+                                    <input type="text" name="nama"
+                                        class="form-control @error('nama') is-invalid @enderror" placeholder="Nama Lengkap"
+                                        value="{{ old('nama') }}" required>
+                                    @error('nama')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input type="text" name="username"
+                                        class="form-control @error('username') is-invalid @enderror" placeholder="Username"
+                                        value="{{ old('username') }}" required>
+                                    @error('username')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input type="email" name="email"
+                                        class="form-control @error('email') is-invalid @enderror" placeholder="Email"
+                                        value="{{ old('email') }}" required>
+                                    @error('email')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input type="text" name="phone_number"
+                                        class="form-control @error('phone_number') is-invalid @enderror"
+                                        placeholder="Nomor Telepon" value="{{ old('phone_number') }}" required>
+                                    @error('phone_number')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <input type="password" name="password"
+                                        class="form-control @error('password') is-invalid @enderror" placeholder="Password"
+                                        required>
+                                    @error('password')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <input type="password" name="password_confirmation" class="form-control"
+                                        placeholder="Ulangi Password" required>
+                                </div>
+
+                                <button type="submit" class="btn-register">Sign me up</button>
+                            </form>
+
+                            <div class="new-account">
+                                <p>Already have an account? <a href="{{ route('login') }}">Sign in</a></p>
                             </div>
                         </div>
                     </div>

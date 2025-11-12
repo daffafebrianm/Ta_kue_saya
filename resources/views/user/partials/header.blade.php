@@ -17,7 +17,8 @@
 <div class="search-popup">
     <div class="search-popup-container">
         <form role="search" method="get" class="search-form" action="#">
-            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter" name="s" />
+            <input type="search" id="search-form" class="search-field" placeholder="Type and press enter"
+                name="s" />
             <button type="submit" class="search-submit">
                 <svg class="search">
                     <use xlink:href="#search"></use>
@@ -27,15 +28,14 @@
     </div>
 </div>
 
-<header id="header" class="site-header header-scrolled position-fixed text-black bg-light w-100 shadow-sm">
+<header id="header" class="site-header header-scrolled position-fixed text-black bg-light w-100 shadow-sm ">
     <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
         <div class="container">
-
             {{-- Logo di kiri --}}
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('user/assets/images/main-logo.png') }}" class="logo" alt="logo" style="height:50px;">
+                <img src="{{ asset('user/assets/images/main-logo.png') }}" class="logo" alt="logo"
+                    style="height:50px;">
             </a>
-
             {{-- Tombol toggle untuk mobile --}}
             <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false"
@@ -49,30 +49,31 @@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar">
                 <div class="offcanvas-header px-4 pb-0">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="{{ asset('user/assets/images/main-logo.png') }}" class="logo" alt="logo" style="height:50px;">
+                        <img src="{{ asset('user/assets/images/main-logo.png') }}" class="logo" alt="logo"
+                            style="height:50px;">
                     </a>
                     <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
                 </div>
 
-                <div class="offcanvas-body d-flex align-items-center justify-content-between w-100">
+                <div class="offcanvas-body d-flex align-items-center justify-content-between w-100 ">
 
                     {{-- Menu Tengah --}}
                     <ul id="navbar"
                         class="navbar-nav text-uppercase justify-content-center align-items-center flex-grow-1 pe-3">
-                        <li class="nav-item"><a class="nav-link me-4 active fw-bold" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link me-4 fw-bold" href="{{ url('/about_us') }}">About Us</a></li>
-                        <li class="nav-item"><a class="nav-link me-4 fw-bold" href="{{ url('/products') }}">Products</a></li>
-                        <li class="nav-item"><a class="nav-link me-4 fw-bold" href="{{ url('/contact') }}">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link me-4 active" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link me-4" href="{{ url('/about_us') }}">About Us</a></li>
+                        <li class="nav-item"><a class="nav-link me-4" href="{{ url('/products') }}">Products</a></li>
+                        <li class="nav-item"><a class="nav-link me-4" href="{{ url('/contact') }}">Contact</a></li>
                     </ul>
 
                     {{-- Bagian kanan (User & Cart) --}}
                     <div class="user-items ps-3">
                         <ul class="d-flex justify-content-end align-items-center list-unstyled mb-0" style="gap: 15px;">
-
                             @auth
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none"
+                                    <a href="#"
+                                        class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <svg class="user" width="20" height="20">
                                             <use xlink:href="#user"></use>
@@ -82,7 +83,9 @@
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" href="/Profile">Profile</a></li>
                                         <li><a class="dropdown-item" href="/Riwayat-Pesanan">Riwayat Pesanan</a></li>
-                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
                                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
                                     </ul>
                                 </li>
@@ -105,9 +108,9 @@
                                     </a>
                                 </li>
                             @endguest
-
                         </ul>
                     </div>
+
                 </div>
             </div>
         </div>
