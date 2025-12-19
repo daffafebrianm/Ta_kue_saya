@@ -118,7 +118,7 @@
             display: block;
             width: 100%;
             height: 50px;
-            background: #6F3CC3;
+            background: #d8ae73;
             border: 0;
             border-radius: 10px;
             color: #fff;
@@ -129,7 +129,7 @@
 
         .btn-login:hover,
         .btn-login:focus {
-            background: #5D2EAD;
+            background: #e6a242;
             color: #fff;
         }
 
@@ -141,7 +141,7 @@
         }
 
         .new-account a {
-            color: #6F3CC3;
+            color: #e6a242;
             font-weight: 700;
             text-decoration: none;
         }

@@ -8,54 +8,21 @@ use Illuminate\Http\Request;
 
 class ProductKatalogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $produks = Produk::with('kategori')->paginate(10);
+        // Menangkap kategori dari parameter URL
+        $category = $request->input('category'); // Perbaikan: 'category' harus sesuai dengan query string di URL
+
+        // Jika kategori dipilih, filter produk berdasarkan kategori
+        if ($category) {
+            // Filter produk berdasarkan kategori yang dipilih
+            $produks = Produk::where('id_kategori', $category)->with('kategori')->paginate(10);
+        } else {
+            // Jika tidak ada kategori yang dipilih, tampilkan semua produk
+            $produks = Produk::with('kategori')->paginate(10);
+        }
+
+        // Mengembalikan view dengan data produk
         return view('user.produk.produk', compact('produks'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
