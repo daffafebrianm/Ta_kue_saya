@@ -25,12 +25,12 @@ class Produk extends Model
     protected $casts = [
         'harga' => 'decimal:2',
         'berat' => 'decimal:2',
-        'stok'  => 'integer',
+        'stok' => 'integer',
     ];
 
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class, 'id_kategori', 'id');
+        return $this->belongsTo(Kategori::class, 'id_kategori');
     }
 
     public function orders()
@@ -40,14 +40,16 @@ class Produk extends Model
             ->withTimestamps();
     }
 
-   public function orderDetails()
-{
-    return $this->hasMany(OrderDetail::class);
-}
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
     public function keranjang()
     {
         return $this->hasMany(Kategori::class);
     }
+
     // Hanya produk aktif
     public function scopeAktif($q)
     {

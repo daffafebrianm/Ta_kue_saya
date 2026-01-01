@@ -1,12 +1,11 @@
-<section id="billboard" class="position-relative overflow-hidden bg-light-blue ">
+{{--  <section id="billboard" class="position-relative overflow-hidden" ;">
     <div class="swiper main-swiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <div class="container">
                     <div class="row d-flex align-items-center">
-                        <div class="col-md-6">
+                        <div class="col-md-6 my-5">
                             <div class="banner-content">
-                                <h1 class="display-2 text-uppercase text-dark pb-5">Your Products Are Great.</h1>
                                 <!-- Tombol menuju produk -->
                                 <a href="{{ route('products.index') }}"
                                     class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
@@ -14,32 +13,10 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="image-holder">
-                                <img src="{{ asset('user/assets/images/banner-image.png') }}" alt="banner">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Slide 2 --}}
-            <div class="swiper-slide">
-                <div class="container">
-                    <div class="row d-flex align-items-center">
                         <div class="col-md-6">
-                            <div class="banner-content">
-                                <h1 class="display-2 text-uppercase text-dark pb-5">Your Products Are Great.</h1>
-                                <!-- Tombol menuju produk -->
-                                <a href="{{ route('products.index') }}"
-                                    class="btn btn-medium btn-dark text-uppercase btn-rounded-none">
-                                    Shop Product
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
                             <div class="image-holder">
-                                <img src="{{ asset('user/assets/images/banner-image.png') }}" alt="banner">
+                                <img src="{{ asset('user/assets/images/dry-cakes.jpg') }}" alt="banner"
+                                    class="img-fluid" style="max-width: 100%; height: auto; object-fit: cover;">
                             </div>
                         </div>
                     </div>
@@ -79,4 +56,4 @@
             }
         });
     </script>
-@endpush
+@endpush  --}}

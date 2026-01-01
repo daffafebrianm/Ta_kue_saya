@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Produk;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        //         if (app()->environment('local')) {
+        //     URL::forceScheme('https');
+        // }
+
         Paginator::useBootstrapFive();
     View::composer('user.layouts.main', function ($view) {
         $view->with('produks', Produk::aktif()->latest()->take(12)->get());

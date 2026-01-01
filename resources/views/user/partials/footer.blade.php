@@ -20,48 +20,26 @@
             {{-- Quick Links --}}
             <div class="col-lg-3 col-sm-6 pb-4">
                 <div class="footer-links">
-                    <h5 class="widget-title text-uppercase mb-3" style="color:white;">CATEGORIES</h5>
+                    <h5 class="widget-title text-uppercase mb-3" style="color:white;">Information</h5>
                     <ul class="list-unstyled">
                         <li><a href="{{ url('/') }}#billboard" style="color:white;">Home</a></li>
                         <li><a href="{{ url('/about_us') }}" style="color:white;">About</a></li>
                         <li><a href="{{ route('products.index') }}" style="color:white;">Shop</a></li>
-                        <li><a href="#" style="color:white;">Blogs</a></li>
-                        <li><a href="{{ url('/contact') }}" style="color:white;">Contact</a></li>
+                        <li><a href="{{ url('/location') }}" style="color:white;">Location</a></li>
                     </ul>
                 </div>
             </div>
 
-            {{-- Contact & Information --}}
+            {{-- Location --}}
             <div class="col-lg-3 col-sm-6 pb-4">
-                <div class="footer-contact">
-                    <h5 class="widget-title text-uppercase mb-3" style="color:white;">INFORMATION</h5>
-                    <p class="mb-1" style="color:white;">Any queries or suggestions? <a href="mailto:yourinfo@gmail.com" style="color:white;">yourinfo@gmail.com</a></p>
-                    <p class="mb-3" style="color:white;">Need support? Call us: <a href="tel:+5511122233344" style="color:white;">+55 111 222 333 44</a></p>
-
-                    <div class="d-flex align-items-center gap-3">
-                        <span style="color:white;">We ship with:</span>
-                        <img src="{{ asset('user/assets/images/dhl.png') }}" alt="dhl" style="height:20px">
-                        <img src="{{ asset('user/assets/images/shippingcard.png') }}" alt="ship" style="height:20px">
-                    </div>
-
-                    <div class="d-flex align-items-center gap-3 mt-2">
-                        <span style="color:white;">Payment options:</span>
-                        <img src="{{ asset('user/assets/images/visa.jpg') }}" alt="visa" style="height:20px">
-                        <img src="{{ asset('user/assets/images/mastercard.jpg') }}" alt="mastercard" style="height:20px">
-                        <img src="{{ asset('user/assets/images/paypal.jpg') }}" alt="paypal" style="height:20px">
-                    </div>
-                </div>
-            </div>
-
-            {{-- Newsletter --}}
-            <div class="col-lg-3 col-sm-6 pb-4">
-                <div class="footer-newsletter">
-                    <h5 class="widget-title text-uppercase mb-3" style="color:white;">SUBSCRIBE</h5>
-                    <p style="color:white;">Stay updated with our latest offers and news.</p>
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Your email address" class="form-control mb-2" required>
-                        <button type="submit" class="btn btn-primary w-100" style="background-color:white;">Subscribe</button>
-                    </form>
+                <div class="footer-links">
+                    <h5 class="widget-title text-uppercase mb-3" style="color:white;">Location</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url('/location') }}" style="color:white;">Store Locations</a></li>
+                        <li><a href="{{ url('/location') }}" style="color:white;">Find Us on the Map</a></li>
+                        <li style="color:white;">Jl. H. Al Sudin Pal 2, Bangko Lamo, Pasir Putih</li>
+                        <li style="color:white;">Muara Bungo, Indonesia</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -75,4 +53,3 @@
         </div>
     </div>
 </footer>
-

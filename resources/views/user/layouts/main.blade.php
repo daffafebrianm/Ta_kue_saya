@@ -33,6 +33,9 @@
         @yield('products')
     @endif
 
+    @hasSection('about_us')
+        @yield('about_us')
+    @endif
     {{-- ===== KONTEN UTAMA HALAMAN ===== --}}
     <main>
         @yield('content')
@@ -43,11 +46,16 @@
         @yield('footer')
     @endif
 
-        @hasSection('keranjang')
+    @hasSection('keranjang')
         @yield('keranjang')
     @endif
-        @hasSection('checkout')
+    @hasSection('checkout')
         @yield('checkout')
+    @endif
+
+
+    @hasSection('location')
+        @yield('location')
     @endif
 
     {{-- ===== JS CORE ===== --}}

@@ -17,8 +17,13 @@ class Kategori extends Model
         'deskripsi',
     ];
 
-    public function produks()
+    public function produk()
     {
-        return $this->hasMany(Produk::class, 'id_kategori', 'id');
+        return $this->hasMany(Produk::class);
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori');
     }
 }

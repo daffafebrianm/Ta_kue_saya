@@ -1,8 +1,8 @@
 @extends('user.layouts.main')
 
 @section('content')
-    <div class="container my-5">
-        <h3 class="text-center mb-5">Konfirmasi Pembayaran</h3>
+    <div class="container">
+        <h3 class="text-center mb-5 py-4">Konfirmasi Pembayaran</h3>
 
         @if (session('error'))
             <div class="alert alert-danger text-center">{{ session('error') }}</div>
@@ -22,6 +22,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th>Gambar Produk</th>
                                 <th>Nama Produk</th>
                                 <th>Tanggal</th>
                                 <th>Jumlah</th>
@@ -33,7 +34,14 @@
 
                                 <td>
                                     @foreach ($order->orderDetails as $detail)
-                                        <div>{{ $detail->produk->nama ?? 'Produk Tidak Ditemukan' }} × {{ $detail->jumlah }}
+                                        <div>{{ $detail->produk->gambar ?? 'Produk Tidak Ditemukan' }} ×
+                                            {{ $detail->jumlah }}
+                                        </div>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($order->orderDetails as $detail)
+                                        <div>{{ $detail->produk->nama ?? 'Produk Tidak Ditemukan' }}
                                         </div>
                                     @endforeach
                                 </td>
@@ -71,12 +79,38 @@
 
             <!-- Tombol untuk Melanjutkan Pembayaran -->
             <div class="text-right mt-4">
-                <a href="{{ route('Pembayaran.index', ['orderId' => $order->id]) }}" class="btn btn-success btn-lg px-5">
+                <button id="pay-button" class="btn btn-success btn-lg px-5">
                     Lanjutkan Pembayaran
-                </a>
+                </button>
             </div>
         @else
             <div class="alert alert-danger text-center">Pesanan tidak ditemukan.</div>
         @endif
     </div>
+
+    {{-- Script Midtrans --}}
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
+    <script type="text/javascript">
+        document.getElementById('pay-button').addEventListener('click', function() {
+            snap.pay('{{ $snapToken }}', {
+                onSuccess: function(result) {
+                    console.log(result);
+                    window.location.href = "{{ route('Pembayaran.success', $order->id) }}";
+                },
+                onPending: function(result) {
+                    console.log(result);
+                    // cukup kasih alert saja, jangan redirect
+                    alert("Pembayaran sedang diproses, silakan cek status di riwayat pesanan.");
+                },
+                onError: function(result) {
+                    console.log(result);
+                    alert("Pembayaran gagal, coba lagi.");
+                },
+                onClose: function() {
+                    alert('Kamu menutup popup tanpa menyelesaikan pembayaran');
+                }
+            })
+        });
+    </script>
 @endsection

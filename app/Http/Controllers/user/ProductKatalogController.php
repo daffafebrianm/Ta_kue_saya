@@ -11,18 +11,18 @@ class ProductKatalogController extends Controller
     public function index(Request $request)
     {
         // Menangkap kategori dari parameter URL
-        $category = $request->input('category'); // Perbaikan: 'category' harus sesuai dengan query string di URL
+        $category = $request->input('category');
+        if ($category && ! in_array($category, ['6', '7', '8'])) {
+            return redirect()->route('produk.index')->with('error', 'Kategori tidak valid.');
+        }
 
-        // Jika kategori dipilih, filter produk berdasarkan kategori
         if ($category) {
-            // Filter produk berdasarkan kategori yang dipilih
             $produks = Produk::where('id_kategori', $category)->with('kategori')->paginate(10);
         } else {
-            // Jika tidak ada kategori yang dipilih, tampilkan semua produk
             $produks = Produk::with('kategori')->paginate(10);
         }
 
         // Mengembalikan view dengan data produk
-        return view('user.produk.produk', compact('produks'));
+        return view('user.produk.produk', compact('produks', 'category'));
     }
 }

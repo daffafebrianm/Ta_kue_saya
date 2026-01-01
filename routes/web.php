@@ -11,14 +11,13 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\user\AboutUsController;
 use App\Http\Controllers\user\CekOutController;
 use App\Http\Controllers\user\DetailProdukController;
-use App\Http\Controllers\user\DetaiProduk;
 use App\Http\Controllers\User\KeranjangController;
+use App\Http\Controllers\user\LocationController;
 use App\Http\Controllers\user\PembayaranController;
 use App\Http\Controllers\user\ProductKatalogController;
 use App\Http\Controllers\user\ProfileController;
 use App\Http\Controllers\user\RiwayatPesananController;
 use Illuminate\Support\Facades\Route;
-
 
 // LANDING PAGE (Tampilan awal user & admin)
 
@@ -31,9 +30,11 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/logout', [LoginController::class, 'logout']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+
 // REGISTER
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
+
 
 Route::middleware(['isAdmin'])->group(function () {
 
@@ -71,19 +72,12 @@ Route::middleware(['isCustomer'])->group(function () {
     Route::get('/Riwayat-Pesanan', [RiwayatPesananController::class, 'index'])->name('Riwayat.index');
 
     Route::get('/about_us', [AboutUsController::class, 'index'])->name('about.index');
-
+    Route::get('/location', [LocationController::class, 'index'])->name('location.index');
 
     Route::get('/Payment/{orderId}', [PembayaranController::class, 'index'])->name('Pembayaran.index');
-
-
-
-
-
-
-
+    Route::get('/Payment/success/{orderId}', [PembayaranController::class, 'success'])->name('Pembayaran.success');
 
     // =========================
-
 
     // // Inisiasi bayar (redirect ke gateway / buat VA/QR)
     // Route::post('/payments/{order}', [PaymentController::class, 'pay'])->name('payments.pay');
@@ -93,11 +87,10 @@ Route::middleware(['isCustomer'])->group(function () {
     // Route::get('/payments/{order}/failed', [PaymentController::class, 'failed'])->name('payments.failed');
 });
 
+Route::get('/products', [ProductKatalogController::class, 'index'])->name('products.index');
 
-    Route::get('/products', [ProductKatalogController::class, 'index'])->name('products.index');
+Route::get('/detail-products/{id}', [DetailProdukController::class, 'index'])->name('detai.index');
+Route::get('/detail-products/{slug}', [ProductKatalogController::class, 'index'])->name('prpduct.index');
 
-
-    Route::get('/detail-products/{id}', [DetailProdukController::class, 'index'])->name('detai.index');
-
-
-
+Route::get('/about_us', [AboutUsController::class, 'index'])->name('about.index');
+Route::get('/location', [LocationController::class, 'index'])->name('location.index');

@@ -1,242 +1,214 @@
 @extends('user.layouts.main')
 @section('content')
     <style>
-        /* CSS untuk Produk Store */
-        .product-store-new {
-            padding-top: 180px;
-            /* jarak dari navbar */
-            padding-bottom: 50px;
-        }
-
-        .product-card-new {
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 30px;
-        }
-
-        .product-card-new:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .image-holder-new {
-            position: relative;
-            height: 280px;
-            overflow: hidden;
-            border-radius: 15px;
-        }
-
-        .product-image-new {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-
-        .card-body-new {
-            padding-top: 15px;
-            padding-bottom: 15px;
-        }
-
-        .product-title-new {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .item-price-new {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #e74c3c;
-        }
-
-        .cart-concern-new {
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-            display: none;
-        }
-
-        .product-card-new:hover .cart-concern-new {
-            display: block;
-        }
-
-        .cart-button-new button {
-            background-color: #e74c3c;
-            color: white;
-            font-weight: bold;
-            padding: 12px;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .cart-button-new button:hover {
-            background-color: #c0392b;
-        }
-
-        /* 🔽 Judul "Produk" dengan garis bawah */
-        .display-header-new {
-            margin-top: 120px;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-        }
-
-        .display-header-new h2 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #333;
-            display: inline-block;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        /* Garis bawah di bawah tulisan "Produk" */
-        .display-header-new h2::after {
-            content: "";
-            position: absolute;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            width: 100px;
-            /* panjang garis */
-            height: 3px;
-            background-color: #e74c3c;
-            /* warna merah senada tombol */
-            border-radius: 5px;
-        }
-
-        /* 🔘 Tombol kategori berbentuk oval panjang */
+        /* ====== CATEGORY BUTTONS ====== */
         .category-buttons {
-            margin-top: 20px;
-            margin-bottom: 50px;
+            margin-top: 120px;
+            /* Menambah jarak atas */
+            margin-bottom: 10px;
+            /* Menambah jarak bawah */
             display: flex;
             justify-content: center;
+            gap: 20px;
             flex-wrap: wrap;
-            gap: 15px;
         }
+
 
         .btn-category-oval {
             border: 2px solid #b78b6f;
-            background-color: transparent;
+            background: transparent;
             color: #7a5230;
-            border-radius: 50px;
-            padding: 10px 35px;
+            border-radius: 999px;
+            padding: 10px 20px;
             font-size: 1rem;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: .25s;
             cursor: pointer;
         }
 
         .btn-category-oval:hover,
         .btn-category-oval.active {
-            background-color: #b78b6f;
+            background: #b78b6f;
             color: #fff;
-            box-shadow: 0 4px 10px rgba(183, 139, 111, 0.3);
+            box-shadow: 0 4px 10px rgba(183, 139, 111, .25);
         }
 
-        .swiper-pagination {
-            bottom: -20px;
+        /* ====== GRID PRODUK: 3 kolom ====== */
+        .product-store-new {
+            padding-top: 90px;
+            padding-bottom: 50px;
         }
 
-        @media (max-width: 768px) {
-            .display-header-new {
-                margin-top: 100px;
-            }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 46px;
+            align-items: start;
+        }
 
-            .btn-category-oval {
-                padding: 8px 25px;
-                font-size: 0.9rem;
+        @media (max-width: 992px) {
+            .products-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 28px;
             }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+        }
+
+        /* ====== CARD STYLE ====== */
+        .product-card-clean {
+            text-align: center;
+        }
+
+        .product-thumb {
+            border-radius: 16px;
+            overflow: hidden;
+            background: #f3f4f6;
+        }
+
+        .product-thumb img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (max-width: 576px) {
+            .product-thumb img {
+                height: 220px;
+            }
+        }
+
+        .product-name {
+            margin-top: 16px;
+            margin-bottom: 6px;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: #111827;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 14px;
+        }
+
+        /* ====== BUTTON STYLE ====== */
+        .btn-cart-oval {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 190px;
+            padding: 12px 22px;
+            border-radius: 999px;
+            border: 1.8px solid #b58db6;
+            color: #b58db6;
+            background: transparent;
+            font-weight: 800;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            transition: .2s;
+        }
+
+        .btn-cart-oval:hover {
+            background: #b58db6;
+            color: #fff;
+        }
+
+        .product-category {
+            font-size: 14px;
+            /* Ukuran font untuk kategori */
+            font-weight: 600;
+            /* Membuat teks kategori lebih tebal */
+            color: #7a5230;
+            /* Warna teks kategori */
+            background-color: #f3f4f6;
+            /* Latar belakang kategori yang terang */
+            padding: 8px 12px;
+            /* Memberikan padding di dalam kategori */
+            border-radius: 8px;
+            /* Sudut yang melengkung pada kategori */
+            margin-top: 10px;
+            /* Memberikan jarak atas pada kategori */
+            text-transform: capitalize;
+            /* Mengubah teks kategori menjadi huruf besar di awal kata */
+            display: inline-block;
+            /* Menampilkan kategori dalam satu baris */
         }
     </style>
-
     <section id="product-store-new" class="product-store-new position-relative padding-large no-padding-top">
         <div class="container">
             <div class="row">
-                <!-- 🔽 Judul Produk dengan garis bawah -->
-                <div class="display-header-new pb-3">
-                    <h2 class="display-7 text-uppercase">Produk</h2>
+                {{-- Tombol Kategori --}}
+                <div class="category-buttons mb-5 ">
+                    <button class="btn-category-oval {{ !$category ? 'active' : '' }}" data-category="">Semua</button>
+                    <button class="btn-category-oval {{ $category == '6' ? 'active' : '' }}"
+                        data-category="6">Cookies</button>
+                    <button class="btn-category-oval {{ $category == '7' ? 'active' : '' }}" data-category="7">Cakes</button>
+                    <button class="btn-category-oval {{ $category == '8' ? 'active' : '' }}" data-category="8">Dry
+                        Cake</button>
                 </div>
 
-                <!-- Tombol kategori berbentuk oval -->
-                <div class="category-buttons">
-                    <button class="btn-category-oval" data-category="kue-basah">bue basah</button>
-                    <button class="btn-category-oval" data-category="kue-kering">Dry Cake</button>
-                    <button class="btn-category-oval" data-category="hampers">Hampers</button>
-                    <button class="btn-category-oval" data-category="gifting">Gifting</button>
-                </div>
-                <!-- Produk -->
-                <div class="row products-container">
-                    @forelse ($produks as $p)
-                        @php
-                            $img = $p->gambar
-                                ? asset('storage/' . $p->gambar)
-                                : asset('user/assets/images/placeholder-product.jpg');
-                        @endphp
-                        <div class="col-md-4 col-sm-6 mb-4">
-                            <div class="product-card-new position-relative">
-                                <a href="{{ route('detai.index', $p->id) }}">
-                                    <div class="image-holder-new">
-                                        <img src="{{ $img }}" alt="{{ $p->nama }}"
-                                            class="img-fluid product-image-new">
-                                    </div>
-                                </a>
-                                <div class="card-body-new text-center">
-                                    <h3 class="product-title-new text-uppercase">{{ $p->nama }}</h3>
-                                    <span class="item-price-new">Rp {{ number_format($p->harga, 0, ',', '.') }}</span>
-                                </div>
-                                <div class="cart-concern-new position-absolute">
-                                    <div class="cart-button-new d-flex">
-                                        @auth
-                                            <form action="{{ route('keranjang.store') }}" method="POST"
-                                                class="w-100 add-to-cart-form" data-success="Produk ditambahkan!">
-                                                @csrf
-                                                <input type="hidden" name="produk_id" value="{{ $p->id }}">
-                                                <input type="hidden" name="jumlah" value="1">
-                                                <button type="submit" class="btn btn-medium btn-black w-100">Add to
-                                                    Cart</button>
-                                            </form>
-                                        @else
-                                            <a href="{{ route('login') }}" class="btn btn-medium btn-black w-100">Add to
-                                                Cart</a>
-                                        @endauth
-                                    </div>
-                                </div>
+                {{-- Produk Grid --}}
+                <div class="products-grid">
+                    @foreach ($produks as $produk)
+                        <div class="product-card">
+                            <div class="product-thumb">
+                                <!-- Menampilkan gambar produk -->
+                                <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}">
+                            </div>
+                            <div class="product-name">
+                                <!-- Menampilkan nama produk -->
+                                {{ $produk->nama }}
+                            </div>
+                            <div class="product-price">
+                                <!-- Menampilkan harga produk -->
+                                Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                            </div>
+                            <div class="product-action">
+                                <!-- Menambahkan tombol untuk menambahkan produk ke keranjang -->
+                                @auth
+                                    <form action="{{ route('keranjang.store') }}" method="POST" class="add-to-cart-form"
+                                        data-success="Produk ditambahkan!">
+                                        @csrf
+                                        <input type="hidden" name="produk_id" value="{{ $produk->id }}">
+                                        <input type="hidden" name="jumlah" value="1">
+                                        <button type="submit" class="btn-cart-oval">ADD TO CART</button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="btn-cart-oval" style="text-decoration:none;">ADD TO
+                                        CART</a>
+                                @endauth
                             </div>
                         </div>
-                    @empty
-                        <div class="swiper-slide">
-                            <p class="text-muted text-center">Belum ada produk.</p>
-                        </div>
-                    @endforelse
-                </div>
+                    @endforeach
 
-                <div class="swiper-pagination position-absolute text-center"></div>
+                </div>
             </div>
         </div>
     </section>
+
+    <script>
+        document.querySelectorAll('.btn-category-oval').forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                const url = new URL(window.location.href);
+                if (category === "") url.searchParams.delete('category');
+                else url.searchParams.set('category', category);
+                window.location.href = url.toString();
+            });
+        });
+    </script>
 @endsection
 
-<script>
-    document.querySelectorAll('.btn-category-oval').forEach(button => {
-        button.addEventListener('click', function () {
-            // Mengambil kategori dari atribut data
-            const category = this.getAttribute('data-category');
-
-            // Menambahkan kategori ke URL (query string)
-            const url = new URL(window.location.href);
-            url.searchParams.set('category', category); // Menambahkan parameter kategori
-
-            // Mengubah URL dan memuat ulang halaman dengan kategori yang dipilih
-            window.location.href = url.toString(); // Halaman akan dimuat ulang dengan kategori yang dipilih
-        });
-    });
-</script>
-
+@section('footer')
+    @include('user.partials.footer')
+@endsection

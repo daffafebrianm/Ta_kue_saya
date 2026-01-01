@@ -241,10 +241,13 @@
                     </div>
 
                     <form action="{{ route('Checkout.index') }}" method="get">
-                        <button type="submit" class="btn-checkout">Proceed to Payment</button>
+                        <button type="submit" class="btn-checkout">Proceed to Checkout</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('footer')
+    @include('user.partials.footer')
 @endsection
