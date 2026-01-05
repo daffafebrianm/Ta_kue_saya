@@ -6,10 +6,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <title>@yield('title', 'Waroeng koe')</title>
 
     {{-- Core CSS --}}
+    <link rel="icon" type="image/png" sizes="128x128" href="{{ asset('user/assets/images/icon-kue.png') }}">
     <link rel="stylesheet" href="{{ asset('user/assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('user/assets/style.css') }}">
     {{-- Swiper (dipakai oleh billboard/products jika halaman menggunakannya) --}}
@@ -64,70 +67,58 @@
     <script src="{{ asset('user/assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('user/assets/js/plugins.js') }}"></script>
     <script src="{{ asset('user/assets/js/script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- Page-level scripts --}}
-    @stack('scripts')
-    {{-- Toast container --}}
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080">
-        <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert"
-            aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body" id="cartToastBody">
-                    Produk berhasil ditambahkan ke keranjang
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        (function() {
-            const forms = document.querySelectorAll('.add-to-cart-form');
-            const toastEl = document.getElementById('cartToast');
-            const toastBody = document.getElementById('cartToastBody');
-            const CartToast = toastEl ? new bootstrap.Toast(toastEl, {
-                delay: 1800
-            }) : null;
+<script>
+document.addEventListener('DOMContentLoaded', function() {
 
-            forms.forEach(form => {
-                form.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    // kirim AJAX
-                    try {
-                        const res = await fetch(this.action, {
-                            method: 'POST',
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': this.querySelector('input[name=_token]')
-                                    .value,
-                                'Accept': 'application/json'
-                            },
-                            body: new FormData(this)
-                        });
+    // ===== Session flash notifications =====
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session('success') }}',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1800
+        });
+    @endif
 
-                        if (!res.ok) throw new Error('Request failed');
-                        const data = await res.json();
+    @if(session('deleted'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Terhapus!',
+            text: '{{ session('deleted') }}',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1800
+        });
+    @endif
 
-                        if (data && data.ok) {
-                            if (CartToast) {
-                                toastBody.textContent = this.dataset.success || data.message ||
-                                    'Ditambahkan ke keranjang';
-                                CartToast.show();
-                            }
-                        } else {
-                            throw new Error('Bad response');
-                        }
-                    } catch (err) {
-                        // fallback: kalau AJAX gagal, submit normal (redirect)
-                        this.submit();
-                    }
-                }, {
-                    once: false
-                });
-            });
-        })();
+    @if($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: `
+                <ul style="text-align: left; padding-left: 1rem;">
+                    @foreach ($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            `,
+            confirmButtonColor: '#d33'
+        });
+    @endif
+
+});
+
+
     </script>
+    @stack('scripts')
+
 </body>
 
 </html>

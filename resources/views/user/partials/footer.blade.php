@@ -4,7 +4,7 @@
             {{-- Brand & About --}}
             <div class="col-lg-3 col-sm-6 pb-4">
                 <div class="footer-brand">
-                    <img src="{{ asset('images/bg-login1.jpg') }}" alt="logo" class="mb-3" style="max-height:42px">
+                    <img src="{{ asset('user/assets/images/icon-kue.png') }}" alt="logo" class="mb-3" style="max-height:150px">
                     <div class="social-links">
                         <ul class="d-flex list-unstyled gap-3 mb-0">
                             <li><a href="#"><i class="fab fa-facebook-f" style="color:white;"></i></a></li>
@@ -48,7 +48,9 @@
 
         <div class="row text-center">
             <div class="col-12">
-                <p class="mb-0" style="color:white;">© 2025 Clairmont. All rights reserved.</p>
+                <p class="mb-0" style="color: white;">
+                    © 2025 Waroeng Koe Ree Cake & Cookies | Crafted with love, baked with passion.
+                </p>
             </div>
         </div>
     </div>

@@ -10,19 +10,37 @@ class ProductKatalogController extends Controller
 {
     public function index(Request $request)
     {
-        // Menangkap kategori dari parameter URL
-        $category = $request->input('category');
-        if ($category && ! in_array($category, ['6', '7', '8'])) {
+        // Mapping kategori: key = nama kategori, value = tampil di tombol
+        $categories = [
+            ''          => 'Semua',
+            'Cookies'   => 'Cookies',
+            'Cakes'     => 'Cakes',
+            'Dry Cake'  => 'Dry Cake',
+        ];
+
+        // Ambil kategori dari parameter URL
+        $selectedCategory = $request->input('category', '');
+
+        // Validasi kategori
+        if ($selectedCategory !== '' && ! array_key_exists($selectedCategory, $categories)) {
             return redirect()->route('produk.index')->with('error', 'Kategori tidak valid.');
         }
 
-        if ($category) {
-            $produks = Produk::where('id_kategori', $category)->with('kategori')->paginate(10);
-        } else {
-            $produks = Produk::with('kategori')->paginate(10);
+        // Query produk sesuai kategori
+        $produksQuery = Produk::with('kategori');
+
+        if ($selectedCategory !== '') {
+            $produksQuery->whereHas('kategori', function ($q) use ($selectedCategory) {
+                $q->where('nama', $selectedCategory); // filter berdasarkan nama kategori
+            });
         }
 
-        // Mengembalikan view dengan data produk
-        return view('user.produk.produk', compact('produks', 'category'));
+        $produks = $produksQuery->paginate(10)->withQueryString();
+
+        return view('user.produk.produk', [
+            'produks' => $produks,
+            'categories' => $categories,
+            'selectedCategory' => $selectedCategory,
+        ]);
     }
 }

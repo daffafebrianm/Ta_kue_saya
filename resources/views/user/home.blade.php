@@ -5,15 +5,49 @@
 
 @section('products')
 
-    {{-- ===================== --}}
-    {{-- PRODUK SECTION --}}
-    {{-- ===================== --}}
     <section id="mobile-products" class="product-section">
-        <div class="container my-5">
 
-            {{-- ===================== --}}
-            {{-- KATEGORI (Klik Gambar) --}}
-            {{-- ===================== --}}
+        <div class="container-fluid hero-header py-7 mb-5" data-aos="fade-down" style="background-color: #f8efe5;">
+            <div class="container">
+                <div class="row align-items-center g-5">
+
+                    <!-- Left Content -->
+                    <div class="col-lg-6 text-center text-lg-start">
+                        <h1 class="display-4 fw-bold text-dark mb-3">
+                            Freshly Baked <em>With Love & Passion</em>
+                        </h1>
+
+                        <p class="fs-5 text-dark mb-4">
+                            Nikmati kelezatan kue buatan tangan dari
+                            <strong>Waroeng Koe Ree Cake & Cookies</strong> —
+                            dibuat dengan bahan berkualitas dan cinta di setiap gigitan.
+                        </p>
+
+                        <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
+                            <a href="{{ url('products') }}" class="btn btn-dark py-2 px-4 animated slideInRight">
+                                Order Now
+                            </a>
+                            <a href="{{ url('https://api.whatsapp.com/send?phone=628116666604&text=Halo%20Waroeng%20Koe%2C%20saya%20ingin%20pesan%20kue!%20Berikut%20data%20saya%3A%0ANama%3A%0AAlamat%3A%0APesanan%3A') }}"
+                                class="btn btn-outline-dark py-2 px-4 animated slideInRight">
+                                Chat via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Image -->
+                    <div class="col-lg-6 text-center">
+                        <img src="{{ asset('user/assets/images/Banner-kue.png') }}" alt="Fresh Cake"
+                            class="img-fluid rounded-4" style="max-height: 500px;">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- ===================== -->
+        <!-- HERO SECTION END -->
+        <!-- ===================== -->
+
+        <div class="container my-5">
             <div class="category-grid">
 
                 <a href="{{ route('products.index', ['category' => 6]) }}" class="cat-card">
@@ -43,59 +77,55 @@
             {{-- ===================== --}}
             {{-- PRODUK --}}
             {{-- ===================== --}}
-            <div class="swiper product-swiper">
-                <div class="swiper-wrapper my-4">
-                    @foreach ($produks as $p)
-                        @php
-                            $img = $p->gambar
-                                ? asset('storage/' . $p->gambar)
-                                : asset('user/assets/images/placeholder-product.jpg');
-                        @endphp
-
-                        <div class="swiper-slide">
-                            <div class="product-card">
-
-                                <div class="product-image">
-                                    <img src="{{ $img }}" alt="{{ $p->nama }}">
-                                </div>
-
-                                <div class="card-body text-center">
-                                    <h3 class="product-name text-uppercase">{{ $p->nama }}</h3>
-
-                                    <span class="item-price">
-                                        Rp {{ number_format($p->harga, 0, ',', '.') }}
-                                    </span>
-
-                                    <div class="cart-button">
-                                        @auth
-                                            <form action="{{ route('keranjang.store') }}" method="POST"
-                                                class="w-100 add-to-cart-form" data-success="Produk ditambahkan!">
-                                                @csrf
-                                                <input type="hidden" name="produk_id" value="{{ $p->id }}">
-                                                <input type="hidden" name="jumlah" value="1">
-                                                <button type="submit" class="btn-category-oval w-100">
-                                                    Add to Cart
-                                                </button>
-                                            </form>
-                                        @else
-                                            <a href="{{ route('login') }}" class="btn-category-oval w-100">
-                                                Add to Cart
-                                            </a>
-                                        @endauth
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    @endforeach
-
-                </div>
-
-                <div class="swiper-pagination"></div>
-            </div>
 
         </div>
     </section>
+
+    <!-- Feature Section Start -->
+    <section class="features py-5" style="background-color: #fff9f0;">
+        <div class="container text-center">
+            <h3 class="fw-bold mb-5">Kenapa Memilih Kami</h3>
+            <div class="row g-4 justify-content-center">
+                <!-- Feature Card 1 -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card p-4 h-100 text-center shadow-sm border-0 rounded-4 bg-white hover-effect">
+                        <div class="icon-wrapper mb-3">
+                            <img src="{{ asset('user/assets/images/logo-1.png') }}" alt="Bahan Fresh" class="img-fluid"
+                                style="max-width: 80px;">
+                        </div>
+                        <h5 class="fw-bold text-dark">Bahan Fresh</h5>
+                        <p class="text-muted mb-0">Bahan-bahan segar untuk rasa autentik setiap hari.</p>
+                    </div>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card p-4 h-100 text-center shadow-sm border-0 rounded-4 bg-white hover-effect">
+                        <div class="icon-wrapper mb-3">
+                            <img src="{{ asset('user/assets/images/logo-2.png') }}" alt="Pengalaman" class="img-fluid"
+                                style="max-width: 80px;">
+                        </div>
+                        <h5 class="fw-bold text-dark">Pengalaman</h5>
+                        <p class="text-muted mb-0">Outlet menarik dan pelayanan profesional.</p>
+                    </div>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card p-4 h-100 text-center shadow-sm border-0 rounded-4 bg-white hover-effect">
+                        <div class="icon-wrapper mb-3">
+                            <img src="{{ asset('user/assets/images/logo-3.png') }}" alt="Lezat" class="img-fluid"
+                                style="max-width: 80px;">
+                        </div>
+                        <h5 class="fw-bold text-dark">Lezat</h5>
+                        <p class="text-muted mb-0">Kelezatan tiada tara, setiap gigitan memikat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Feature Section End -->
+
 
     {{-- ===================== --}}
     {{-- PROMO SHOP --}}
@@ -124,33 +154,90 @@
             </div>
         </div>
     </section>
-    {{-- ===================== --}}
-    {{-- ABOUT --}}
-    {{-- ===================== --}}
-    <section class="about-section">
+
+
+    <section class="cake-section py-5">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="card cake-card border-0 shadow-lg overflow-hidden rounded-4">
+                <div class="row g-0 align-items-center">
+                    <!-- Gambar (kanan di desktop, atas di mobile) -->
+                    <div class="col-lg-6 order-lg-2">
+                        <div class="ratio ratio-4x3">
+                            <img src="{{ asset('user/assets/img/cake1.png') }}"
+                                alt="Kue Spesial Waroeng Koe Ree Cake & Cookies" class="w-100 h-100 object-fit-cover"
+                                loading="lazy">
+                        </div>
+                    </div>
 
-                <div class="col-md-6 mb-4 mb-md-0">
-                    <h2>Tentang Waroeng Koe Ree Cake n Cookies</h2>
-                    <p>
-                        Pada tahun 2022, Waroeng Koe Ree Cake & Cookies memulai perjalanannya sebagai usaha kuliner rumahan
-                        yang didirikan oleh Leni di Muara Bungo, Indonesia. Berlokasi di Jl. H. Al Sudin Pal 2, Bangko Lamo,
-                        Pasir Putih, usaha ini lahir dari keinginan untuk menghadirkan aneka kue dan cookies dengan cita
-                        rasa berkualitas yang dapat dinikmati oleh berbagai kalangan masyarakat.
-                    </p>
-                </div>
+                    <!-- Konten -->
+                    <div class="col-lg-6 order-lg-1">
+                        <div class="p-4 p-lg-5">
+                            <h2 class="display-6 fw-bold mb-3 text-brown">Kue Spesial Kami</h2>
+                            <p class="text-muted mb-4 text-justify">
+                                Di <strong>Waroeng Koe Ree Cake & Cookies</strong>, setiap kue dibuat dengan penuh cinta dan
+                                bahan pilihan terbaik.
+                                Kami menghadirkan berbagai varian kue dan cookies yang lembut, manis, dan menggugah
+                                selera—sempurna untuk
+                                momen spesial Anda, dari ulang tahun hingga hantaran istimewa.
+                            </p>
+                            <p class="text-muted mb-4 text-justify">
+                                Nikmati cita rasa autentik dari resep keluarga dengan sentuhan modern.
+                                Karena bagi kami, setiap gigitan kue adalah cara untuk berbagi kebahagiaan.
+                            </p>
 
-                <div class="col-md-6">
-                    <div class="about-img-wrap">
-                        <img src="{{ asset('user/assets/images/lokasi.jpeg') }}" class="about-image" alt="About">
+                            <!-- Badge kecil / highlight -->
+                            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">
+                                Fresh Baked • Handmade with Love
+                            </span>
+                        </div>
                     </div>
                 </div>
 
-
+                <!-- Aksen gradient dekoratif -->
+                <div class="cake-accent d-none d-lg-block"></div>
             </div>
         </div>
     </section>
+
+    <div class="container-fluid py-5" style="background-color: #ffffff;" data-aos="zoom-in">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Kiri -->
+                <div class="col-md-6 mb-4">
+                    <p class="section-subtitle text-uppercase text-brown fw-semibold">
+                        Waroeng Koe Ree Cake & Cookies – Homemade & Fresh!
+                    </p>
+                    <h2 class="section-title fw-bold text-dark">
+                        Nikmati Kelezatan Kue dan Cookies Spesial Setiap Hari!
+                    </h2>
+                    <p class="section-desc text-muted">
+                        <strong>Waroeng Koe Ree</strong> menghadirkan berbagai pilihan cake dan cookies lezat
+                        yang dibuat dengan bahan premium dan tanpa pengawet.
+                        Cocok untuk momen spesial, hampers, atau sekadar teman ngopi sore Anda.
+                    </p>
+                    <a href="{{ url('https://api.whatsapp.com/send?phone=628116666604&text=Nama%20:%0ANo%20HP%20:%0AAlamat%20:%0AHalo,%20saya%20ingin%20pesan%20kue%20dari%20Waroeng%20Koe%20Ree') }}"
+                        class="btn btn-outline-brown rounded-pill px-4">
+                        Pesan Sekarang!
+                    </a>
+                </div>
+
+                <!-- Kanan -->
+                <div class="col-md-6 d-flex justify-content-center">
+                    <div class="info-card bg-white shadow-lg rounded-4 p-4">
+                        <h4 class="info-title d-flex align-items-center mb-3">
+                            <img src="{{ asset('user/assets/img/clock.png') }}" alt="Jam Operasional" class="me-2"
+                                style="width: 32px; height: 32px;">
+                            Jam Operasional
+                        </h4>
+                        <hr class="mb-3">
+                        <p><strong>Toko & Pemesanan</strong><br> Senin – Minggu : 10:00 – 21:00 WIB</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 @endsection
 
@@ -161,15 +248,15 @@
 @push('styles')
     <style>
         /* =====================
-                GENERAL
-        ===================== */
+                            GENERAL
+                    ===================== */
         body {
             background-color: #FFF6EA;
         }
 
         /* =====================
-            PRODUK SECTION
-        ===================== */
+                        PRODUK SECTION
+                    ===================== */
         .product-section {
             padding: 80px 0;
         }
@@ -186,8 +273,8 @@
         }
 
         /* =====================
-                                                       CATEGORY GRID (Klik Gambar) - ukuran rapi kayak contoh
-                                                    ===================== */
+                                                                   CATEGORY GRID (Klik Gambar) - ukuran rapi kayak contoh
+                                                                ===================== */
         .category-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -280,9 +367,6 @@
             }
         }
 
-        /* =====================
-                                                       PRODUCT CARD
-                                                    ===================== */
         .product-card {
             text-align: center;
             padding: 10px;
@@ -317,9 +401,6 @@
             color: black;
         }
 
-        /* =====================
-                                                       BUTTON
-                                                    ===================== */
         .btn-category-oval {
             border: 2px solid #b78b6f;
             background: transparent;
@@ -336,12 +417,6 @@
             color: #fff;
         }
 
-        /* =====================
-                                                       PROMO
-                                                    ===================== */
-        /* =====================
-                                   PROMO
-                                ===================== */
         .promo-section {
             background: #fff;
             padding: 70px 0;
@@ -353,7 +428,6 @@
             /* biar jarak rapi */
         }
 
-        /* ini kuncinya: batasi ukuran gambar */
         .promo-img-wrap {
             max-width: 640px;
             /* ukuran gambar jadi “lebih kecil” */
@@ -370,7 +444,6 @@
             display: block;
         }
 
-        /* teks */
         .promo-content h2 {
             font-size: 42px;
             color: black;
@@ -406,8 +479,8 @@
         }
 
         /* =====================
-                       ABOUT
-                    ===================== */
+                                   ABOUT
+                                ===================== */
         .about-section {
             padding: 80px 0;
             background: #fff9f0;
@@ -451,6 +524,73 @@
 
             .about-image {
                 height: 220px;
+            }
+        }
+
+        /*** Hero Header ***/
+        .hero-header {
+            position: relative;
+            margin-top: -85px;
+            padding-top: 10rem;
+            padding-bottom: 5rem;
+            background: #fff9f0;
+            /* base putih */
+        }
+
+        .hero-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            background: #dfc8a7;
+            clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+            z-index: 0;
+        }
+
+        .hero-header .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-header .breadcrumb-item+.breadcrumb-item::before {
+            color: var(--bs-light);
+        }
+
+
+        .cake-card {
+            position: relative;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .cake-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, .12);
+        }
+
+        .cake-accent {
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 38%;
+            background: radial-gradient(120% 100% at 0% 50%, rgba(205, 32, 2, .12), transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Utilities untuk badge Bootstrap 5.3+ fallback */
+        .bg-danger-subtle {
+            background-color: rgba(205, 32, 2, .12) !important;
+        }
+
+        .text-danger-emphasis {
+            color: #cd2002 !important;
+        }
+.features h3 {
+            font-size: 2rem;
+        }
+        @media (max-width: 576px) {
+            .features h3 {
+                font-size: 1.6rem;
             }
         }
     </style>

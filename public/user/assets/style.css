@@ -1022,3 +1022,80 @@ figure.instagram-item img.insta-image {
 #header {
     background-color: #f5f5e3; /* Ganti dengan warna yang Anda inginkan */
 }
+
+
+/* jam operasinal */
+
+/* Sub Judul */
+.section-subtitle {
+    text-transform: uppercase;
+    color: #6c757d;
+    letter-spacing: 2px;
+    font-size: 14px;
+    margin-bottom: 20px; /* tambahkan jarak di sini */
+    display: block;
+}
+
+/* Judul Utama */
+.section-title {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    line-height: 1.3; /* supaya teks nggak terlalu rapat */
+    color: #222;
+}
+
+/* Deskripsi */
+.section-desc {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    font-size: 18px;
+}
+
+/* Card Informasi */
+.info-card {
+    background-color: #f9ab6b;
+    color: rgb(211, 16, 16);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    width: 80%;
+    height: 400px;
+    min-width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Judul Card */
+.info-title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-title img {
+    height: 35px;
+}
+
+/* Garis Pemisah */
+.info-card hr {
+    border-color: rgba(255,255,255,0.3);
+    margin: 10px 0 20px;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+    .info-card {
+        width: 100%;
+    }
+}

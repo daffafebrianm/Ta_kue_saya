@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\user;
 
-use App\Http\Controllers\Controller;
+use Midtrans\Snap;
+use Midtrans\Config;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Midtrans\Config;
-use Midtrans\Snap;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PembayaranController extends Controller
 {
-  // Controller
-public function index($orderId)
+    // Controller
+    public function index($orderId)
     {
         // Ambil ID pengguna yang sedang login
         $userId = Auth::id();
@@ -26,7 +27,7 @@ public function index($orderId)
 
         // Jika pesanan tidak ditemukan atau tidak milik user yang login
         if (!$order) {
-            return redirect()->route('user.orders.index')->with('error', 'Pesanan tidak ditemukan.');
+            return redirect()->route('user.order.index')->with('error', 'Pesanan tidak ditemukan.');
         }
 
         // Setup Midtrans
@@ -36,7 +37,7 @@ public function index($orderId)
         Config::$is3ds = true;
 
 
-    $orderDetail = $order->orderDetails->first(); // Asumsikan hanya satu produk per pesanan
+        $orderDetail = $order->orderDetails->first(); // Asumsikan hanya satu produk per pesanan
         // Param pembayaran untuk Midtrans
         $params = [
             'transaction_details' => [
@@ -55,97 +56,99 @@ public function index($orderId)
         try {
             $snapToken = Snap::getSnapToken($params);
         } catch (\Exception $e) {
-            return redirect()->route('user.orders.index')->with('error', 'Terjadi kesalahan saat menghubungkan dengan Midtrans: ' . $e->getMessage());
+            return redirect()->route('Pembayaran.index')->with('error', 'Terjadi kesalahan saat menghubungkan dengan Midtrans: ' . $e->getMessage());
         }
 
         // Kirim data pesanan dan snapToken ke view
         return view('user.pembayaran.index', compact('order', 'snapToken'));
     }
-public function callback(Request $request)
-{
-    // Ambil server key dari konfigurasi
-    $serverKey = config('midtrans.server_key');
+    public function callback(Request $request)
+    {
+        // Ambil server key dari konfigurasi
+        $serverKey = config('midtrans.server_key');
 
-    // Validasi signature key dari Midtrans
-    $hashed = hash(
-        "sha512",
-        $request->order_id .
-        $request->status_code .
-        $request->gross_amount .
-        $serverKey
-    );
+        // Validasi signature key dari Midtrans
+        $hashed = hash(
+            "sha512",
+            $request->order_id .
+                $request->status_code .
+                $request->gross_amount .
+                $serverKey
+        );
 
-    // Periksa apakah signature key valid
-    if ($hashed !== $request->signature_key) {
-        return response()->json(['error' => 'Invalid signature'], 403);
-    }
-
-    // Cari pesanan berdasarkan order_id
-    $pesanan = Order::where('order_code', $request->order_id)->first();
-
-    // Pastikan pesanan ada
-    if (!$pesanan) {
-        return response()->json(['error' => 'Pesanan tidak ditemukan'], 404);
-    }
-
-    // Ambil status transaksi dan status fraud dari notifikasi
-    $transaction = $request->transaction_status;
-    $fraud = $request->fraud_status;
-
-    // Proses berdasarkan status transaksi
-    if ($transaction == 'capture' || $transaction == 'settlement') {
-        // Jika transaksi berhasil dan tidak ada fraud
-        if ($fraud == 'accept') {
-            // Update status pembayaran dan pengiriman
-            $pesanan->update([
-                'payment_status' => 'paid',
-                'shipping_status' => 'processing',
-            ]);
-
-            // Kurangi stok produk untuk setiap item yang dipesan
-            foreach ($pesanan->orderDetails as $item) {
-                if ($item->produk) {
-                    $produk = $item->produk;
-                    $stokProduk = $produk->stok;
-
-                    // Pastikan stok cukup
-                    if ($stokProduk >= $item->quantity) {
-                        // Mengurangi stok dengan transaksi DB untuk memastikan konsistensi
-                        DB::beginTransaction();
-                        try {
-                            $produk->update([
-                                'stok' => $stokProduk - $item->quantity
-                            ]);
-                            DB::commit(); // Commit jika berhasil
-                        } catch (\Exception $e) {
-                            DB::rollBack(); // Rollback jika terjadi error
-                            return response()->json(['error' => 'Gagal mengupdate stok produk'], 500);
-                        }
-                    } else {
-                        return response()->json(['error' => 'Stok produk tidak cukup'], 400);
-                    }
-                }
-            }
+        if ($hashed !== $request->signature_key) {
+            Log::warning("Midtrans signature invalid for order {$request->order_id}");
+            return response()->json(['error' => 'Invalid signature'], 403);
         }
-    } elseif ($transaction == 'pending') {
-        $pesanan->update([
-            'payment_status' => 'pending',
-            'shipping_status' => 'pending',
-        ]);
-    } else { // deny, expire, cancel
-        $pesanan->update([
-            'payment_status' => 'cancel',
-            'shipping_status' => 'cancel',
-        ]);
+
+        // Ambil pesanan beserta orderDetails dan produk masing-masing
+        $pesanan = Order::with('orderDetails.produk')
+            ->where('order_code', $request->order_id)
+            ->first();
+
+        if (!$pesanan) {
+            Log::warning("Pesanan tidak ditemukan: {$request->order_id}");
+            return response()->json(['error' => 'Pesanan tidak ditemukan'], 404);
+        }
+
+        $transaction = $request->transaction_status;
+        $fraud = $request->fraud_status;
+
+        try {
+            DB::beginTransaction();
+
+            if (in_array($transaction, ['capture', 'settlement']) && $fraud == 'accept') {
+                // Update status pesanan
+                $pesanan->update([
+                    'payment_status' => 'paid',
+                    'shipping_status' => 'processing',
+                ]);
+
+                // Kurangi stok produk
+                foreach ($pesanan->orderDetails as $item) {
+                    $produk = $item->produk;
+
+                    if (!$produk) {
+                        Log::error("Produk ID {$item->product_id} tidak ditemukan");
+                        throw new \Exception("Produk tidak ditemukan");
+                    }
+
+                    if ($produk->stok < $item->jumlah) {
+                        Log::error("Stok produk {$produk->nama} tidak cukup. Stok: {$produk->stok}, Qty: {$item->jumlah}");
+                        throw new \Exception("Stok produk {$produk->nama} tidak cukup");
+                    }
+
+                    // Mengurangi stok
+                    $produk->decrement('stok', $item->jumlah);
+
+                    Log::info("Stok produk {$produk->nama} dikurangi {$item->jumlah}. Sisa: " . ($produk->stok - $item->jumlah));
+                }
+            } elseif ($transaction == 'pending') {
+                $pesanan->update([
+                    'payment_status' => 'pending',
+                    'shipping_status' => 'pending',
+                ]);
+            } else { // deny, expire, cancel
+                $pesanan->update([
+                    'payment_status' => 'cancel',
+                    'shipping_status' => 'cancel',
+                ]);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error("Gagal memproses callback Midtrans untuk order {$pesanan->order_code}: " . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+        return response()->json(['success' => true]);
     }
 
-    return response()->json(['success' => true]);
-}
 
 
 
-
-  // Method untuk menampilkan halaman sukses pembayaran
+    // Method untuk menampilkan halaman sukses pembayaran
     public function success($orderId)
     {
         // Cari pesanan berdasarkan orderId
@@ -159,5 +162,4 @@ public function callback(Request $request)
         // Kirim data pesanan ke view pembayaran.success
         return view('user.pembayaran.pembayaran-succes', compact('order'));
     }
-
 }

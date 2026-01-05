@@ -115,7 +115,7 @@
             width: 100%;
             height: 50px;
             border-radius: 10px;
-            background: #6F3CC3;
+            background: #d8ae73;
             color: #fff;
             font-weight: 700;
             text-transform: uppercase;
@@ -124,7 +124,7 @@
         }
 
         .btn-register:hover {
-            background: #5D2EAD;
+            background: #d8ae73;
         }
 
         .new-account {
@@ -134,7 +134,7 @@
         }
 
         .new-account a {
-            color: #6F3CC3;
+            color: #d8ae73;
             font-weight: 700;
             text-decoration: none;
         }

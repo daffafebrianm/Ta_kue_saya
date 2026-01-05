@@ -2,20 +2,31 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Kategori;
 use App\Models\Produk;
+use App\Models\Kategori;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rules\File;
 
 class ProdukController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $produks = Produk::with('kategori')->paginate(10);
+        $search = $request->input('search'); // ambil keyword pencarian
 
-        return view('admin.product.index', compact('produks'));
+        $produks = Produk::with('kategori')
+            ->when($search, function ($query, $search) {
+                $query->where('nama', 'like', "%{$search}%");
+            })
+            ->paginate(10);
+
+        // biar keyword-nya ikut ke pagination berikutnya
+        $produks->appends(['search' => $search]);
+
+        return view('admin.product.index', compact('produks', 'search'));
     }
+
 
     /**
      * Tampilkan form tambah produk baru.
@@ -38,7 +49,7 @@ class ProdukController extends Controller
             'deskripsi' => 'required|string',
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
-            'gambar' => ['nullable', File::image()->types(['jpg','jpeg','png','webp'])->max('2mb')],
+            'gambar' => ['nullable', File::image()->types(['jpg', 'jpeg', 'png', 'webp'])->max('2mb')],
             'berat' => 'required|numeric|min:0',
             'status' => 'required|in:aktif,nonaktif',
         ], [
@@ -149,9 +160,9 @@ class ProdukController extends Controller
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
-        public function show()
+    public function show()
     {
-      //
+        //
     }
 
     /**
@@ -163,5 +174,17 @@ class ProdukController extends Controller
         $produk->delete();
 
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus.');
+    }
+
+    public function cetakPDF()
+    {
+        $produks = Produk::with('kategori')->get();
+
+
+        $pdf = Pdf::loadView('admin.product.laporan', compact('produks'))
+            ->setPaper('A4', orientation: 'landscape');
+        // dd($produks);
+
+        return $pdf->stream('daftar_produk.pdf');
     }
 }

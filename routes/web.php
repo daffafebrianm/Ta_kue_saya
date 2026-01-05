@@ -39,10 +39,11 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::middleware(['isAdmin'])->group(function () {
 
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard');
+    Route::get('/produk/laporan-pdf', [ProdukController::class, 'cetakPDF'])->name('produk.pdf');
 
     Route::resource('/produk', ProdukController::class);
     Route::resource('/kategori', KategoriController::class);
-    Route::resource('/kategori', KategoriController::class);
+
 
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
     Route::post('/users', [UserController::class, 'store'])->name('user.store');

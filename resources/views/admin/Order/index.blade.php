@@ -1,230 +1,222 @@
 @extends('admin.layouts.main')
+
 @section('content')
     <style>
-        .page-title {
-            font-size: 44px;
-            font-weight: 800;
-            color: #1f2a44;
-            margin: 10px 0 22px;
+        /* 🌐 Style dasar tabel & teks */
+        .table td,
+        .table th {
+            color: #111827 !important;
+            vertical-align: middle !important;
         }
 
-        .panel {
-            background: #fff;
-            border: 1px solid #e6e9ef;
-            border-radius: 10px;
-            padding: 18px;
-            box-shadow: 0 10px 28px rgba(16, 24, 40, .06);
+        .table thead th {
+            background: #f8fafc !important;
+            color: #0f172a !important;
+            font-weight: 600;
+            border-bottom: 2px solid #e5e7eb !important;
         }
 
-        /* Tabel mirip gambar */
-        .table-wrap {
-            overflow-x: auto;
-            border-radius: 10px;
-            border: 1px solid #e6e9ef;
-        }
-
-        .table-custom {
-            margin: 0;
+        .table {
+            border-color: #e5e7eb !important;
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            font-size: 15px;
         }
 
-        .table-custom thead th {
-            background: #f6f7f9;
-            color: #111827;
-            text-transform: uppercase;
-            font-weight: 800;
-            letter-spacing: .02em;
-            font-size: 13px;
-            padding: 14px 14px;
-            border-bottom: 1px solid #e6e9ef;
-            text-align: center;
+        .table tbody tr:hover {
+            background: #f3f4f6 !important;
+            transition: background 0.2s ease;
+        }
+
+        .table td {
             white-space: nowrap;
         }
 
-        .table-custom tbody td {
-            padding: 14px 14px;
-            border-bottom: 1px solid #eef1f5;
-            text-align: center;
-            vertical-align: middle;
-            white-space: nowrap;
-        }
-
-        .table-custom tbody tr:nth-child(odd) {
-            background: #ffffff;
-        }
-
-        .table-custom tbody tr:nth-child(even) {
-            background: #fbfcfe;
-        }
-
-        .table-custom tbody tr:hover {
-            background: #f2f4f7;
-        }
-
-        .text-left {
-            text-align: left !important;
-        }
-
-        .text-right {
-            text-align: right !important;
-        }
-
-        /* Badge pill kayak Admin/Customer */
+        /* Badge status */
         .badge-pill {
             display: inline-block;
-            padding: 7px 14px;
-            border-radius: 999px;
-            font-weight: 800;
-            font-size: 12px;
-            color: #111827;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: capitalize;
         }
 
         .badge-green {
-            background: #7CDE5A;
+            background-color: #28a745;
+            color: white;
         }
 
         .badge-orange {
-            background: #F7B23B;
+            background-color: #ffc107;
+            color: #212529;
         }
 
         .badge-red {
-            background: #ff4d4d;
-            color: #fff;
+            background-color: #dc3545;
+            color: white;
         }
 
         .badge-gray {
-            background: #E5E7EB;
+            background-color: #adb5bd;
+            color: white;
         }
 
-        /* Tombol ikon */
-        .btn-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            cursor: pointer;
-            color: #111;
-            text-decoration: none;
+        .badge-blue {
+            background-color: #60a5fa !important;
+            /* biru lembut */
+            color: #fff !important;
         }
 
-        .btn-view {
-            background: #3b82f6;
+        /* Tombol aksi */
+        .btn-action {
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            padding: 6px 10px !important;
+        }
+
+        .btn-action i {
+            font-size: 1rem;
+        }
+
+        .btn-action.view {
+            background-color: #3b82f6;
             color: #fff;
+            border: none;
         }
 
-        /* biru */
+        .btn-action.view:hover {
+            background-color: #2563eb;
+        }
     </style>
 
-    <div class="container py-3">
-
-        <div class="page-title">Daftar Order</div>
-
-        <div class="panel">
-            <div class="table-wrap">
-                <table class="table-custom">
-                    <thead>
-                        <tr>
-                            <th style="width:70px;">No</th>
-                            <th>Order Code</th>
-                            <th class="text-left">Nama</th>
-                            <th class="text-left">Alamat</th>
-                            <th class="text-right">Total</th>
-                            <th>Payment Status</th>
-                            <th>Shipping Status</th>
-                            <th>Tanggal Pesanan</th>
-                            <th class="text-left">Note</th>
-                            <th style="width:90px;">Aksi</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @forelse ($orders as $index => $order)
-                            @php
-                                $pay = strtolower($order->payment_status ?? '');
-                                $ship = strtolower($order->shipping_status ?? '');
-
-                                // Sesuaikan mapping status kamu
-                                $payClass = match (true) {
-                                    in_array($pay, ['paid', 'success', 'settlement']) => 'badge-green',
-                                    $pay === 'pending' => 'badge-orange',
-                                    in_array($pay, ['failed', 'expire', 'cancel']) => 'badge-red',
-                                    default => 'badge-gray',
-                                };
-
-                                $shipClass = match (true) {
-                                    in_array($ship, ['delivered', 'done']) => 'badge-green',
-                                    in_array($ship, ['shipped', 'process']) => 'badge-orange',
-                                    default => 'badge-gray',
-                                };
-                            @endphp
-
-                            <tr>
-                                <td>{{ $orders->firstItem() + $index }}</td>
-
-                                <td style="font-weight:900; color:#111827;">
-                                    {{ $order->order_code }}
-                                </td>
-
-                                <td class="text-left">
-                                    {{ $order->user->nama ?? '-' }}
-                                </td>
-
-                                <td class="text-left" style="max-width:340px; white-space:normal;">
-                                    {{ $order->alamat }}
-                                </td>
-
-                                <td class="text-right" style="font-weight:900;">
-                                    Rp {{ number_format($order->totalharga, 0, ',', '.') }}
-                                </td>
-
-                                <td>
-                                    <span class="badge-pill {{ $payClass }}">
-                                        {{ ucfirst($order->payment_status ?? '-') }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <span class="badge-pill {{ $shipClass }}">
-                                        {{ ucfirst($order->shipping_status ?? '-') }}
-                                    </span>
-                                </td>
-
-                                {{-- FIX: ini harus order_date, bukan shipping_method --}}
-                                <td class="text-nowrap">
-                                    {{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}
-                                </td>
-
-                                <td class="text-left" style="max-width:260px; white-space:normal;">
-                                    {{ $order->note ?? '-' }}
-                                </td>
-
-                                <td>
-                                    <a href="{{ route('orders.show', $order->id) }}" class="btn-icon btn-view"
-                                        title="Lihat">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="10" style="padding:18px; color:#6b7280;">
-                                    Belum ada order.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+    <div class="container-fluid px-3 px-md-4">
+        <div class="card mt-4 border-0 shadow-sm">
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center flex-wrap">
+                <h4 class="mb-0 fw-semibold text-dark">Daftar Order</h4>
             </div>
 
-            <div class="d-flex justify-content-center mt-3">
-                {{ $orders->links() }}
+            <div class="card-body">
+                <form action="{{ route('orders.index') }}" method="GET" id="formSearch" class="d-flex mb-3">
+                    <input type="text" name="search" id="searchInput" value="{{ $search ?? '' }}"
+                        class="form-control me-2" placeholder="Cari berdasarkan kode order...">
+                    <button type="button" class="btn btn-primary" disabled style="pointer-events:none;">Cari</button>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped align-middle text-center">
+                        <thead class="text-nowrap">
+                            <tr>
+                                <th>No</th>
+                                <th>Order Code</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>Total</th>
+                                <th>Tanggal Pesanan</th>
+                                <th>Payment Status</th>
+                                <th>Shipping Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($orders as $index => $order)
+                                @php
+                                    $pay = strtolower($order->payment_status ?? '');
+                                    $ship = strtolower($order->shipping_status ?? '');
+
+                                    $payClass = match (true) {
+                                        in_array($pay, ['paid', 'success', 'settlement']) => 'badge-green', // Lunas
+                                        $pay === 'pending' => 'badge-orange',
+                                        in_array($pay, ['failed', 'expire', 'cancel', 'canceled']) => 'badge-red',
+                                        default => 'badge-gray',
+                                    };
+
+                                    $shipClass = match (true) {
+                                        in_array($ship, ['completed', 'delivered', 'done']) => 'badge-green',
+                                        in_array($ship, ['shipped']) => 'badge-orange',
+                                        in_array($ship, ['processing', 'process', 'packing']) => 'badge-blue',
+                                        in_array($ship, ['cancel', 'canceled']) => 'badge-red',
+                                        default => 'badge-gray',
+                                    };
+                                @endphp
+
+
+                                <tr>
+                                    <td>{{ $orders->firstItem() + $index }}</td>
+                                    <td class=>{{ $order->order_code }}</td>
+                                    <td>{{ $order->user->nama ?? '-' }}</td>
+                                    <td class="text-start" style="max-width:280px; white-space:normal;">
+                                        {{ $order->alamat }}
+                                    </td>
+                                    <td class="text-end fw-semibold">Rp {{ number_format($order->totalharga, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-nowrap">
+                                        {{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}
+                                    </td>
+                                    <td>
+                                        <span class="badge-pill {{ $payClass }}">
+                                            {{ ucfirst($order->payment_status ?? '-') }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge-pill {{ $shipClass }}">
+                                            {{ ucfirst($order->shipping_status ?? '-') }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <!-- Tombol Lihat -->
+                                        <a href="{{ route('orders.show', $order->id) }}"
+                                            class="btn btn-sm btn-primary me-1" title="Lihat Order">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+
+                                        {{--  <!-- Tombol Edit -->
+                                        <a href="{{ route('#', $order->id) }}"
+                                            class="btn btn-sm btn-warning me-1" title="Edit Order">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </a>
+
+                                        <!-- Tombol Hapus -->
+                                        <form action="{{ route('orders.destroy', $order->id) }}" method="POST"
+                                            class="d-inline" onsubmit="return confirm('Yakin ingin menghapus order ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus Order">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </form>  --}}
+                                    </td>
+
+
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="10" class="text-center text-muted py-3">
+                                        Belum ada order.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-center mt-3">
+                    {{ $orders->links() }}
+                </div>
             </div>
         </div>
     </div>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            let delayTimer;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(delayTimer);
+                delayTimer = setTimeout(() => {
+                    this.form.submit();
+                }, 500); // 0.5 detik setelah user berhenti mengetik
+            });
+        }
+    });
+</script>

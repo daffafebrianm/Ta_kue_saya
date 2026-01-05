@@ -133,7 +133,7 @@
         }
 
         .summary-total .amount {
-            color: #7a3e8a;
+            color: #b58045;
         }
 
         /* proceed button */
@@ -143,7 +143,7 @@
             padding: 14px 18px;
             border-radius: 10px;
             border: 0;
-            background: #7a3e8a;
+            background: #c3ae8e;
             color: #fff;
             font-weight: 900;
             letter-spacing: .08em;
@@ -152,71 +152,77 @@
         }
 
         /* shipping method UI */
-        .ship-title {
-            font-weight: 900;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            margin-top: 22px;
-            margin-bottom: 14px;
-        }
+.ship-title {
+    font-weight: 900;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-top: 22px;
+    margin-bottom: 14px;
+}
 
-        .ship-options {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
+.ship-options {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
 
-        .ship-option {
-            position: relative;
-            flex: 0 0 210px;
-        }
+.ship-option {
+    position: relative;
+    flex: 0 0 210px;
+}
 
-        .ship-option input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
+.ship-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
 
-        .ship-card {
-            border-radius: 6px;
-            background: #b08f5a;
-            color: #fff;
-            padding: 16px 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            user-select: none;
-        }
+.ship-card {
+    border-radius: 6px;
+    background: #9d773f;
+    color: #fff;
+    padding: 12px 14px; /* dikurangi biar lebih compact */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* jarak dot dan teks dikurangi */
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.3s;
+}
 
-        .ship-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 999px;
-            border: 2px solid rgba(255, 255, 255, .9);
-            display: inline-block;
-            position: relative;
-            flex: 0 0 auto;
-        }
+.ship-card:hover {
+    background: #a47c4a; /* hover efek */
+}
 
-        .ship-option input:checked+label .ship-dot::after {
-            content: "";
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: #fff;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
+.ship-dot {
+    width: 12px;  /* sebelumnya 14px */
+    height: 12px; /* sebelumnya 14px */
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, .9);
+    display: inline-block;
+    position: relative;
+    flex: 0 0 auto;
+}
 
-        .ship-text {
-            font-weight: 900;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            font-size: 14px;
-        }
+.ship-option input:checked + label .ship-dot::after {
+    content: "";
+    width: 6px;   /* sebelumnya 8px */
+    height: 6px;  /* sebelumnya 8px */
+    border-radius: 999px;
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ship-text {
+    font-weight: 900;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-size: 13px; /* sebelumnya 14px, lebih compact */
+}
+
 
         @media (max-width: 992px) {
             .checkout-wrap {
@@ -329,11 +335,6 @@
                         <div class="summary-row">
                             <span>Sub Total</span>
                             <strong>Rp {{ number_format($subtotal, 0, ',', '.') }}</strong>
-                        </div>
-
-                        <div class="summary-row" style="border-bottom:1px solid #e5e7eb; padding-bottom:14px;">
-                            <span>Shipping</span>
-                            <strong>Rp 0</strong>
                         </div>
 
                         <div class="summary-total">

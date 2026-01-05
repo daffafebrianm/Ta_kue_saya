@@ -8,11 +8,21 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with('user')->paginate(10);
-        return view('admin.order.index', compact('orders'));
+        $search = $request->input('search');
+
+        $orders = Order::with('user')
+            ->when($search, function ($query, $search) {
+                $query->where('order_code', 'like', "%{$search}%");
+            })
+            ->orderBy('order_date', 'desc')
+            ->paginate(10)
+            ->appends(['search' => $search]);
+
+        return view('admin.order.index', compact('orders', 'search'));
     }
+
 
     public function show($id)
     {
