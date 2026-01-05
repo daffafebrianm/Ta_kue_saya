@@ -12,6 +12,13 @@
              </li>
              <li>
 
+             <li class="{{ Request::is('barang-masuk*') ? 'mm-active' : '' }}">
+                 <a href="/barang-masuk">
+                     <i class="bi bi-box-arrow-in-down"></i>
+                     <span class="nav-text">Barang Masuk</span>
+                 </a>
+             </li>
+
              <li class="{{ Request::is('produk*') ? 'mm-active' : '' }}">
                  <a href="/produk">
                      <i class="bi bi-box-seam"></i>
@@ -26,13 +33,6 @@
                  </a>
              </li>
 
-             <li class="{{ Request::is('users*') ? 'mm-active' : '' }}">
-                 <a href="/users">
-                     <i class="bi bi-people"></i>
-                     <span class="nav-text">User</span>
-                 </a>
-             </li>
-
              <li class="{{ Request::is('orders*') ? 'mm-active' : '' }}">
                  <a href="/orders">
                      <i class="bi bi-cart-check"></i>
@@ -42,11 +42,19 @@
 
              <li class="{{ Request::is('keuangan*') ? 'mm-active' : '' }}">
 
-                 <a href="/mana">
+                 <a href="/keuangan">
                      <i class="bi bi-cash-stack"></i>
                      <span class="nav-text">Keuangan</span>
                  </a>
              </li>
+
+             <li class="{{ Request::is('users*') ? 'mm-active' : '' }}">
+                 <a href="/users">
+                     <i class="bi bi-people"></i>
+                     <span class="nav-text">User</span>
+                 </a>
+             </li>
+
          </ul>
      </div>
  </div>

@@ -14,7 +14,9 @@ class OrderDetail extends Model
         'produk_id', // Relasi ke produk
         'jumlah',
         'harga',
+        'harga_modal',
         'total',
+        'laba',
 
     ];
 

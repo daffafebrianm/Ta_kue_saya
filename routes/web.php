@@ -1,23 +1,25 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardAdminController;
-use App\Http\Controllers\admin\KategoriController;
-use App\Http\Controllers\admin\OrderController;
-use App\Http\Controllers\admin\ProdukController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\LandingPageController;
-use App\Http\Controllers\user\AboutUsController;
 use App\Http\Controllers\user\CekOutController;
-use App\Http\Controllers\user\DetailProdukController;
-use App\Http\Controllers\User\KeranjangController;
-use App\Http\Controllers\user\LocationController;
-use App\Http\Controllers\user\PembayaranController;
-use App\Http\Controllers\user\ProductKatalogController;
+use App\Http\Controllers\admin\ProdukController;
+use App\Http\Controllers\user\AboutUsController;
 use App\Http\Controllers\user\ProfileController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\user\LocationController;
+use App\Http\Controllers\admin\KategoriController;
+use App\Http\Controllers\User\KeranjangController;
+use App\Http\Controllers\user\PembayaranController;
+use App\Http\Controllers\admin\BarangMasukController;
+use App\Http\Controllers\user\DetailProdukController;
+use App\Http\Controllers\user\ProductKatalogController;
 use App\Http\Controllers\user\RiwayatPesananController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardAdminController;
 
 // LANDING PAGE (Tampilan awal user & admin)
 
@@ -40,10 +42,13 @@ Route::middleware(['isAdmin'])->group(function () {
 
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard');
     Route::get('/produk/laporan-pdf', [ProdukController::class, 'cetakPDF'])->name('produk.pdf');
+    Route::get('/barang-masuk/laporan-pdf', [BarangMasukController::class, 'cetakPDF'])->name('barang-masuk.pdf');
 
     Route::resource('/produk', ProdukController::class);
     Route::resource('/kategori', KategoriController::class);
+    Route::resource('/barang-masuk', BarangMasukController::class);
 
+    Route::get('/keuangan', [KeuanganController::class, 'index'])->name('keuangan.index');
 
     Route::get('/users', [UserController::class, 'index'])->name('user.index');
     Route::post('/users', [UserController::class, 'store'])->name('user.store');
@@ -64,6 +69,10 @@ Route::middleware(['isCustomer'])->group(function () {
     Route::delete('/keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
     Route::delete('/keranjang', [KeranjangController::class, 'clear'])->name('keranjang.clear');
 
+
+    Route::get('/Payment/{orderId}', [PembayaranController::class, 'index'])->name('Pembayaran.index');
+    Route::get('/Payment/success/{orderId}', [PembayaranController::class, 'success'])->name('Pembayaran.success');
+
     Route::get('/Checkout', [CekOutController::class, 'index'])->name('Checkout.index');
     Route::post('/Checkout', [CekOutController::class, 'store'])->name('Checkout.store');
 
@@ -75,8 +84,6 @@ Route::middleware(['isCustomer'])->group(function () {
     Route::get('/about_us', [AboutUsController::class, 'index'])->name('about.index');
     Route::get('/location', [LocationController::class, 'index'])->name('location.index');
 
-    Route::get('/Payment/{orderId}', [PembayaranController::class, 'index'])->name('Pembayaran.index');
-    Route::get('/Payment/success/{orderId}', [PembayaranController::class, 'success'])->name('Pembayaran.success');
 
     // =========================
 

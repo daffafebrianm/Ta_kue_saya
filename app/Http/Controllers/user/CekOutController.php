@@ -75,101 +75,119 @@ class CekOutController extends Controller
             'phone_number' => 'required|numeric',
             'alamat' => 'required|string',
             'shipping_method' => 'required|in:picked up,delivered',
-            // untuk BUY NOW (optional)
+            // Untuk BUY NOW (opsional)
             'produk_id' => 'nullable|integer|exists:produks,id',
             'jumlah' => 'nullable|integer|min:1',
             'note' => 'nullable|string',
         ]);
 
-        return DB::transaction(function () use ($request) {
-            $order_code = $this->generateOdrId();
+        try {
+            // Jalankan transaksi database
+            $pesanan = DB::transaction(function () use ($request) {
+                $order_code = $this->generateOdrId();
+                $produkId = $request->input('produk_id');
+                $jumlah = max(1, (int) $request->input('jumlah', 1));
 
-            $produkId = $request->input('produk_id');
-            $jumlah = (int) $request->input('jumlah', 1);
-            $jumlah = max(1, $jumlah);
+                // 🔹 1. Tentukan sumber item (BUY NOW / CART)
+                if ($produkId) {
+                    // Mode BUY NOW
+                    $produk = Produk::lockForUpdate()->findOrFail($produkId);
 
-            // Tentukan sumber item: BUY NOW atau CART
-            if ($produkId) {
-                // BUY NOW source
-                $produk = Produk::lockForUpdate()->findOrFail($produkId);
+                    if ($produk->stok < $jumlah) {
+                        throw new \Exception('Stok tidak mencukupi.');
+                    }
 
-                if ($produk->stok < $jumlah) {
-                    return redirect()->back()->with('error', 'Stok tidak mencukupi.');
-                }
-
-                $items = collect([
-                    [
+                    $items = collect([[
                         'produk_id' => $produk->id,
                         'jumlah' => $jumlah,
                         'harga' => $produk->harga,
                         'total' => $produk->harga * $jumlah,
                         'produk' => $produk,
-                    ],
-                ]);
+                    ]]);
+                } else {
+                    // Mode CART
+                    $keranjangs = Keranjang::with('produk')
+                        ->where('user_id', Auth::id())
+                        ->lockForUpdate()
+                        ->get();
 
-                $totalharga = $items->sum('total');
-            } else {
-                // CART source
-                $keranjangs = Keranjang::with('produk')
-                    ->where('user_id', Auth::id())
-                    ->lockForUpdate()
-                    ->get();
+                    if ($keranjangs->isEmpty()) {
+                        throw new \Exception('Keranjang kosong.');
+                    }
 
-                if ($keranjangs->isEmpty()) {
-                    return redirect()->route('keranjang.index')->with('error', 'Keranjang kosong.');
+                    $items = $keranjangs->map(function ($k) {
+                        return [
+                            'produk_id' => $k->produk_id,
+                            'jumlah' => $k->jumlah,
+                            'harga' => $k->produk->harga,
+                            'total' => $k->produk->harga * $k->jumlah,
+                            'produk' => $k->produk,
+                        ];
+                    });
                 }
 
-                $items = $keranjangs->map(function ($k) {
-                    return [
-                        'produk_id' => $k->produk_id,
-                        'jumlah' => $k->jumlah,
-                        'harga' => $k->produk->harga,
-                        'total' => $k->produk->harga * $k->jumlah,
-                        'produk' => $k->produk,
-                    ];
-                });
-
                 $totalharga = $items->sum('total');
-            }
 
-            // Simpan order
-            $pesanan = new Order;
-            $pesanan->user_id = Auth::id();
-            $pesanan->order_code = $order_code;
-            $pesanan->nama = $request->nama;
-            $pesanan->phone_number = $request->phone_number;
-            $pesanan->alamat = $request->alamat;
-            $pesanan->shipping_method = $request->shipping_method;
-            $pesanan->totalharga = $totalharga;
-            $pesanan->payment_status = 'pending';
-            $pesanan->shipping_status = 'pending';
-            $pesanan->note = $request->note;
-            $pesanan->order_date = Carbon::now()->toDateString();
-            $pesanan->save();
+                // 🔹 2. Simpan data pesanan utama
+                $pesanan = new Order();
+                $pesanan->user_id = Auth::id();
+                $pesanan->order_code = $order_code;
+                $pesanan->nama = $request->nama;
+                $pesanan->phone_number = $request->phone_number;
+                $pesanan->alamat = $request->alamat;
+                $pesanan->shipping_method = $request->shipping_method;
+                $pesanan->totalharga = $totalharga;
+                $pesanan->payment_status = 'pending';
+                $pesanan->shipping_status = 'pending';
+                $pesanan->note = $request->note;
+                $pesanan->order_date = Carbon::now()->toDateString();
+                $pesanan->save();
 
-            // Simpan detail order
-            foreach ($items as $it) {
-                $pesanan->orderDetails()->create([
-                    'produk_id' => $it['produk_id'],
-                    'jumlah' => $it['jumlah'],
-                    'harga' => $it['harga'],
-                    'total' => $it['total'],
-                ]);
+                // Pastikan ID pesanan terbaca
+                $pesanan->refresh();
 
-                // Optional: kurangi stok
-                // $it['produk']->decrement('stok', $it['jumlah']);
-            }
+                // 🔹 3. Simpan detail pesanan
+                foreach ($items as $it) {
+                    $harga_modal = DB::table('barang_masuks')
+                        ->where('id_produk', $it['produk_id'])
+                        ->orderByDesc('tanggal_masuk')
+                        ->value('harga_modal') ?? 0;
 
-            // Hapus keranjang hanya kalau mode CART
-            if (! $produkId) {
-                Keranjang::where('user_id', Auth::id())->delete();
-            }
+                    $laba = ($it['harga'] - $harga_modal) * $it['jumlah'];
 
+                    $pesanan->orderDetails()->create([
+                        'produk_id' => $it['produk_id'],
+                        'jumlah' => $it['jumlah'],
+                        'harga' => $it['harga'],
+                        'harga_modal' => $harga_modal,
+                        'total' => $it['total'],
+                        'laba' => $laba,
+                    ]);
+                }
+
+                // 🔹 4. Hapus keranjang (kalau bukan BUY NOW)
+                if (!$produkId) {
+                    Keranjang::where('user_id', Auth::id())->delete();
+                }
+
+                // Return objek pesanan agar bisa digunakan di luar transaksi
+                return $pesanan;
+            });
+
+            // 🔹 5. Redirect setelah transaksi sukses
             return redirect()
                 ->route('Pembayaran.index', ['orderId' => $pesanan->id])
-                ->with('success', 'Pesanan berhasil diproses');
-        });
+                ->with('success', 'Pesanan berhasil diproses.');
+        } catch (\Exception $e) {
+            // Jika error, rollback otomatis (karena DB::transaction)
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal memproses pesanan: ' . $e->getMessage());
+        }
     }
+
+
+
 
     private function generateOdrId()
     {
@@ -185,17 +203,17 @@ class CekOutController extends Controller
         if ($id) {
             $id++;
             $no = str_pad($id, 3, '0', STR_PAD_LEFT);
-            $new_id = 'ODR-'.$tanggal.$no;
+            $new_id = 'ODR-' . $tanggal . $no;
 
             while (Order::where('order_code', $new_id)->exists()) {
                 $id++;
                 $no = str_pad($id, 3, '0', STR_PAD_LEFT);
-                $new_id = 'ODR-'.$tanggal.$no;
+                $new_id = 'ODR-' . $tanggal . $no;
             }
 
             return $new_id;
         }
 
-        return 'ODR-'.$tanggal.'001';
+        return 'ODR-' . $tanggal . '001';
     }
 }
