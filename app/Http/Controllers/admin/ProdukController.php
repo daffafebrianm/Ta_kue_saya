@@ -182,7 +182,7 @@ class ProdukController extends Controller
 
 
         $pdf = Pdf::loadView('admin.product.laporan', compact('produks'))
-            ->setPaper('A4', orientation: 'landscape');
+            ->setPaper('A4', orientation: 'potrait');
         // dd($produks);
 
         return $pdf->stream('daftar_produk.pdf');

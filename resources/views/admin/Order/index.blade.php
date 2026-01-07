@@ -62,7 +62,6 @@
 
         .badge-blue {
             background-color: #60a5fa !important;
-            /* biru lembut */
             color: #fff !important;
         }
 
@@ -95,12 +94,56 @@
             </div>
 
             <div class="card-body">
+                {{-- Form Filter Bulan & Tahun --}}
+                <form id="filterForm" method="GET" action="{{ route('orders.index') }}"
+                    class="row g-3 mb-3 align-items-center">
+                    @php
+                        $currentMonth = date('n');
+                        $currentYear = date('Y');
+                    @endphp
+
+                    <div class="col-md-3">
+                        <select name="bulan" class="form-select" id="bulanSelect">
+                            <option value="">-- Pilih Bulan --</option>
+                            @for ($i = 1; $i <= 12; $i++)
+                                <option value="{{ $i }}"
+                                    {{ request('bulan') == $i || (!request('bulan') && $currentMonth == $i) ? 'selected' : '' }}>
+                                    {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                                </option>
+                            @endfor
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <select name="tahun" class="form-select" id="tahunSelect">
+                            @for ($i = $currentYear - 5; $i <= $currentYear; $i++)
+                                <option value="{{ $i }}"
+                                    {{ request('tahun') == $i || (!request('tahun') && $currentYear == $i) ? 'selected' : '' }}>
+                                    {{ $i }}
+                                </option>
+                            @endfor
+                        </select>
+                    </div>
+
+                    <!-- Tombol Cetak PDF di ujung kanan -->
+                    <div class="col d-flex justify-content-end">
+                        <a href="{{ route('orders.pdf', ['bulan' => request('bulan'), 'tahun' => request('tahun')]) }}"
+                            class="btn btn-success" target="_blank">
+                            <i class="bi bi-file-earmark-pdf"></i> Cetak PDF
+                        </a>
+                    </div>
+                </form>
+
+
+                {{-- Form Search --}}
                 <form action="{{ route('orders.index') }}" method="GET" id="formSearch" class="d-flex mb-3">
                     <input type="text" name="search" id="searchInput" value="{{ $search ?? '' }}"
                         class="form-control me-2" placeholder="Cari berdasarkan kode order...">
-                    <button type="button" class="btn btn-primary" disabled style="pointer-events:none;">Cari</button>
+                    <button type="submit" class="btn btn-primary">Cari</button>
                 </form>
 
+
+                {{-- Tabel Order --}}
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover table-striped align-middle text-center">
                         <thead class="text-nowrap">
@@ -123,7 +166,7 @@
                                     $ship = strtolower($order->shipping_status ?? '');
 
                                     $payClass = match (true) {
-                                        in_array($pay, ['paid', 'success', 'settlement']) => 'badge-green', // Lunas
+                                        in_array($pay, ['paid', 'success', 'settlement']) => 'badge-green',
                                         $pay === 'pending' => 'badge-orange',
                                         in_array($pay, ['failed', 'expire', 'cancel', 'canceled']) => 'badge-red',
                                         default => 'badge-gray',
@@ -138,60 +181,32 @@
                                     };
                                 @endphp
 
-
                                 <tr>
                                     <td>{{ $orders->firstItem() + $index }}</td>
-                                    <td class=>{{ $order->order_code }}</td>
+                                    <td>{{ $order->order_code }}</td>
                                     <td>{{ $order->user->nama ?? '-' }}</td>
                                     <td class="text-start" style="max-width:280px; white-space:normal;">
                                         {{ $order->alamat }}
                                     </td>
-                                    <td class="text-end fw-semibold">Rp {{ number_format($order->totalharga, 0, ',', '.') }}
+                                    <td class="text-end fw-semibold">Rp
+                                        {{ number_format($order->totalharga, 0, ',', '.') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}</td>
+                                    <td><span
+                                            class="badge-pill {{ $payClass }}">{{ ucfirst($order->payment_status ?? '-') }}</span>
                                     </td>
-                                    <td class="text-nowrap">
-                                        {{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}
-                                    </td>
-                                    <td>
-                                        <span class="badge-pill {{ $payClass }}">
-                                            {{ ucfirst($order->payment_status ?? '-') }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="badge-pill {{ $shipClass }}">
-                                            {{ ucfirst($order->shipping_status ?? '-') }}
-                                        </span>
+                                    <td><span
+                                            class="badge-pill {{ $shipClass }}">{{ ucfirst($order->shipping_status ?? '-') }}</span>
                                     </td>
                                     <td class="text-center">
-                                        <!-- Tombol Lihat -->
                                         <a href="{{ route('orders.show', $order->id) }}"
                                             class="btn btn-sm btn-primary me-1" title="Lihat Order">
                                             <i class="bi bi-eye-fill"></i>
                                         </a>
-
-                                        {{--  <!-- Tombol Edit -->
-                                        <a href="{{ route('#', $order->id) }}"
-                                            class="btn btn-sm btn-warning me-1" title="Edit Order">
-                                            <i class="bi bi-pencil-fill"></i>
-                                        </a>
-
-                                        <!-- Tombol Hapus -->
-                                        <form action="{{ route('orders.destroy', $order->id) }}" method="POST"
-                                            class="d-inline" onsubmit="return confirm('Yakin ingin menghapus order ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus Order">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </form>  --}}
                                     </td>
-
-
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10" class="text-center text-muted py-3">
-                                        Belum ada order.
-                                    </td>
+                                    <td colspan="9" class="text-center text-muted py-3">Belum ada order.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -205,16 +220,28 @@
         </div>
     </div>
 @endsection
-
+{{-- Script otomatis submit filter & search --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // --- Filter Bulan & Tahun ---
+        const filterForm = document.getElementById('filterForm');
+        const bulanSelect = document.getElementById('bulanSelect');
+        const tahunSelect = document.getElementById('tahunSelect');
+
+        if (bulanSelect && tahunSelect && filterForm) {
+            // Submit otomatis saat dropdown berubah
+            bulanSelect.addEventListener('change', () => filterForm.submit());
+            tahunSelect.addEventListener('change', () => filterForm.submit());
+        }
+
+        // --- Search otomatis ---
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             let delayTimer;
             searchInput.addEventListener('input', function() {
                 clearTimeout(delayTimer);
                 delayTimer = setTimeout(() => {
-                    this.form.submit();
+                    this.form.submit(); // otomatis submit saat mengetik
                 }, 500); // 0.5 detik setelah user berhenti mengetik
             });
         }

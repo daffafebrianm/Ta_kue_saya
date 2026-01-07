@@ -43,6 +43,8 @@ Route::middleware(['isAdmin'])->group(function () {
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard');
     Route::get('/produk/laporan-pdf', [ProdukController::class, 'cetakPDF'])->name('produk.pdf');
     Route::get('/barang-masuk/laporan-pdf', [BarangMasukController::class, 'cetakPDF'])->name('barang-masuk.pdf');
+    Route::get('/keuangan/laporan-pdf', [KeuanganController::class, 'cetakPDF'])->name('Keuangan.pdf');
+    Route::get('/orders/laporan-pdf', [OrderController::class, 'cetakPDF'])->name('orders.pdf');
 
     Route::resource('/produk', ProdukController::class);
     Route::resource('/kategori', KategoriController::class);

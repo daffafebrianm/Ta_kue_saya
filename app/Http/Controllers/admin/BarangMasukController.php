@@ -14,11 +14,20 @@ class BarangMasukController extends Controller
     /**
      * Tampilkan daftar barang masuk.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $barangMasuk = BarangMasuk::with('produk')->latest()->get();
-        return view('admin.Barang-Masuk.index', compact('barangMasuk'));
+        $bulan = $request->input('bulan', date('n'));
+        $tahun = $request->input('tahun', date('Y'));
+
+        $barangMasuk = BarangMasuk::with('produk')
+            ->when($bulan, fn($q) => $q->whereMonth('tanggal_masuk', $bulan))
+            ->when($tahun, fn($q) => $q->whereYear('tanggal_masuk', $tahun))
+            ->latest()
+            ->get();
+
+        return view('admin.Barang-Masuk.index', compact('barangMasuk', 'bulan', 'tahun'));
     }
+
 
     /**
      * Tampilkan form tambah barang masuk.
@@ -136,14 +145,21 @@ class BarangMasukController extends Controller
         return redirect()->route('barang-masuk.index')->with('success', 'Data barang masuk berhasil dihapus dan stok produk diperbarui.');
     }
 
-    public function cetakPDF()
+    public function cetakPDF(Request $request)
     {
-        // Ambil semua data barang masuk beserta relasi produk
-        $barangMasuk = BarangMasuk::with('produk')->latest()->get();
+        // Ambil filter bulan & tahun dari request
+        $bulan = $request->input('bulan');
+        $tahun = $request->input('tahun');
+
+        $barangMasuk = BarangMasuk::with('produk')
+            ->when($bulan, fn($q) => $q->whereMonth('tanggal_masuk', $bulan))
+            ->when($tahun, fn($q) => $q->whereYear('tanggal_masuk', $tahun))
+            ->latest()
+            ->get();
 
         // Load view PDF dan kirim data ke dalamnya
-        $pdf = Pdf::loadView('admin.Barang-Masuk.laporan', compact('barangMasuk'))
-            ->setPaper('A4', 'landscape');
+        $pdf = Pdf::loadView('admin.Barang-Masuk.laporan', compact('barangMasuk', 'bulan', 'tahun'))
+            ->setPaper('A4', 'portrait');
 
         // Menampilkan hasil PDF langsung di browser
         return $pdf->stream('laporan_barang_masuk.pdf');
