@@ -198,11 +198,24 @@
                                     jumlahInput{{ $keranjang->id }}.value = val - 1;
                                     document.getElementById('form-keranjang-{{ $keranjang->id }}').submit();
                                 } else {
-                                    if (confirm('Hapus produk ini dari keranjang?')) {
-                                        document.getElementById('form-hapus-{{ $keranjang->id }}').submit();
-                                    }
+                                    // Gunakan SweetAlert2
+                                    Swal.fire({
+                                        title: 'Hapus produk ini dari keranjang?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#aaa',
+                                        confirmButtonText: 'Ya, hapus!',
+                                        cancelButtonText: 'Batal'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // Submit form hapus
+                                            document.getElementById('form-hapus-{{ $keranjang->id }}').submit();
+                                        }
+                                    });
                                 }
                             });
+
 
                             plusBtn{{ $keranjang->id }}.addEventListener('click', function() {
                                 let val = parseInt(jumlahInput{{ $keranjang->id }}.value);

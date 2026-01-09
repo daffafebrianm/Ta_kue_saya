@@ -158,8 +158,29 @@ class PembayaranController extends Controller
         if (!$order) {
             return redirect()->route('user.order.index')->with('error', 'Pesanan tidak ditemukan.');
         }
+        $order->payment_status = 'pending';
+        $order->shipping_status = 'cancelled';
+        $order->save();
+
 
         // Kirim data pesanan ke view pembayaran.success
         return view('user.pembayaran.pembayaran-succes', compact('order'));
+    }
+
+
+    public function cancel($orderId)
+    {
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Pesanan tidak ditemukan.');
+        }
+
+        // Ubah status pengiriman menjadi dibatalkan
+        $order->shipping_status = 'cancelled';
+        $order->save();
+
+        return redirect()->route('products.index')
+            ->with('error', 'Pesanan telah dibatalkan.');
     }
 }

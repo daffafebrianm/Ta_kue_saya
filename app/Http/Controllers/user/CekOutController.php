@@ -216,4 +216,5 @@ class CekOutController extends Controller
 
         return 'ODR-' . $tanggal . '001';
     }
+
 }

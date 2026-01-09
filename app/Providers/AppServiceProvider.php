@@ -34,18 +34,20 @@ class AppServiceProvider extends ServiceProvider
         // View composer untuk view utama user
         View::composer('user.layouts.main', function ($view) {
 
-            // Produk terbaru
+            // Ambil produk terbaru (12 produk terakhir)
             $produks = Produk::aktif()->latest()->take(12)->get();
 
-            // Jumlah item keranjang user yang login
+            // Hitung jumlah produk unik di keranjang user yang login
             $cartCount = 0;
             if (auth()->check()) {
-                $cartCount = Keranjang::where('user_id', auth()->id())->count();
+                $cartCount = Keranjang::where('user_id', auth()->id())
+                    ->distinct('produk_id') // Hanya produk unik
+                    ->count('produk_id');
             }
 
             // Kirim data ke view
             $view->with([
-                'produks' => $produks,
+                'produks'  => $produks,
                 'cartCount' => $cartCount,
             ]);
         });

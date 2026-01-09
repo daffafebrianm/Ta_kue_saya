@@ -79,27 +79,32 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
-.product-thumb {
-    border-radius: 12px;
-    overflow: hidden;
-    background: #f3f4f6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto; /* biarkan menyesuaikan isi */
-    min-height: 200px; /* batas minimum agar grid tetap rapi */
-    max-height: 260px; /* batas maksimum biar gambar besar tidak kebablasan */
-}
 
-.product-thumb img {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* tampil utuh tanpa crop */
-    display: block;
-    transition: transform 0.3s ease;
-}
+        .product-thumb {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: auto;
+            /* biarkan menyesuaikan isi */
+            min-height: 200px;
+            /* batas minimum agar grid tetap rapi */
+            max-height: 260px;
+            /* batas maksimum biar gambar besar tidak kebablasan */
+        }
+
+        .product-thumb img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            /* tampil utuh tanpa crop */
+            display: block;
+            transition: transform 0.3s ease;
+        }
 
 
 
@@ -215,6 +220,7 @@
                         e.preventDefault();
                         const formData = new FormData(this);
                         const action = this.getAttribute('action');
+                        const badge = document.querySelector('#cart-count'); // badge di header
 
                         fetch(action, {
                                 method: 'POST',
@@ -229,6 +235,7 @@
                             .then(res => res.json())
                             .then(data => {
                                 if (data.ok) {
+                                    // Tampilkan notifikasi sekali
                                     Swal.fire({
                                         icon: 'success',
                                         title: 'Berhasil!',
@@ -240,9 +247,20 @@
                                         timer: 1800
                                     });
 
-                                    const badge = document.querySelector('#cart-count');
-                                    if (badge && data.cart_count !== undefined) badge.textContent =
-                                        data.cart_count;
+                                    // Update badge hanya jika ada produk di keranjang
+                                    // Update badge berdasarkan jumlah produk unik
+                                    if (badge) {
+                                        if (data.cart_total_products && data.cart_total_products >
+                                            0) {
+                                            badge.textContent = data
+                                            .cart_total_products; // jumlah produk unik
+                                            badge.style.display = 'inline-block';
+                                        } else {
+                                            badge.style.display = 'none'; // sembunyikan jika kosong
+                                        }
+                                    }
+
+
                                 } else {
                                     Swal.fire({
                                         icon: 'error',

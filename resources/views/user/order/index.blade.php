@@ -152,76 +152,84 @@
         }
 
         /* shipping method UI */
-.ship-title {
-    font-weight: 900;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    margin-top: 22px;
-    margin-bottom: 14px;
-}
+        .ship-title {
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            margin-top: 22px;
+            margin-bottom: 14px;
+        }
 
-.ship-options {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-}
+        .ship-options {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
 
-.ship-option {
-    position: relative;
-    flex: 0 0 210px;
-}
+        .ship-option {
+            position: relative;
+            flex: 0 0 210px;
+        }
 
-.ship-option input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
+        .ship-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
 
-.ship-card {
-    border-radius: 6px;
-    background: #9d773f;
-    color: #fff;
-    padding: 12px 14px; /* dikurangi biar lebih compact */
-    display: flex;
-    align-items: center;
-    gap: 10px; /* jarak dot dan teks dikurangi */
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.3s;
-}
+        .ship-card {
+            border-radius: 6px;
+            background: #9d773f;
+            color: #fff;
+            padding: 12px 14px;
+            /* dikurangi biar lebih compact */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            /* jarak dot dan teks dikurangi */
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.3s;
+        }
 
-.ship-card:hover {
-    background: #a47c4a; /* hover efek */
-}
+        .ship-card:hover {
+            background: #a47c4a;
+            /* hover efek */
+        }
 
-.ship-dot {
-    width: 12px;  /* sebelumnya 14px */
-    height: 12px; /* sebelumnya 14px */
-    border-radius: 999px;
-    border: 2px solid rgba(255, 255, 255, .9);
-    display: inline-block;
-    position: relative;
-    flex: 0 0 auto;
-}
+        .ship-dot {
+            width: 12px;
+            /* sebelumnya 14px */
+            height: 12px;
+            /* sebelumnya 14px */
+            border-radius: 999px;
+            border: 2px solid rgba(255, 255, 255, .9);
+            display: inline-block;
+            position: relative;
+            flex: 0 0 auto;
+        }
 
-.ship-option input:checked + label .ship-dot::after {
-    content: "";
-    width: 6px;   /* sebelumnya 8px */
-    height: 6px;  /* sebelumnya 8px */
-    border-radius: 999px;
-    background: #fff;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
+        .ship-option input:checked+label .ship-dot::after {
+            content: "";
+            width: 6px;
+            /* sebelumnya 8px */
+            height: 6px;
+            /* sebelumnya 8px */
+            border-radius: 999px;
+            background: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
 
-.ship-text {
-    font-weight: 900;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    font-size: 13px; /* sebelumnya 14px, lebih compact */
-}
+        .ship-text {
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            font-size: 13px;
+            /* sebelumnya 14px, lebih compact */
+        }
 
 
         @media (max-width: 992px) {
@@ -245,7 +253,11 @@
                     {{-- Form (data tetap) --}}
                     <form id="checkoutForm" action="{{ route('Checkout.store') }}" method="POST">
                         @csrf
-
+                        @if ($isBuyNow ?? false)
+                            <input type="hidden" name="produk_id" value="{{ $produkId }}">
+                            <input type="hidden" name="jumlah" value="{{ $jumlah }}">
+                        @endif
+                        
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="nama" class="form-label">Nama Lengkap</label>

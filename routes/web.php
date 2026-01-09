@@ -65,15 +65,27 @@ Route::middleware(['isAdmin'])->group(function () {
 
 Route::middleware(['isCustomer'])->group(function () {
 
+
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
     Route::post('/keranjang', [KeranjangController::class, 'addToCart'])->name('keranjang.store');
     Route::patch('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
     Route::delete('/keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
     Route::delete('/keranjang', [KeranjangController::class, 'clear'])->name('keranjang.clear');
+    // 🔥 Tambahan: route untuk hitung jumlah item keranjang (real-time)
+    Route::get('/keranjang/count', function () {
+        if (auth()->check()) {
+            $count = \App\Models\Keranjang::where('user_id', auth()->id())->count();
+            return response()->json(['count' => $count]);
+        }
+        return response()->json(['count' => 0]);
+    })->name('keranjang.count');
+
 
 
     Route::get('/Payment/{orderId}', [PembayaranController::class, 'index'])->name('Pembayaran.index');
     Route::get('/Payment/success/{orderId}', [PembayaranController::class, 'success'])->name('Pembayaran.success');
+    Route::get('/Payment/cancel/{orderId}', [PembayaranController::class, 'cancel'])->name('Pembayaran.cancel');
+
 
     Route::get('/Checkout', [CekOutController::class, 'index'])->name('Checkout.index');
     Route::post('/Checkout', [CekOutController::class, 'store'])->name('Checkout.store');
