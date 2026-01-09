@@ -99,7 +99,7 @@ Route::middleware(['isCustomer'])->group(function () {
 
 Route::get('/products', [ProductKatalogController::class, 'index'])->name('products.index');
 
-Route::get('/detail-products/{id}', [DetailProdukController::class, 'index'])->name('detai.index');
+Route::get('/detail-products/{id}', [DetailProdukController::class, 'index'])->name('detail.index');
 Route::get('/detail-products/{slug}', [ProductKatalogController::class, 'index'])->name('prpduct.index');
 
 Route::get('/about_us', [AboutUsController::class, 'index'])->name('about.index');

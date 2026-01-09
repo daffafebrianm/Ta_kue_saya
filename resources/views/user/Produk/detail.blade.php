@@ -3,294 +3,299 @@
 @section('content')
     @php
         use Illuminate\Support\Facades\Storage;
-
         $img = $product->gambar ? Storage::url($product->gambar) : 'https://via.placeholder.com/800x800?text=No+Image';
         $price = (float) $product->harga;
     @endphp
 
     <style>
-        .pd-wrap {
-            padding: 55px 0;
+        :root {
+            --primary-color: #dfc8a7;
+            --secondary-color: #f7f4f9;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
         }
 
-        .pd-grid {
+        .product-detail {
+            padding: 60px 0;
+            background: #fafafa;
+        }
+
+        .product-container {
             display: grid;
-            grid-template-columns: 1.05fr 0.95fr;
-            gap: 32px;
-            align-items: start;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
         }
 
         @media (max-width: 992px) {
-            .pd-grid {
+            .product-container {
                 grid-template-columns: 1fr;
-                gap: 22px;
-            }
-
-            .pd-wrap {
-                padding: 28px 0;
+                padding: 25px;
             }
         }
 
-        .pd-main-img {
-            width: 100%;
+        .product-image {
             border-radius: 16px;
             overflow: hidden;
-            background: #fff;
-            box-shadow: 0 10px 26px rgba(16, 24, 40, .10);
-            max-height: 430px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
         }
 
-        .pd-main-img img {
+        .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            transition: transform .4s ease;
         }
 
-        .pd-title {
+        .product-image:hover img {
+            transform: scale(1.04);
+        }
+
+        .product-info h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .product-price {
             font-size: 26px;
-            letter-spacing: .10em;
-            font-weight: 800;
-            margin: 0 0 8px;
+            color: #00000 font-weight: 800;
+            margin-bottom: 15px;
         }
 
-        .pd-price {
-            font-size: 22px;
-            font-weight: 800;
-            margin: 0 0 14px;
+        .product-desc {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 16px;
         }
 
-        .pd-desc {
+        .product-stock {
             font-size: 14px;
-            color: #475467;
-            line-height: 1.65;
-            margin: 0 0 10px;
+            font-weight: 600;
+            color: #334155;
+            background: var(--secondary-color);
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
 
-        .pd-stock {
-            font-size: 14px;
-            font-weight: 700;
-            margin: 8px 0 14px;
+        .divider {
+            border-bottom: 1px solid #e2e8f0;
+            margin: 18px 0;
         }
 
-        .pd-divider {
-            height: 1px;
-            background: #EAECF0;
-            margin: 14px 0 16px;
-        }
-
-        .pd-label {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .pd-qty {
+        .qty-area {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 4px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .pd-qty button {
-            width: 38px;
-            height: 38px;
+        .qty-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #cbd5e1;
             border-radius: 10px;
-            border: 1px solid #D0D5DD;
-            background: #fff;
-            font-size: 18px;
-            line-height: 1;
+            overflow: hidden;
         }
 
-        .pd-qty input {
-            width: 46px;
+        .qty-box button {
+            background: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #475569;
+            transition: background 0.3s;
+        }
+
+        .qty-box button:hover {
+            background: #f1f5f9;
+        }
+
+        .qty-box input {
+            width: 50px;
             text-align: center;
-            border: 0;
-            outline: 0;
+            border: none;
+            outline: none;
             font-weight: 700;
             font-size: 16px;
+            color: #1e293b;
             background: transparent;
         }
 
-        .pd-subtotal {
-            text-align: right;
+        .subtotal strong {
+            display: block;
+            font-size: 22px;
+            color: #0000 font-weight: 800;
         }
 
-        .pd-subtotal small {
-            font-size: 12px;
-            color: #667085;
+        .subtotal small {
             display: block;
+            color: var(--text-light);
+            font-size: 13px;
             margin-bottom: 2px;
         }
 
-        .pd-subtotal strong {
-            font-size: 20px;
-            color: #7a3e8a;
-        }
-
-        .pd-toprow {
+        .action-buttons {
             display: flex;
-            align-items: start;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .pd-share {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            border: 1px solid #EAECF0;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        /* ====== ACTIONS: dibuat rapi seperti gambar 2 ====== */
-        .pd-actions {
-            display: flex;
-            justify-content: flex-start;
-            /* bisa center kalau mau */
             gap: 18px;
-            margin-top: 14px;
-            align-items: center;
             flex-wrap: wrap;
+            margin-top: 16px;
         }
 
-        /* Form jangan w-100 */
-        .pd-actions form {
-            flex: 0 0 auto;
+        .btn-outline,
+        .btn-primaryx {
+            border-radius: 12px;
+            padding: 14px 28px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
         }
 
         .btn-outline {
-            padding: 14px 26px;
-            border-radius: 12px;
-            border: 1px solid #D0D5DD;
             background: #fff;
-            font-weight: 800;
-            font-size: 13px;
-            letter-spacing: .08em;
-            min-width: 210px;
-            /* biar sama kayak gambar 2 */
-            box-shadow: 0 10px 22px rgba(16, 24, 40, .08);
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 4px 12px rgba(148, 163, 184, 0.2);
+            transition: all 0.3s ease;
         }
+
+        .btn-outline:hover,
+        .btn-outline:focus,
+        .btn-outline:active {
+            background: #f1f5f9;
+            color: #475569 !important;
+            /* warna teks tidak berubah */
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            outline: none;
+        }
+
 
         .btn-primaryx {
-            padding: 14px 26px;
-            border-radius: 12px;
-            border: 0;
-            background: #b58db6;
+            background: var(--primary-color);
             color: #fff;
-            font-weight: 800;
-            font-size: 13px;
-            letter-spacing: .08em;
-            min-width: 210px;
-            /* biar sama kayak gambar 2 */
-            box-shadow: 0 10px 22px rgba(181, 141, 182, .28);
+            border: none;
+            box-shadow: 0 6px 16px rgba(223, 200, 167, 0.55);
+            transition: all 0.3s ease;
         }
 
-        /* Mobile: tombol jadi full biar enak dipencet */
+        .btn-primaryx:hover,
+        .btn-primaryx:focus,
+        .btn-primaryx:active {
+            background: var(--primary-color);
+            /* tetap sama */
+            color: #fff !important;
+            /* kunci warna teks agar tidak berubah */
+            box-shadow: 0 10px 22px rgba(223, 200, 167, 0.7);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        lateY(-2px);
+        /* efek naik halus */
+        }
+
+
         @media (max-width: 576px) {
-            .pd-main-img {
-                max-height: 320px;
-            }
-
-            .pd-title {
-                font-size: 22px;
-            }
-
-            .pd-price {
-                font-size: 19px;
-            }
-
-            .pd-actions {
-                gap: 12px;
-            }
 
             .btn-outline,
             .btn-primaryx {
-                min-width: 100%;
                 width: 100%;
+                text-align: center;
             }
+        }
+
+        .share-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background .3s;
+        }
+
+        .share-btn:hover {
+            background: #f1f5f9;
         }
     </style>
 
-    <section class="pd-wrap">
+    <section class="product-detail">
         <div class="container">
-            <div class="pd-grid my-5">
-
-                {{-- LEFT: Gambar besar --}}
-                <div class="pd-main-img">
+            <div class="product-container">
+                {{-- Left: Image --}}
+                <div class="product-image">
                     <img src="{{ $img }}" alt="{{ $product->nama }}">
+                    <div class="share-btn" title="Salin Link" onclick="navigator.clipboard.writeText(window.location.href)">
+                        ↗
+                    </div>
                 </div>
 
-                {{-- RIGHT: Info --}}
-                <div>
-                    <div class="pd-toprow">
+                {{-- Right: Info --}}
+                <div class="product-info">
+                    <h1>{{ strtoupper($product->nama) }}</h1>
+                    <div class="product-price">Rp {{ number_format($product->harga, 0, ',', '.') }}</div>
+                    <p class="product-desc">{{ $product->deskripsi }}</p>
+                    <span class="product-stock">Stok: {{ $product->stok }}</span>
+
+                    <div class="divider"></div>
+
+                    <div class="qty-area">
                         <div>
-                            <h1 class="pd-title">{{ strtoupper($product->nama) }}</h1>
-                            <p class="pd-price">Rp {{ number_format($product->harga, 0, ',', '.') }}</p>
-                        </div>
-
-                        <button class="pd-share" type="button" title="Share"
-                            onclick="navigator.clipboard.writeText(window.location.href)">
-                            ↗
-                        </button>
-                    </div>
-
-                    <p class="pd-desc">{{ $product->deskripsi }}</p>
-
-                    <div class="pd-stock">
-                        Only {{ $product->stok }} left in stock
-                    </div>
-
-                    <div class="pd-divider"></div>
-
-                    {{-- Quantity + Subtotal --}}
-                    <div class="row align-items-end g-3">
-                        <div class="col-md-7">
-                            <div class="pd-label">Quantity</div>
-                            <div class="pd-qty">
-                                <button type="button" id="qtyMinus">−</button>
+                            <label class="fw-bold d-block mb-1">Jumlah</label>
+                            <div class="qty-box">
+                                <button id="qtyMinus">−</button>
                                 <input id="qtyInput" type="text" value="1" readonly>
-                                <button type="button" id="qtyPlus">+</button>
+                                <button id="qtyPlus">+</button>
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="pd-subtotal">
-                                <small>Subtotal</small>
-                                <strong id="subtotalText">Rp {{ number_format($product->harga, 0, ',', '.') }}</strong>
-                            </div>
+                        <div class="subtotal text-end">
+                            <small>Subtotal</small>
+                            <strong id="subtotalText">Rp {{ number_format($product->harga, 0, ',', '.') }}</strong>
                         </div>
                     </div>
 
-                    <div class="pd-divider"></div>
-
-                    {{-- Actions --}}
-                    <div class="pd-actions">
+                    <div class="action-buttons">
                         @auth
-                            {{-- ADD TO CART --}}
                             <form action="{{ route('keranjang.store') }}" method="POST" class="add-to-cart-form"
                                 data-success="Produk ditambahkan!">
                                 @csrf
                                 <input type="hidden" name="produk_id" value="{{ $product->id }}">
                                 <input type="hidden" name="jumlah" id="jumlahHidden" value="1">
-                                <button type="submit" class="btn-outline">ADD TO CART</button>
+                                <button type="submit" class="btn-outline">Tambah ke Keranjang</button>
                             </form>
+                            <a id="buyNowBtn" href="{{ route('Checkout.index', ['produk_id' => $product->id, 'jumlah' => 1]) }}"
+                                class="btn-primaryx"
+                                style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
+                                Beli Sekarang
+                            </a>
                         @else
-                            <a href="{{ route('login') }}" class="btn-outline text-center"
-                                style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
-                                ADD TO CART
-                            </a>
-                            <a href="{{ route('login') }}" class="btn-primaryx text-center"
-                                style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
-                                BUY NOW
-                            </a>
+                            <a href="{{ route('login') }}" class="btn-outline">Tambah ke Keranjang</a>
+                            <a href="{{ route('login') }}" class="btn-primaryx">Beli Sekarang</a>
                         @endauth
                     </div>
-
                 </div>
             </div>
         </div>
@@ -303,17 +308,23 @@
         const qtyMinus = document.getElementById('qtyMinus');
         const qtyPlus = document.getElementById('qtyPlus');
         const jumlahHidden = document.getElementById('jumlahHidden');
-        const jumlahHidden2 = document.getElementById('jumlahHidden2');
+        const buyNowBtn = document.getElementById('buyNowBtn'); // ambil tombol beli sekarang
 
-        function rupiah(n) {
-            return 'Rp ' + new Intl.NumberFormat('id-ID').format(n);
-        }
+        const rupiah = n => 'Rp ' + new Intl.NumberFormat('id-ID').format(n);
 
         function sync() {
             const qty = parseInt(qtyInput.value || '1', 10);
             subtotalText.textContent = rupiah(price * qty);
+
+            // sinkron ke input hidden untuk keranjang
             if (jumlahHidden) jumlahHidden.value = qty;
-            if (jumlahHidden2) jumlahHidden2.value = qty;
+
+            // update URL tombol "Beli Sekarang"
+            if (buyNowBtn) {
+                const url = new URL(buyNowBtn.href);
+                url.searchParams.set('jumlah', qty);
+                buyNowBtn.href = url.toString();
+            }
         }
 
         qtyMinus.addEventListener('click', () => {
