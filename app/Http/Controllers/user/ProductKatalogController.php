@@ -14,8 +14,8 @@ class ProductKatalogController extends Controller
         $categories = [
             ''          => 'Semua',
             'Cookies'   => 'Cookies',
-            'Cakes'     => 'Cakes',
-            'Dry Cake'  => 'Dry Cake',
+            'Cake'     => 'Cake',
+            'Kue kering'  => 'Kue kering',
         ];
 
         // Ambil kategori dari parameter URL
