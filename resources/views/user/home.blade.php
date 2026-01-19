@@ -27,7 +27,7 @@
                             <a href="{{ url('products') }}" class="btn btn-dark py-2 px-4 animated slideInRight">
                                 Order Now
                             </a>
-                            <a href="{{ url('https://api.whatsapp.com/send?phone=628116666604&text=Halo%20Waroeng%20Koe%2C%20saya%20ingin%20pesan%20kue!%20Berikut%20data%20saya%3A%0ANama%3A%0AAlamat%3A%0APesanan%3A') }}"
+                            <a href="{{ url('https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig') }}"
                                 class="btn btn-outline-dark py-2 px-4 animated slideInRight">
                                 Chat via WhatsApp
                             </a>
@@ -48,32 +48,34 @@
         <!-- ===================== -->
 
         <div class="container my-5">
-            <div class="category-grid">
+        <div class="category-grid">
 
-                <a href="{{ route('products.index', ['category' => 6]) }}" class="cat-card">
-                    <div class="cat-img">
-                        <img src="{{ asset('user/assets/images/cookies.jpg') }}" alt="Kue Basah">
-                    </div>
-                    <div class="cat-title">Cookies</div>
-                    <div class="cat-line"></div>
-                </a>
+    <a href="{{ route('products.index') }}?category=Cookies" class="cat-card">
+        <div class="cat-img">
+            <img src="{{ asset('user/assets/images/cookies.jpg') }}" alt="Cookies">
+        </div>
+        <div class="cat-title">Cookies</div>
+        <div class="cat-line"></div>
+    </a>
 
-                <a href="{{ route('products.index', ['category' => 7]) }}" class="cat-card">
-                    <div class="cat-img">
-                        <img src="{{ asset('user/assets/images/cakes.jpg') }}" alt="Kue Kering">
-                    </div>
-                    <div class="cat-title">Cakes</div>
-                    <div class="cat-line"></div>
-                </a>
+    <a href="{{ route('products.index') }}?category=Cakes" class="cat-card">
+        <div class="cat-img">
+            <img src="{{ asset('user/assets/images/cakes.jpg') }}" alt="Cakes">
+        </div>
+        <div class="cat-title">Cakes</div>
+        <div class="cat-line"></div>
+    </a>
 
-                <a href="{{ route('products.index', ['category' => 8]) }}" class="cat-card">
-                    <div class="cat-img">
-                        <img src="{{ asset('user/assets/images/dry-cakes.jpg') }}" alt="Hampers">
-                    </div>
-                    <div class="cat-title">Dry Cake</div>
-                    <div class="cat-line"></div>
-                </a>
-            </div>
+    <a href="{{ route('products.index') }}?category=Dry%20Cake" class="cat-card">
+        <div class="cat-img">
+            <img src="{{ asset('user/assets/images/dry-cakes.jpg') }}" alt="Dry Cake">
+        </div>
+        <div class="cat-title">Dry Cake</div>
+        <div class="cat-line"></div>
+    </a>
+
+</div>
+
             {{-- ===================== --}}
             {{-- PRODUK --}}
             {{-- ===================== --}}

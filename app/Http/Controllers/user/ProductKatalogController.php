@@ -22,20 +22,25 @@ class ProductKatalogController extends Controller
         $selectedCategory = $request->input('category', '');
 
         // Validasi kategori
-        if ($selectedCategory !== '' && ! array_key_exists($selectedCategory, $categories)) {
+        if ($selectedCategory !== '' && !array_key_exists($selectedCategory, $categories)) {
             return redirect()->route('produk.index')->with('error', 'Kategori tidak valid.');
         }
 
-        // Query produk sesuai kategori
-        $produksQuery = Produk::with('kategori');
+        // Query produk aktif & tersedia
+        $produksQuery = Produk::with('kategori')
+            ->where('status', 'aktif') // hanya produk aktif
+            ->where('stok', '>', 0)    // hanya yang masih ada stok
+            ->orderBy('created_at', 'desc'); // urutkan dari terbaru
 
+        // Filter kategori jika dipilih
         if ($selectedCategory !== '') {
             $produksQuery->whereHas('kategori', function ($q) use ($selectedCategory) {
-                $q->where('nama', $selectedCategory); // filter berdasarkan nama kategori
+                $q->where('nama', $selectedCategory);
             });
         }
 
-        $produks = $produksQuery->paginate(10)->withQueryString();
+        // Pagination (8 produk per halaman)
+        $produks = $produksQuery->paginate(8)->withQueryString();
 
         return view('user.produk.produk', [
             'produks' => $produks,

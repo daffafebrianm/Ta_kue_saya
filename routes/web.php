@@ -43,6 +43,8 @@ Route::middleware(['isAdmin'])->group(function () {
     Route::get('/dashboard', [DashboardAdminController::class, 'index'])->name('dashboard');
     Route::get('/produk/laporan-pdf', [ProdukController::class, 'cetakPDF'])->name('produk.pdf');
     Route::get('/barang-masuk/laporan-pdf', [BarangMasukController::class, 'cetakPDF'])->name('barang-masuk.pdf');
+    Route::get('/keuangan/laporan-pdf', [KeuanganController::class, 'cetakPDF'])->name('Keuangan.pdf');
+    Route::get('/orders/laporan-pdf', [OrderController::class, 'cetakPDF'])->name('orders.pdf');
 
     Route::resource('/produk', ProdukController::class);
     Route::resource('/kategori', KategoriController::class);
@@ -63,15 +65,27 @@ Route::middleware(['isAdmin'])->group(function () {
 
 Route::middleware(['isCustomer'])->group(function () {
 
+
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang.index');
     Route::post('/keranjang', [KeranjangController::class, 'addToCart'])->name('keranjang.store');
     Route::patch('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjang.update');
     Route::delete('/keranjang/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
     Route::delete('/keranjang', [KeranjangController::class, 'clear'])->name('keranjang.clear');
+    // 🔥 Tambahan: route untuk hitung jumlah item keranjang (real-time)
+    Route::get('/keranjang/count', function () {
+        if (auth()->check()) {
+            $count = \App\Models\Keranjang::where('user_id', auth()->id())->count();
+            return response()->json(['count' => $count]);
+        }
+        return response()->json(['count' => 0]);
+    })->name('keranjang.count');
+
 
 
     Route::get('/Payment/{orderId}', [PembayaranController::class, 'index'])->name('Pembayaran.index');
     Route::get('/Payment/success/{orderId}', [PembayaranController::class, 'success'])->name('Pembayaran.success');
+    Route::get('/Payment/cancel/{orderId}', [PembayaranController::class, 'cancel'])->name('Pembayaran.cancel');
+
 
     Route::get('/Checkout', [CekOutController::class, 'index'])->name('Checkout.index');
     Route::post('/Checkout', [CekOutController::class, 'store'])->name('Checkout.store');
@@ -80,6 +94,7 @@ Route::middleware(['isCustomer'])->group(function () {
     Route::put('/Profile', [ProfileController::class, 'update'])->name('Profile.update');
 
     Route::get('/Riwayat-Pesanan', [RiwayatPesananController::class, 'index'])->name('Riwayat.index');
+    Route::get('/Riwayat-Pesanan/{id}', [RiwayatPesananController::class, 'show'])->name('Riwayat.show');
 
     Route::get('/about_us', [AboutUsController::class, 'index'])->name('about.index');
     Route::get('/location', [LocationController::class, 'index'])->name('location.index');
@@ -97,7 +112,7 @@ Route::middleware(['isCustomer'])->group(function () {
 
 Route::get('/products', [ProductKatalogController::class, 'index'])->name('products.index');
 
-Route::get('/detail-products/{id}', [DetailProdukController::class, 'index'])->name('detai.index');
+Route::get('/detail-products/{id}', [DetailProdukController::class, 'index'])->name('detail.index');
 Route::get('/detail-products/{slug}', [ProductKatalogController::class, 'index'])->name('prpduct.index');
 
 Route::get('/about_us', [AboutUsController::class, 'index'])->name('about.index');

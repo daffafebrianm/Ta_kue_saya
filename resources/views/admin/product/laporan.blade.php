@@ -5,19 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Produk</title>
-
     <style>
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
             padding: 20px;
-            background: #f8f9fa;
+            background-color: #ffffff; /* bg putih bersih */
+            color: #000;
         }
 
         h2 {
             text-align: center;
             margin-bottom: 5px;
-            color: #0d6efd;
+            color: #000000;
         }
 
         .print-date {
@@ -36,7 +36,7 @@
         th,
         td {
             border: 1px solid #000;
-            padding: 6px;
+            padding: 8px;
             text-align: center;
             vertical-align: middle;
         }
@@ -44,7 +44,6 @@
         th {
             background-color: #e9ecef;
             font-weight: bold;
-            text-transform: uppercase;
         }
 
         .status-active {
@@ -57,17 +56,14 @@
             font-weight: bold;
         }
 
-        .desc-cell {
-            max-width: 200px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        td.desc-cell {
+            max-width: 250px;
+            white-space: normal;
+            word-wrap: break-word;
+            text-align: center;
         }
 
-        tr {
-            page-break-inside: avoid !important;
-        }
-
+        tr,
         td,
         th {
             page-break-inside: avoid !important;
@@ -81,16 +77,41 @@
             display: table-footer-group;
         }
 
-        .footer {
+        .signature {
+            margin-top: 60px;
+            width: 100%;
+        }
+
+        .signature-box {
+            width: 250px;
+            float: right;
             text-align: center;
-            margin-top: 20px;
+        }
+
+        .signature-box p.name {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
             font-size: 10px;
-            color: #555;
+            color: #000;
+            border-top: 1px solid #000;
+            padding-top: 5px;
         }
 
         @media print {
             body {
-                background: #fff;
+                background-color: #ffffff;
+            }
+
+            .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
             }
         }
     </style>
@@ -129,18 +150,28 @@
                     <td class="{{ $produk->status === 'aktif' ? 'status-active' : 'status-nonaktif' }}">
                         {{ ucfirst($produk->status) }}
                     </td>
-                    <td style="max-width: 250px; white-space: normal; word-wrap: break-word;">
+                    <td class="desc-cell">
                         {{ \Illuminate\Support\Str::limit($produk->deskripsi, 150) }}
                     </td>
-
-
                 </tr>
             @endforeach
         </tbody>
     </table>
 
+    <div class="signature">
+        <div class="signature-box">
+            <p>Padang, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</p>
+            <p>Owner</p>
+            <br><br><br><br>
+            <p class="name">Desmawati Retno Dwi Hastuti</p>
+        </div>
+    </div>
+
+    <div style="clear: both;"></div>
+
     <div class="footer">
-        Dicetak pada: {{ now()->setTimezone('Asia/Jakarta')->format('d-m-Y H:i:s') }} | Daftar Produk
+        Dicetak pada: {{ now()->setTimezone('Asia/Jakarta')->format('d-m-Y H:i:s') }} |
+        Laporan Keuangan Waroeng Koe Ree Cake & Cookies
     </div>
 
 </body>

@@ -45,24 +45,16 @@
                              <use xlink:href="#cart"></use>
                          </svg>
 
-                         @if ($cartCount > 0)
-                             <span
-                                 style="
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: red;
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 50%;
-            line-height: 1;
-        ">
-                                 {{ $cartCount }}
-                             </span>
-                         @endif
+                         <span id="cart-count"
+                             style="position: absolute; top: -5px; right: -5px; background: red; color: white;
+             font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 50%; line-height: 1;
+             {{ $cartCount > 0 ? '' : 'display:none;' }}">
+                             {{ $cartCount }}
+                         </span>
+
+
                      </a>
+
 
                  @endauth
 
@@ -92,4 +84,3 @@
          </symbol>
      </svg>
  </header>
-

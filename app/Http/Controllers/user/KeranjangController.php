@@ -85,15 +85,17 @@ public function index()
             });
 
             // 3) Hitung total item untuk badge (opsional)
-            $cartCount = Keranjang::where('user_id', $userId)->sum('jumlah');
+        // 3) Hitung total produk unik di keranjang untuk badge
+$cartTotalProducts = Keranjang::where('user_id', $userId)->count(); // jumlah baris = jumlah produk unik
 
-            if ($request->expectsJson() || $request->ajax()) {
-                return response()->json([
-                    'ok' => true,
-                    'message' => 'Produk berhasil ditambahkan ke keranjang.',
-                    'cart_count' => (int) $cartCount,
-                ]);
-            }
+if ($request->expectsJson() || $request->ajax()) {
+    return response()->json([
+        'ok' => true,
+        'message' => 'Produk berhasil ditambahkan ke keranjang.',
+        'cart_total_products' => (int) $cartTotalProducts,
+    ]);
+}
+
 
             return back()->with('success', 'Produk berhasil ditambahkan ke keranjang.');
 

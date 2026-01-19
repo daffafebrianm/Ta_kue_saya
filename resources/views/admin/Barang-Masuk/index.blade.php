@@ -2,7 +2,7 @@
 
 @section('content')
     <style>
-        /* 🌐 Style sama seperti di index produk */
+        /* Style tabel dan tombol */
         .table td,
         .table th {
             color: #111827 !important;
@@ -68,24 +68,92 @@
         .alert {
             font-size: 0.95rem;
         }
+
+        /* Flex untuk filter + tombol sejajar horizontal */
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-row select {
+            width: auto;
+            /* agar dropdown tidak terlalu lebar */
+        }
+
+        .filter-row .buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        @media (max-width: 576px) {
+            .filter-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filter-row .buttons {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
     </style>
 
     <div class="container-fluid px-3 px-md-4">
         <div class="card mt-4 border-0 shadow-sm">
-            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+            <div class="card-header bg-white border-0">
                 <h4 class="mb-0 fw-semibold text-dark">Daftar Barang Masuk</h4>
-                <div class="d-flex gap-2">
-                    <a href="{{ route('barang-masuk.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> Tambah Barang Masuk
-                    </a>
-                    <a href="{{ route('barang-masuk.pdf') }}" class="btn btn-success">
-                        <i class="bi bi-file-earmark-pdf"></i> Download PDF
-                    </a>
-                </div>
             </div>
 
             <div class="card-body">
-                {{-- Tabel Barang Masuk --}}
+                {{-- 🔹 Filter Bulan & Tahun + Tombol Tambah & PDF sejajar --}}
+                <div class="filter-row">
+                    @php
+                        $currentMonth = date('n');
+                        $currentYear = date('Y');
+                    @endphp
+
+                    <form method="GET" action="{{ route('barang-masuk.index') }}" id="filterForm"
+                        class="d-flex gap-2 flex-wrap align-items-center">
+                        <select name="bulan" class="form-select" id="bulanSelect">
+                            <option value="">-- Pilih Bulan --</option>
+                            @for ($i = 1; $i <= 12; $i++)
+                                <option value="{{ $i }}"
+                                    {{ request('bulan', $currentMonth) == $i ? 'selected' : '' }}>
+                                    {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                                </option>
+                            @endfor
+                        </select>
+
+                        <select name="tahun" class="form-select" id="tahunSelect">
+                            @for ($i = $currentYear - 5; $i <= $currentYear; $i++)
+                                <option value="{{ $i }}"
+                                    {{ request('tahun', $currentYear) == $i ? 'selected' : '' }}>
+                                    {{ $i }}
+                                </option>
+                            @endfor
+                        </select>
+                    </form>
+
+                    <div class="buttons ms-auto d-flex gap-2 align-items-center">
+                        <a href="{{ route('barang-masuk.create') }}" class="btn btn-primary d-flex align-items-center">
+                            <i class="bi bi-plus-circle me-1"></i> Tambah Barang Masuk
+                        </a>
+                        <a href="{{ route('barang-masuk.pdf', [
+                            'bulan' => request('bulan'),
+                            'tahun' => request('tahun'),
+                        ]) }}"
+                            class="btn btn-success d-flex align-items-center">
+                            <i class="bi bi-file-earmark-pdf me-1"></i> Download PDF
+                        </a>
+                    </div>
+
+                </div>
+
+                {{-- 🔹 Tabel Barang Masuk --}}
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover table-striped align-middle text-center">
                         <thead class="text-nowrap">
@@ -116,7 +184,6 @@
                                                 class="btn btn-sm btn-action edit" title="Edit Data">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </a>
-
                                             <form action="{{ route('barang-masuk.destroy', $bm->id) }}" method="POST"
                                                 class="form-delete m-0">
                                                 @csrf
@@ -140,67 +207,26 @@
             </div>
         </div>
     </div>
-@endsection
 
-{{-- ✅ SweetAlert2 Notification --}}
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- 🔹 Script otomatis submit filter --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterForm = document.getElementById('filterForm');
+            const bulanSelect = document.getElementById('bulanSelect');
+            const tahunSelect = document.getElementById('tahunSelect');
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+            // Submit otomatis saat dropdown berubah
+            bulanSelect.addEventListener('change', () => filterForm.submit());
+            tahunSelect.addEventListener('change', () => filterForm.submit());
 
-        // ✅ Notifikasi sukses
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session('success') }}',
-                showConfirmButton: false,
-                timer: 1800
-            });
-        @endif
+            // Submit otomatis saat halaman pertama kali dibuka jika belum ada query bulan/tahun
+            const urlParams = new URLSearchParams(window.location.search);
+            const bulan = urlParams.get('bulan');
+            const tahun = urlParams.get('tahun');
 
-        // ✅ Notifikasi update
-        @if (session('updated'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Diperbarui!',
-                text: '{{ session('updated') }}',
-                showConfirmButton: false,
-                timer: 1800
-            });
-        @endif
-
-        // ✅ Notifikasi hapus
-        @if (session('deleted'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Terhapus!',
-                text: '{{ session('deleted') }}',
-                showConfirmButton: false,
-                timer: 1800
-            });
-        @endif
-
-        // ⚠️ Konfirmasi sebelum hapus
-        const deleteButtons = document.querySelectorAll('.btn-delete');
-        deleteButtons.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const form = this.closest('.form-delete');
-                Swal.fire({
-                    title: 'Yakin ingin menghapus?',
-                    text: "Data barang masuk ini akan dihapus permanen.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
+            if (!bulan && !tahun) {
+                filterForm.submit();
+            }
         });
-    });
-</script>
+    </script>
+@endsection

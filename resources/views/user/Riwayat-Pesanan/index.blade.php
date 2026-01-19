@@ -2,146 +2,185 @@
 
 @section('content')
 
-<div class="container my-4">
-    <h3 class="text-center mb-4 py-2" style="color: #0d6efd;">Daftar Pesanan Saya</h3>
+<style>
+/* ==============================
+   CARD & ORDER STYLING
+   ============================== */
+.order-card {
+    transition: all .25s ease;
+    border-radius: 18px;
+    overflow: hidden;
+}
+.order-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,.12) !important;
+}
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
+.status-strip {
+    width: 6px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 18px 0 0 18px;
+}
 
+.product-thumb {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #e5e7eb;
+}
+
+.badge-status {
+    font-size: .75rem;
+    padding: 8px 14px;
+}
+
+.empty-state {
+    background: linear-gradient(135deg,#f8fafc,#eef2ff);
+}
+
+.text-muted-small {
+    font-size: 0.85rem;
+}
+</style>
+
+<div class="container mt-4">
+
+    {{-- HEADER --}}
+    <div class="text-center mb-5">
+        <h3 class="fw-bold text-primary mb-1">🧾 Riwayat Pesanan</h3>
+        <p class="text-muted text-muted-small">Pantau status pesanan dan pengiriman Anda</p>
+    </div>
+
+    {{-- EMPTY STATE --}}
     @if($orders->isEmpty())
-        <div class="alert alert-info text-center">Belum ada pesanan.</div>
+        <div class="empty-state text-center p-5 rounded-4 shadow-sm">
+            <div class="fs-1 mb-3">📦</div>
+            <h5 class="fw-bold">Belum Ada Pesanan</h5>
+            <p class="text-muted mb-4">Pesanan Anda akan muncul di sini</p>
+            <a href="{{ route('products.index') }}"
+               class="btn btn-primary rounded-pill px-4">
+                Mulai Belanja
+            </a>
+        </div>
     @else
-        <div class="table-responsive shadow-sm rounded">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th style="width:160px;">Kode Pesanan</th>
-                        <th style="width:140px;">Tanggal</th>
-                        <th>Produk (Ringkas)</th>
-                        <th style="width:160px;">Total</th>
-                        <th style="width:140px;">Status Pembayaran</th>
-                        <th style="width:140px;">Status Pengiriman</th>
-                        <th style="width:170px;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($orders as $o)
-                    @php
-                        $payBadge = match($o->payment_status) {
-                            'pending' => 'warning',
-                            'waiting_verification' => 'info',
-                            'paid' => 'success',
-                            'failed' => 'danger',
-                            default => 'secondary'
-                        };
-                        $shipBadge = match($o->shipping_status) {
-                            'pending' => 'warning',
-                            'packed' => 'info',
-                            'shipped' => 'primary',
-                            'delivered' => 'success',
-                            default => 'secondary'
-                        };
 
-                        $items = $o->orderDetails->take(3);
-                        $lebih = max($o->orderDetails->count() - 3, 0);
-                    @endphp
+    <div class="row g-3"> <!-- gap dikurangi supaya lebih rapat -->
+        @foreach($orders as $o)
+        @php
+            /** ===============================
+             * STATUS MAPPING
+             * =============================== */
+            if ($o->payment_status === 'pending') {
+                $status = ['secondary','Menunggu Pembayaran','hourglass'];
+            } elseif ($o->payment_status === 'cancelled' || $o->shipping_status === 'cancelled') {
+                $status = ['danger','Pesanan Dibatalkan','x-circle'];
+            } else {
+                $status = match($o->shipping_status) {
+                    'processing' => ['warning','Sedang Diproses','clock'],
+                    'shipped'    => ['primary','Dalam Pengiriman','truck'],
+                    'completed'  => ['success','Pesanan Selesai','check-circle'],
+                    default      => ['secondary','Menunggu','hourglass']
+                };
+            }
 
-                    <tr class="align-middle">
-                        <td class="text-monospace fw-bold">{{ $o->order_code }}</td>
-                        <td>{{ \Carbon\Carbon::parse($o->order_date)->format('d M Y') }}</td>
-                        <td>
-                            @foreach($items as $d)
-                                <div class="d-flex align-items-center mb-1">
-                                    @if($d->produk->gambar)
-                                        <img src="{{ asset('storage/'.$d->produk->gambar) }}" alt="{{ $d->produk->nama }}" style="width:50px; height:50px; object-fit:cover; border-radius:4px; margin-right:8px;">
-                                    @else
-                                        <div style="width:50px; height:50px; background:#e9ecef; display:inline-block; border-radius:4px; margin-right:8px;"></div>
-                                    @endif
-                                    <span>{{ $d->produk->nama ?? 'Produk' }} × {{ $d->jumlah }}</span>
-                                </div>
-                            @endforeach
-                            @if($lebih > 0)
-                                <small class="text-muted">+{{ $lebih }} item</small>
-                            @endif
-                        </td>
-                        <td class="fw-semibold">Rp {{ number_format($o->totalharga, 0, ',', '.') }}</td>
-                        <td>
-                            <span class="badge bg-{{ $payBadge }}">
-                                {{ ucfirst(str_replace('_',' ',$o->payment_status)) }}
-                            </span>
-                        </td>
-                        <td>
-                            <span class="badge bg-{{ $shipBadge }}">
-                                {{ ucfirst($o->shipping_status) }}
-                            </span>
-                        </td>
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#detail-{{ $o->id }}">
-                                Detail
-                            </button>
-                        </td>
-                    </tr>
+            $firstItem = $o->orderDetails->first();
+            $moreItem  = max($o->orderDetails->count() - 1, 0);
+        @endphp
 
-                    {{-- Row collapsible: rincian item --}}
-                    <tr class="collapse bg-light" id="detail-{{ $o->id }}">
-                        <td colspan="7">
-                            <div class="p-3">
-                                <div class="table-responsive">
-                                    <table class="table table-sm mb-2">
-                                        <thead class="table-secondary">
-                                            <tr>
-                                                <th>Produk</th>
-                                                <th style="width:70px;">Gambar</th>
-                                                <th style="width:120px;">Jumlah</th>
-                                                <th style="width:160px;">Harga</th>
-                                                <th style="width:180px;">Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($o->orderDetails as $d)
-                                            <tr>
-                                                <td>{{ $d->produk->nama ?? 'Produk' }}</td>
-                                                <td>
-                                                    @if($d->produk->gambar)
-                                                        <img src="{{ asset('storage/'.$d->produk->gambar) }}" alt="{{ $d->produk->nama }}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
-                                                    @else
-                                                        <div style="width:50px; height:50px; background:#e9ecef; border-radius:4px;"></div>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $d->jumlah }}</td>
-                                                <td>Rp {{ number_format($d->harga, 0, ',', '.') }}</td>
-                                                <td>Rp {{ number_format($d->harga * $d->jumlah, 0, ',', '.') }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+        <div class="col-xl-4 col-lg-6 col-12">
+            <div class="card order-card border-0 shadow-sm h-100 position-relative">
 
-                                <div class="d-flex justify-content-between mt-2">
-                                    <div>
-                                        <small class="text-muted">Metode Pengiriman:</small>
-                                        <strong>{{ strtoupper($o->shipping_method) }}</strong>
-                                    </div>
-                                    <div class="fw-semibold">
-                                        Total: Rp {{ number_format($o->totalharga, 0, ',', '.') }}
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                {{-- STATUS STRIP --}}
+                <div class="status-strip bg-{{ $status[0] }}"></div>
+
+                {{-- BADGE --}}
+                <span class="badge bg-{{ $status[0] }} badge-status
+                      position-absolute top-0 end-0 m-3 rounded-pill">
+                    <i class="bi bi-{{ $status[2] }} me-1"></i>
+                    {{ $status[1] }}
+                </span>
+
+                {{-- CARD BODY --}}
+                <div class="card-body ps-4">
+                    <div class="mb-2">
+                        <div class="fw-bold">Order #{{ $o->order_code }}</div>
+                        <small class="text-muted-small">
+                            {{ \Carbon\Carbon::parse($o->order_date)->translatedFormat('d F Y') }}
+                        </small>
+                    </div>
+
+                    {{-- PRODUK --}}
+                    @if($firstItem)
+                    <div class="d-flex align-items-center mb-3">
+                        @if($firstItem->produk->gambar)
+                            <img src="{{ asset('storage/'.$firstItem->produk->gambar) }}"
+                                 class="product-thumb shadow-sm me-3">
+                        @else
+                            <div class="product-thumb me-3"></div>
+                        @endif
+
+                        <div>
+                            <div class="fw-semibold">{{ $firstItem->produk->nama }}</div>
+                            <small class="text-muted-small">
+                                {{ $firstItem->jumlah }} item
+                                @if($moreItem > 0)
+                                    • +{{ $moreItem }} produk lainnya
+                                @endif
+                            </small>
+                        </div>
+                    </div>
+                    @endif
+
+                    <small class="text-muted-small">
+                        <i class="bi bi-truck me-1"></i>
+                        Pengiriman: <strong>{{ strtoupper($o->shipping_method ?? '-') }}</strong>
+                    </small>
+                 </div>
+
+                {{-- TOTAL --}}
+                <div class="px-4 py-3 border-top d-flex justify-content-between">
+                    <span class="fw-semibold">Total</span>
+                    <span class="fw-bold text-success">
+                        Rp {{ number_format($o->totalharga,0,',','.') }}
+                    </span>
+                </div>
+
+                {{-- ACTION --}}
+                <div class="card-footer bg-white border-0 px-4 pb-4">
+                    <div class="d-flex gap-2">
+
+                        {{-- DETAIL --}}
+                        <a href="{{ route('Riwayat.show',$o->id) }}"
+                           class="btn btn-outline-primary btn-sm rounded-pill w-100">
+                            <i class="bi bi-eye me-1"></i> Detail
+                        </a>
+
+                        {{-- PESAN LAGI --}}
+                        @if($o->shipping_status === 'completed')
+                            <a href="{{ route('products.index') }}"
+                               class="btn btn-outline-success btn-sm rounded-pill w-100">
+                                <i class="bi bi-arrow-repeat me-1"></i>
+                                Pesan Lagi
+                            </a>
+                        @endif
+
+                    </div>
+                </div>
+
+            </div>
         </div>
+        @endforeach
+    </div>
 
-        {{-- Pagination --}}
-        <div class="mt-3 d-flex justify-content-center">
-            {{ $orders->links() }}
-        </div>
+    {{-- PAGINATION --}}
+    <div class="mt-4 d-flex justify-content-center">
+        {{ $orders->links() }}
+    </div>
+
     @endif
 </div>
 

@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="{{ asset('user/assets/style.css') }}">
     {{-- Swiper (dipakai oleh billboard/products jika halaman menggunakannya) --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <!-- Atau untuk versi terbaru (6.x) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- Page-level styles --}}
     @stack('styles')
@@ -68,54 +71,54 @@
     <script src="{{ asset('user/assets/js/plugins.js') }}"></script>
     <script src="{{ asset('user/assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
 
-    // ===== Session flash notifications =====
-    @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil!',
-            text: '{{ session('success') }}',
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1800
-        });
-    @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
-    @if(session('deleted'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Terhapus!',
-            text: '{{ session('deleted') }}',
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1800
-        });
-    @endif
+            // ===== Session flash notifications =====
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('success') }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1800
+                });
+            @endif
 
-    @if($errors->any())
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: `
+            @if (session('deleted'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Terhapus!',
+                    text: '{{ session('deleted') }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1800
+                });
+            @endif
+
+            @if ($errors->any())
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: `
                 <ul style="text-align: left; padding-left: 1rem;">
                     @foreach ($errors->all() as $err)
                         <li>{{ $err }}</li>
                     @endforeach
                 </ul>
             `,
-            confirmButtonColor: '#d33'
+                    confirmButtonColor: '#d33'
+                });
+            @endif
+
         });
-    @endif
-
-});
-
-
     </script>
     @stack('scripts')
 
