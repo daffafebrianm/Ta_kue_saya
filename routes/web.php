@@ -94,6 +94,7 @@ Route::middleware(['isCustomer'])->group(function () {
     Route::put('/Profile', [ProfileController::class, 'update'])->name('Profile.update');
 
     Route::get('/Riwayat-Pesanan', [RiwayatPesananController::class, 'index'])->name('Riwayat.index');
+    Route::get('/Riwayat-Pesanan/{id}', [RiwayatPesananController::class, 'show'])->name('Riwayat.show');
 
     Route::get('/about_us', [AboutUsController::class, 'index'])->name('about.index');
     Route::get('/location', [LocationController::class, 'index'])->name('location.index');

@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
         //     URL::forceScheme('https');
         // }
 
-        Paginator::useBootstrapFive();
+        Paginator::useBootstrap();
 
         // View composer untuk view utama user
         View::composer('user.layouts.main', function ($view) {
