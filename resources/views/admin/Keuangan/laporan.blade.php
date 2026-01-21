@@ -9,21 +9,21 @@
     <style>
         @page {
             size: A4 portrait;
-            margin: 15mm 10mm 20mm 10mm; /* atas, kanan, bawah, kiri */
+            margin: 15mm 10mm 20mm 10mm;
         }
 
         body {
             font-family: Arial, sans-serif;
             font-size: 11px;
             padding: 20px;
-            background: #ffffff; /* putih bersih */
+            background: #ffffff;
             color: #000;
         }
 
         h2 {
             text-align: center;
             margin-bottom: 5px;
-            color: #000; /* hitam polos */
+            color: #000;
         }
 
         .subtitle {
@@ -63,7 +63,7 @@
         }
 
         th {
-            background-color: #f2f2f2; /* abu muda halus */
+            background-color: #f2f2f2;
             font-weight: bold;
             text-transform: uppercase;
             text-align: center;
@@ -76,6 +76,10 @@
 
         td.text-end {
             text-align: right;
+        }
+
+        td.text-center {
+            text-align: center;
         }
 
         .summary-row {
@@ -93,10 +97,6 @@
         }
 
         @media print {
-            body {
-                background: #fff;
-            }
-
             .footer {
                 position: fixed;
                 bottom: 0;
@@ -111,10 +111,17 @@
 
     <h2>Laporan Keuangan Waroeng Koe Ree Cake & Cookies</h2>
 
+    {{-- 🔹 Periode Dinamis (Bulanan / Mingguan) --}}
     <p class="subtitle">
         Periode:
-        {{ $bulan ? \DateTime::createFromFormat('!m', $bulan)->format('F') : 'Semua Bulan' }}
-        {{ $tahun }}
+        @if ($minggu)
+            Minggu ke-{{ $minggu }}
+            {{ $bulan ? 'Bulan ' . \DateTime::createFromFormat('!m', $bulan)->format('F') : '' }}
+            {{ $tahun }}
+        @else
+            {{ $bulan ? \DateTime::createFromFormat('!m', $bulan)->format('F') : 'Semua Bulan' }}
+            {{ $tahun }}
+        @endif
     </p>
 
     <h3>Rincian Penjualan</h3>
@@ -137,10 +144,10 @@
             @forelse ($orders as $order)
                 @foreach ($order->orderDetails as $detail)
                     <tr>
-                        <td style="text-align:center;">{{ $no++ }}</td>
+                        <td class="text-center">{{ $no++ }}</td>
                         <td>{{ \Carbon\Carbon::parse($order->order_date)->translatedFormat('d F Y') }}</td>
                         <td>{{ $detail->produk->nama ?? '-' }}</td>
-                        <td style="text-align:center;">{{ $detail->jumlah }}</td>
+                        <td class="text-center">{{ $detail->jumlah }}</td>
                         <td class="text-end">Rp {{ number_format($detail->harga_modal, 0, ',', '.') }}</td>
                         <td class="text-end">Rp {{ number_format($detail->harga, 0, ',', '.') }}</td>
                         <td class="text-end">Rp {{ number_format($detail->total, 0, ',', '.') }}</td>
@@ -168,28 +175,27 @@
         </thead>
         <tbody>
             <tr>
-                <td style="text-align:center;">1</td>
+                <td class="text-center">1</td>
                 <td>Total Penjualan</td>
                 <td class="text-end">Rp {{ number_format($total_penjualan, 0, ',', '.') }}</td>
             </tr>
             <tr>
-                <td style="text-align:center;">2</td>
+                <td class="text-center">2</td>
                 <td>Total Modal</td>
                 <td class="text-end">Rp {{ number_format($total_modal, 0, ',', '.') }}</td>
             </tr>
             <tr class="summary-row">
-                <td style="text-align:center;">3</td>
+                <td class="text-center">3</td>
                 <td>Total Laba Bersih</td>
                 <td class="text-end">Rp {{ number_format($total_laba, 0, ',', '.') }}</td>
             </tr>
         </tbody>
     </table>
 
-
+    {{-- Tanda Tangan --}}
     <div style="margin-top: 60px; width: 100%;">
         <div style="width: 250px; float: right; text-align: center;">
-            <p>Padang, {{ \Carbon\Carbon::now()->setTimezone('Asia/Jakarta')->translatedFormat('d F Y') }}
-</p>
+            <p>Padang, {{ \Carbon\Carbon::now()->setTimezone('Asia/Jakarta')->translatedFormat('d F Y') }}</p>
             <p>Owner</p>
             <br><br><br><br>
             <p style="font-weight: bold; text-decoration: underline;">
@@ -200,6 +206,7 @@
 
     <div style="clear: both;"></div>
 
+    {{-- Footer --}}
     <div class="footer">
         Dicetak pada: {{ now()->setTimezone('Asia/Jakarta')->format('d-m-Y H:i:s') }} |
         Laporan Keuangan Waroeng Koe Ree Cake & Cookies

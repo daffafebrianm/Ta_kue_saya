@@ -17,13 +17,22 @@ class LandingPageController extends Controller
 
     public function user()
     {
-    $produks = Produk::aktif()->latest()->take(12)->get();
+        // Produk aktif terbaru (untuk katalog / section lain)
+        $produks = Produk::aktif()->latest()->take(6)->get();
 
-        // Ambil kategori produk
-        $kategoris = Kategori::all(); // Ambil semua kategori, sesuaikan jika nama model berbeda
-        $cartCount = Auth::check() ? Keranjang::where('user_id', Auth::id())->count() : 0;
 
-        // Kirim produk dan kategori ke view
-        return view('user.home', compact('produks', 'kategoris', 'cartCount'));
+        // Kategori (jika dipakai di bagian lain)
+        $kategoris = Kategori::all();
+
+        // Jumlah cart
+        $cartCount = auth()->check()
+            ? Keranjang::where('user_id', auth()->id())->count()
+            : 0;
+
+        return view('user.home', compact(
+            'produks',
+            'kategoris',
+            'cartCount'
+        ));
     }
 }

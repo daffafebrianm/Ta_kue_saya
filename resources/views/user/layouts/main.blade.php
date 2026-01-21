@@ -15,6 +15,7 @@
     <link rel="icon" type="image/png" sizes="128x128" href="{{ asset('user/assets/images/icon-kue.png') }}">
     <link rel="stylesheet" href="{{ asset('user/assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('user/assets/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     {{-- Swiper (dipakai oleh billboard/products jika halaman menggunakannya) --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <!-- Atau untuk versi terbaru (6.x) -->

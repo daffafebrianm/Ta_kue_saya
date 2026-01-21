@@ -7,6 +7,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use Psy\Command\WhereamiCommand;
 
 class OrderController extends Controller
 {
@@ -26,6 +27,8 @@ class OrderController extends Controller
             ->when($tahun, function ($query, $tahun) {
                 $query->whereYear('order_date', $tahun);
             })
+            ->where('payment_status', 'paid')
+            // ->where('key', value, boolean)
             ->orderBy('order_date', 'desc')
             ->paginate(10)
             ->appends([

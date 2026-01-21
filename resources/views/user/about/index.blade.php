@@ -1,145 +1,178 @@
 @extends('user.layouts.main')
+
 @section('content')
-    <!-- Hero Start -->
-    <div class="container-fluid bg-primary hero-header py-4 mb-5">
-    </div>
 
-    <!-- Feature Start -->
+<!-- Hero -->
+<div class="container-fluid bg-primary hero-header py-4 mb-5"></div>
 
-    <!-- Feature End -->
+<!-- Floating WhatsApp -->
+<a href="https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig"
+   class="whatsapp-float" target="_blank" aria-label="Chat via WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
 
-    <section class="about-section py-3 mb-4" style="background-color: #fff9f0;">
-        <div class="container">
-            <div class="row align-items-center">
-                <!-- Teks -->
-                <div class="col-md-6 mb-4 mb-md-0">
-                    <h2 class="fw-bold mb-4">Tentang Waroeng koe ree cake & cookies</h2>
-                    <p class="text-muted">
-                        Pada tahun 2022, Waroeng Koe Ree Cake & Cookies memulai perjalanannya sebagai usaha kuliner rumahan
-                        yang didirikan oleh Leni di Muara Bungo, Indonesia. Berlokasi di Jl. H. Al Sudin Pal 2, Bangko Lamo,
-                        Pasir Putih, usaha ini lahir dari keinginan untuk menghadirkan aneka kue dan cookies dengan cita
-                        rasa berkualitas yang dapat dinikmati oleh berbagai kalangan masyarakat.
-                    </p>
-                    <p class="text-muted">
-                        Sejak awal berdiri, Waroeng Koe Ree Cake & Cookies berkomitmen untuk menggunakan bahan-bahan pilihan
-                        yang segar dan berkualitas dalam setiap proses pembuatannya. Leni memastikan bahwa setiap produk
-                        yang dihasilkan tidak hanya memiliki rasa yang lezat, tetapi juga dibuat dengan penuh ketelitian dan
-                        kebersihan.
-                    </p>
-                    <p class="text-muted">
-                        Melalui konsistensi dalam menjaga kualitas rasa dan pelayanan, Waroeng Koe Ree Cake & Cookies
-                        perlahan mendapatkan kepercayaan pelanggan. Hal inilah yang menjadikan usaha ini terus berkembang
-                        dan dikenal sebagai salah satu penyedia kue dan cookies yang mengutamakan kualitas serta kepuasan
-                        pelanggan di wilayah Muara Bungo dan sekitarnya.
-                    </p>
-                </div>
+<!-- ABOUT SECTION -->
+<section class="about-modern">
+    <div class="container-fluid p-0">
 
-                <!-- Gambar -->
-                <div class="col-md-6 text-center">
-                    <img src="{{ asset('user/assets/images/lokasi2.png') }}" alt="waroeng koe"
-                        class="img-fluid rounded-4 shadow-lg" style="width: 20 cm; height: auto;">
+        <!-- ROW 1 : TENTANG KAMI -->
+        <div class="row g-0 align-items-center">
+            <div class="col-md-6 about-image">
+                <img src="{{ asset('user/assets/images/lokasi2.png') }}"
+                     alt="Waroeng Koe Ree Cake & Cookies">
+            </div>
 
-                </div>
+            <div class="col-md-6 about-content">
+                <h2>Tentang Waroeng Koe Ree</h2>
+                <span class="about-subtitle">Bakery rumahan sejak 2022</span>
+
+                <p>
+                    Waroeng Koe Ree Cake & Cookies didirikan pada tahun 2022 di Muara Bungo
+                    sebagai usaha bakery rumahan yang berfokus pada pembuatan roti, kue,
+                    dan cookies dengan cita rasa berkualitas.
+                </p>
+
+                <p>
+                    Kami berkomitmen menggunakan bahan-bahan pilihan serta menerapkan proses
+                    pembuatan yang higienis dan teliti, sehingga setiap produk yang dihasilkan
+                    memiliki rasa yang konsisten, lezat, dan aman untuk dikonsumsi.
+                </p>
             </div>
         </div>
-    </section>
 
-    <div class="container-fluid py-5 mb-3" style="background-color: #fff9f0;" data-aos="fade-right">
-        <div class="container text-center">
-            <!-- Feature Items -->
-            <div class="row g-4 justify-content-center mb-3">
-                <!-- Pet Health -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="feature-card p-4 h-100 text-center shadow-sm border-0 rounded-4 bg-white">
-                        <div class="icon-wrapper mb-3">
-                            <img src="{{ asset('user/assets/images/logo-1.png') }}" alt="Pet Health" class="img-fluid"
-                                style="max-width: 80px;">
-                        </div>
-                        <h5 class="fw-bold text-dark">Bahan Fresh</h5>
-                        <p class="text-muted mb-0">
-                            Bahan-bahan segar untuk rasa autentik setiap hari.
-                        </p>
-                    </div>
-                </div>
+        <!-- ROW 2 : MAKNA LOGO -->
+        <div class="row g-0 align-items-center flex-md-row-reverse">
+            <div class="col-md-6 logo-wrap">
+                <img src="{{ asset('user/assets/images/icon-kue.png') }}"
+                     alt="Logo Waroeng Koe Ree">
+            </div>
 
-                <!-- Grooming -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="feature-card p-4 h-100 text-center shadow-sm border-0 rounded-4 bg-white">
-                        <div class="icon-wrapper mb-3">
-                            <img src="{{ asset('user/assets/images/logo-2.png') }}" alt="Grooming" class="img-fluid"
-                                style="max-width: 80px;">
-                        </div>
-                        <h5 class="fw-bold text-dark">Pengalaman</h5>
-                        <p class="text-muted mb-0">
-                            Outlet yang menarik dan menakjubkan
-                        </p>
-                    </div>
-                </div>
+            <div class="col-md-6 about-content">
+                <h2>Makna Logo</h2>
+                <span class="about-subtitle">Identitas & Filosofi Brand</span>
 
-                <!-- Pet Hotel -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="feature-card p-4 h-100 text-center shadow-sm border-0 rounded-4 bg-white">
-                        <div class="icon-wrapper mb-3">
-                            <img src="{{ asset('user/assets/images/logo-3.png') }}" alt="Pet Hotel" class="img-fluid"
-                                style="max-width: 80px;">
-                        </div>
-                        <h5 class="fw-bold text-dark">Lezat</h5>
-                        <p class="text-muted mb-0">
-                            Kelezatan tiada tara, setiap gigitan memikat
-                        </p>
-                    </div>
-                </div>
+                <p>
+                    Logo Waroeng Koe Ree Cake & Cookies menampilkan ilustrasi kue sebagai
+                    simbol utama yang merepresentasikan fokus usaha pada produk roti dan
+                    kue berkualitas yang dibuat dengan penuh perhatian terhadap rasa
+                    dan tampilan.
+                </p>
+
+                <p>
+                    Bentuk lingkaran pada logo melambangkan kehangatan, kebersamaan,
+                    serta konsistensi, sejalan dengan nilai usaha rumahan yang
+                    mengedepankan kedekatan dan kepercayaan pelanggan.
+                </p>
+
+                <p>
+                    Dominasi warna cokelat dan krem mencerminkan kesan alami,
+                    kelezatan, dan kepercayaan, sekaligus menggambarkan penggunaan
+                    bahan-bahan pilihan dalam setiap proses pembuatan produk.
+                </p>
             </div>
         </div>
+
     </div>
-    <style>
-        .about-section {
-            padding: 80px 0;
-            background: #fff9f0;
-        }
+</section>
 
-        .about-img-wrap {
-            max-width: 520px;
-            /* batas ukuran biar gak kegedean */
-            margin-left: auto;
-            /* dorong ke kanan biar rapi */
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 18px 40px rgba(16, 24, 40, .12);
-        }
+<!-- STYLE -->
+<style>
+.about-modern {
+    background: #ffffff;
+}
 
-        .about-image {
-            width: 100%;
-            height: 340px;
-            /* tinggi konsisten */
-            object-fit: cover;
-            display: block;
-        }
+/* IMAGE SECTION */
+.about-image {
+    background: linear-gradient(135deg, #f7f7f7, #ffffff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
 
-        /* Responsive */
-        @media (max-width: 992px) {
-            .about-img-wrap {
-                max-width: 460px;
-                margin: 0 auto;
-                /* center kalau layar mengecil */
-            }
+.about-image img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    border-radius: 18px;
+}
 
-            .about-image {
-                height: 300px;
-            }
-        }
+/* CONTENT */
+.about-content {
+    padding: 90px 80px;
+}
 
-        @media (max-width: 576px) {
-            .about-img-wrap {
-                max-width: 100%;
-            }
+.about-content h2 {
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #2b2b2b;
+}
 
-            .about-image {
-                height: 220px;
-            }
-        }
-    </style>
+.about-subtitle {
+    display: inline-block;
+    font-size: 14px;
+    color: #9a6b4f;
+    margin-bottom: 26px;
+    letter-spacing: .5px;
+}
+
+.about-content p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #555;
+    margin-bottom: 18px;
+}
+
+/* LOGO SECTION */
+.logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 420px;
+    background: radial-gradient(circle at top, #fff9f0, #f3e4d6);
+    padding: 40px;
+}
+
+.logo-wrap img {
+    max-width: 260px;
+    width: 100%;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 50%;
+    box-shadow: 0 20px 40px rgba(0,0,0,.08);
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .about-content {
+        padding: 60px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-content {
+        padding: 40px 24px;
+        text-align: center;
+    }
+
+    .about-image {
+        padding: 24px;
+    }
+
+    .logo-wrap {
+        min-height: 260px;
+        padding: 24px;
+    }
+
+    .logo-wrap img {
+        max-width: 200px;
+    }
+}
+</style>
+
 @endsection
+
 @section('footer')
     @include('user.partials.footer')
 @endsection
