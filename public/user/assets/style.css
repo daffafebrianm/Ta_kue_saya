@@ -630,11 +630,34 @@ h3.cart-title {
     cursor: pointer;
 }
 
-@media only screen and (max-width: 991px) {
-  #navbar .user-items {
-    display: none;
-  }
+/* Pastikan container navbar pakai layout flex seimbang */
+#header-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
+
+/* Buat kolom kiri kosong biar tengahnya seimbang */
+.header-left-placeholder {
+  width: 150px; /* samakan dengan lebar user-items kanan */
+}
+
+/* Pusatkan menu di tengah */
+#navbar {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Rapiin bagian kanan (user + cart) */
+.user-items {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  min-width: 150px; /* sesuaikan kalau username panjang */
+}
+
 
 
 /* 2. Billboard

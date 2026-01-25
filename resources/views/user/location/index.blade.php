@@ -2,54 +2,84 @@
 
 @section('content')
     <!-- Floating WhatsApp Button -->
-    <a href="https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig" class="whatsapp-float"
-        target="_blank" aria-label="Chat via WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+ <a href="https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig"
+   class="whatsapp-float"
+   target="_blank"
+   data-aos="fade-up"
+   data-aos-duration="800"
+   data-aos-easing="ease-out-cubic">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
     <div class="container-fluid bg-primary hero-header py-4 mb-3"></div>
 
-    <div class="container-fluid py-5 mb-3" style="background-color:#fff9f0;" data-aos="fade-right">
-        <div class="container">
+   <div class="container-fluid py-5 mb-3" style="background-color:#fff9f0;" data-aos="fade-right">
+    <div class="container">
 
-            <div class="text-center mb-5">
-                <h2 class="fw-bold"
-                    style="color:#b78b6f; font-family: Georgia, 'Times New Roman', serif; font-style: italic;">
-                    Our Store
-                </h2>
-                <p class="text-muted">Kunjungi toko kami dan nikmati berbagai pilihan kue lezat setiap hari 🍰</p>
+        <div class="text-center mb-5"
+             data-aos="fade-up"
+             data-aos-delay="100">
+            <h2 class="fw-bold"
+                style="color:#b78b6f; font-family: Georgia, 'Times New Roman', serif; font-style: italic;">
+                Our Store
+            </h2>
+            <p class="text-muted">Kunjungi toko kami dan nikmati berbagai pilihan kue lezat setiap hari 🍰</p>
+        </div>
+
+        <div class="row g-0 shadow rounded-4 overflow-hidden bg-white"
+             data-aos="fade-up"
+             data-aos-delay="200">
+
+            <!-- Info Toko -->
+            <div class="col-lg-4 d-flex flex-column justify-content-center align-items-start p-4"
+                 style="background:#e0c2a2; color:#fff;"
+                 data-aos="fade-right"
+                 data-aos-delay="350">
+
+                <h4 class="fw-bold mb-3" style="color:#fffaf5;">
+                    Waroeng Koe Ree Cake & Cookies
+                </h4>
+
+                <p class="mb-2" style="font-size:15px; color:#fffaf5;"
+                   data-aos="fade-up"
+                   data-aos-delay="450">
+                    📍 G447+F6R, Pasir Putih, Kec. Rimbo Tengah,<br>
+                    Kabupaten Bungo, Jambi 37211
+                </p>
+
+                <p class="mb-2" style="font-size:14px; color:#fffaf5;"
+                   data-aos="fade-up"
+                   data-aos-delay="520">
+                    🕒 Buka setiap hari: 08.00 – 21.00
+                </p>
+
+                <p class="mb-4" style="font-size:14px; color:#fffaf5;"
+                   data-aos="fade-up"
+                   data-aos-delay="600">
+                    ☎️ Telepon: 0821-4567-8901
+                </p>
+
+                <a href="https://www.google.com/maps?q=-1.495591,102.112104"
+                   target="_blank"
+                   class="btn rounded-pill fw-semibold shadow-sm"
+                   style="background:#fff; color:#b78b6f; font-size:14px; padding:10px 20px; transition:0.3s;"
+                   data-aos="zoom-in"
+                   data-aos-delay="700">
+                    📍 Lihat di Google Maps
+                </a>
             </div>
 
-            <div class="row g-0 shadow rounded-4 overflow-hidden bg-white">
-                <!-- Info Toko -->
-                <div class="col-lg-4 d-flex flex-column justify-content-center align-items-start p-4"
-                    style="background:#e0c2a2; color:#fff;">
-                    <h4 class="fw-bold mb-3" style="color:#fffaf5;">Waroeng Koe Ree Cake & Cookies</h4>
-
-                    <p class="mb-2" style="font-size:15px; color:#fffaf5;">
-                        📍 G447+F6R, Pasir Putih, Kec. Rimbo Tengah,<br>
-                        Kabupaten Bungo, Jambi 37211
-                    </p>
-                    <p class="mb-2" style="font-size:14px; color:#fffaf5;">
-                        🕒 Buka setiap hari: 08.00 – 21.00
-                    </p>
-                    <p class="mb-4" style="font-size:14px; color:#fffaf5;">
-                        ☎️ Telepon: 0821-4567-8901
-                    </p>
-
-                    <a href="https://www.google.com/maps?q=-1.495591,102.112104" target="_blank"
-                        class="btn rounded-pill fw-semibold shadow-sm"
-                        style="background:#fff; color:#b78b6f; font-size:14px; padding:10px 20px; transition:0.3s;">
-                        📍 Lihat di Google Maps
-                    </a>
-                </div>
-
-                <!-- Map -->
-                <div class="col-lg-8">
-                    <div id="map" style="width:100%; height:560px;"></div>
-                </div>
+            <!-- Map -->
+            <div class="col-lg-8"
+                 data-aos="fade-left"
+                 data-aos-delay="350">
+                <div id="map" style="width:100%; height:560px;"></div>
             </div>
+
         </div>
     </div>
+</div>
+
 @endsection
 
 @section('footer')

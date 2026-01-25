@@ -6,8 +6,12 @@
 <div class="container-fluid bg-primary hero-header py-4 mb-5"></div>
 
 <!-- Floating WhatsApp -->
-<a href="https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig"
-   class="whatsapp-float" target="_blank" aria-label="Chat via WhatsApp">
+ <a href="https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig"
+   class="whatsapp-float"
+   target="_blank"
+   data-aos="fade-up"
+   data-aos-duration="800"
+   data-aos-easing="ease-out-cubic">
     <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -17,22 +21,38 @@
 
         <!-- ROW 1 : TENTANG KAMI -->
         <div class="row g-0 align-items-center">
-            <div class="col-md-6 about-image">
+            <div class="col-md-6 about-image"
+                 data-aos="fade-right"
+                 data-aos-duration="900"
+                 data-aos-easing="ease-out-cubic">
                 <img src="{{ asset('user/assets/images/lokasi2.png') }}"
                      alt="Waroeng Koe Ree Cake & Cookies">
             </div>
 
-            <div class="col-md-6 about-content">
-                <h2>Tentang Waroeng Koe Ree</h2>
-                <span class="about-subtitle">Bakery rumahan sejak 2022</span>
+            <div class="col-md-6 about-content"
+                 data-aos="fade-left"
+                 data-aos-duration="900"
+                 data-aos-delay="120"
+                 data-aos-easing="ease-out-cubic">
 
-                <p>
+                <h2 data-aos="fade-up" data-aos-delay="200" data-aos-duration="650">
+                    Tentang Waroeng Koe Ree
+                </h2>
+
+                <span class="about-subtitle"
+                      data-aos="fade-up"
+                      data-aos-delay="260"
+                      data-aos-duration="650">
+                    Bakery rumahan sejak 2022
+                </span>
+
+                <p data-aos="fade-up" data-aos-delay="320" data-aos-duration="650">
                     Waroeng Koe Ree Cake & Cookies didirikan pada tahun 2022 di Muara Bungo
                     sebagai usaha bakery rumahan yang berfokus pada pembuatan roti, kue,
                     dan cookies dengan cita rasa berkualitas.
                 </p>
 
-                <p>
+                <p data-aos="fade-up" data-aos-delay="380" data-aos-duration="650">
                     Kami berkomitmen menggunakan bahan-bahan pilihan serta menerapkan proses
                     pembuatan yang higienis dan teliti, sehingga setiap produk yang dihasilkan
                     memiliki rasa yang konsisten, lezat, dan aman untuk dikonsumsi.
@@ -42,29 +62,45 @@
 
         <!-- ROW 2 : MAKNA LOGO -->
         <div class="row g-0 align-items-center flex-md-row-reverse">
-            <div class="col-md-6 logo-wrap">
+            <div class="col-md-6 logo-wrap"
+                 data-aos="fade-left"
+                 data-aos-duration="900"
+                 data-aos-easing="ease-out-cubic">
                 <img src="{{ asset('user/assets/images/icon-kue.png') }}"
                      alt="Logo Waroeng Koe Ree">
             </div>
 
-            <div class="col-md-6 about-content">
-                <h2>Makna Logo</h2>
-                <span class="about-subtitle">Identitas & Filosofi Brand</span>
+            <div class="col-md-6 about-content"
+                 data-aos="fade-right"
+                 data-aos-duration="900"
+                 data-aos-delay="120"
+                 data-aos-easing="ease-out-cubic">
 
-                <p>
+                <h2 data-aos="fade-up" data-aos-delay="200" data-aos-duration="650">
+                    Makna Logo
+                </h2>
+
+                <span class="about-subtitle"
+                      data-aos="fade-up"
+                      data-aos-delay="260"
+                      data-aos-duration="650">
+                    Identitas & Filosofi Brand
+                </span>
+
+                <p data-aos="fade-up" data-aos-delay="320" data-aos-duration="650">
                     Logo Waroeng Koe Ree Cake & Cookies menampilkan ilustrasi kue sebagai
                     simbol utama yang merepresentasikan fokus usaha pada produk roti dan
                     kue berkualitas yang dibuat dengan penuh perhatian terhadap rasa
                     dan tampilan.
                 </p>
 
-                <p>
+                <p data-aos="fade-up" data-aos-delay="380" data-aos-duration="650">
                     Bentuk lingkaran pada logo melambangkan kehangatan, kebersamaan,
                     serta konsistensi, sejalan dengan nilai usaha rumahan yang
                     mengedepankan kedekatan dan kepercayaan pelanggan.
                 </p>
 
-                <p>
+                <p data-aos="fade-up" data-aos-delay="440" data-aos-duration="650">
                     Dominasi warna cokelat dan krem mencerminkan kesan alami,
                     kelezatan, dan kepercayaan, sekaligus menggambarkan penggunaan
                     bahan-bahan pilihan dalam setiap proses pembuatan produk.
@@ -74,6 +110,7 @@
 
     </div>
 </section>
+
 
 <!-- STYLE -->
 <style>
