@@ -155,27 +155,32 @@
                                 </div>
 
                                 @php
-    $method = strtolower($order->shipping_method ?? '-');
+                                    $method = strtolower($order->shipping_method ?? '-');
 
-    // 🌈 Warna glossy lembut berdasarkan metode pengiriman
-    $methodStyle = match ($method) {
-        'picked up', 'pickup' => 'color:#fff; background:linear-gradient(135deg, #c89f77, #b78b6f);', // Coklat keemasan
-        'delivered', 'delivery' => 'color:#3e2f25; background: linear-gradient(135deg, #f8c8dc, #f19ab7)', // Kuning lembut
-        default => 'color:#fff; background:linear-gradient(135deg, #9ca3af, #6b7280);', // Abu glossy
-    };
+                                    // 🌈 Warna glossy lembut berdasarkan metode pengiriman
+                                    $methodStyle = match ($method) {
+                                        'picked up',
+                                        'pickup'
+                                            => 'color:#fff; background:linear-gradient(135deg, #c89f77, #b78b6f);', // Coklat keemasan
+                                        'delivered',
+                                        'delivery'
+                                            => 'color:#3e2f25; background: linear-gradient(135deg, #f8c8dc, #f19ab7)', // Kuning lembut
+                                        default
+                                            => 'color:#fff; background:linear-gradient(135deg, #9ca3af, #6b7280);', // Abu glossy
+                                    };
 
-    // 🇮🇩 Terjemahan metode pengiriman ke Bahasa Indonesia
-    $methodLabel = match ($method) {
-        'picked up', 'pickup' => 'Diambil di Toko',
-        'delivered', 'delivery' => 'Dikirim ke Alamat',
-        default => ucfirst($method),
-    };
-@endphp
+                                    // 🇮🇩 Terjemahan metode pengiriman ke Bahasa Indonesia
+                                    $methodLabel = match ($method) {
+                                        'picked up', 'pickup' => 'Diambil di Toko',
+                                        'delivered', 'delivery' => 'Dikirim ke Alamat',
+                                        default => ucfirst($method),
+                                    };
+                                @endphp
 
-<span class="badge px-3 py-2 fw-semibold text-capitalize shadow-sm"
-      style="border:none; border-radius:12px; {{ $methodStyle }}">
-    {{ $methodLabel }}
-</span>
+                                <span class="badge px-3 py-2 fw-semibold text-capitalize shadow-sm"
+                                    style="border:none; border-radius:12px; {{ $methodStyle }}">
+                                    {{ $methodLabel }}
+                                </span>
 
 
                             </div>

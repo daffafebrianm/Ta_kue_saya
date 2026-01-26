@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Order;
 use App\Models\Produk;
 use App\Models\Keranjang;
 use Illuminate\Support\Facades\URL;
@@ -29,6 +30,16 @@ class AppServiceProvider extends ServiceProvider
         //     URL::forceScheme('https');
         // }
 
+        // Mengirim $notifikasiOrders ke semua view yang memakai 'admin.*'
+        View::composer('admin.*', function ($view) {
+            $notifikasiOrders = Order::select('id', 'order_code', 'nama', 'shipping_status', 'created_at')
+                ->where('shipping_status', 'processing')
+                ->orderBy('created_at', 'desc')
+                ->take(10)
+                ->get();
+
+            $view->with('notifikasiOrders', $notifikasiOrders);
+        });
         Paginator::useBootstrap();
 
         // View composer untuk view utama user
@@ -51,5 +62,6 @@ class AppServiceProvider extends ServiceProvider
                 'cartCount' => $cartCount,
             ]);
         });
+
     }
 }
