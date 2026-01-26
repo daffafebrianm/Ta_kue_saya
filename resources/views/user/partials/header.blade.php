@@ -2,7 +2,7 @@
      style="background-color: #dfc8a7;">
      <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
          <div class="container d-flex justify-content-between align-items-center">
-
+<div class="header-left-placeholder"></div>
              {{-- Menu Tengah --}}
              <ul id="navbar"
                  class="navbar-nav text-uppercase justify-content-center align-items-center flex-row mx-auto">
@@ -16,7 +16,8 @@
              </ul>
 
              {{-- Bagian kanan (User & Cart) --}}
-             <div class="user-items d-flex align-items-center" style="gap: 15px;">
+             {{-- Bagian kanan (User & Cart) --}}
+             <div class="user-items d-flex align-items-center justify-content-end" style="gap: 15px; min-width: 150px;">
                  @auth
                      <div class="dropdown">
                          <a href="#" class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none"
@@ -36,36 +37,31 @@
                              <li><a class="dropdown-item" href="/logout" style="color:black;">Logout</a></li>
                          </ul>
                      </div>
+
                      @php
-                         $cartCount = Auth::check() ? \App\Models\Keranjang::where('user_id', Auth::id())->count() : 0;
+                         $cartCount = \App\Models\Keranjang::where('user_id', Auth::id())->count();
                      @endphp
 
                      <a href="{{ route('keranjang.index') }}" class="text-decoration-none position-relative">
                          <svg class="cart" width="24" height="24" style="cursor:pointer; color:white;">
                              <use xlink:href="#cart"></use>
                          </svg>
-
                          <span id="cart-count"
                              style="position: absolute; top: -5px; right: -5px; background: red; color: white;
-             font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 50%; line-height: 1;
-             {{ $cartCount > 0 ? '' : 'display:none;' }}">
+                font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 50%; line-height: 1;
+                {{ $cartCount > 0 ? '' : 'display:none;' }}">
                              {{ $cartCount }}
                          </span>
-
-
                      </a>
-
-
-                 @endauth
-
-                 @guest
+                 @else
                      <a href="{{ route('login') }}" class="text-decoration-none d-flex align-items-center">
                          <svg class="user" width="20" height="20" style="color:white;">
                              <use xlink:href="#user"></use>
                          </svg>
                      </a>
-                 @endguest
+                 @endauth
              </div>
+
          </div>
 
      </nav>
@@ -83,4 +79,38 @@
                  d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
          </symbol>
      </svg>
+
+     <style>
+        /* === Dropdown Warna Sama dengan Navbar === */
+.dropdown-menu {
+  background-color: #dfc8a7; /* warna navbar kamu */
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Item di dalam dropdown */
+.dropdown-menu .dropdown-item {
+  color: white !important; /* teks putih agar kontras */
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Saat hover, sedikit gelap biar terasa efeknya */
+.dropdown-menu .dropdown-item:hover {
+  background-color: #c7b08c; /* sedikit lebih gelap dari navbar */
+  color: white !important;
+}
+
+/* Divider (garis pemisah) warna lebih lembut */
+.dropdown-divider {
+  border-color: #d6bea1;
+}
+
+/* Ujung panah dropdown (kalau aktif pakai Bootstrap 5 default) */
+.dropdown-toggle::after {
+  color: white;
+}
+
+     </style>
  </header>

@@ -61,6 +61,8 @@ Route::middleware(['isAdmin'])->group(function () {
     // ORDER
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{id}/shipping-status', [OrderController::class, 'updateShippingStatus'])
+        ->name('orders.updateShippingStatus');
 });
 
 Route::middleware(['isCustomer'])->group(function () {

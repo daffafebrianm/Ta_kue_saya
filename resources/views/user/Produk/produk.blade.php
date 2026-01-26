@@ -30,167 +30,203 @@
             box-shadow: 0 4px 10px rgba(183, 139, 111, .25);
         }
 
-   /* ====== GRID PRODUK ====== */
-.product-store-new {
-    padding-top: 90px;
-    padding-bottom: 50px;
-}
+        /* ====== GRID PRODUK ====== */
+        .product-store-new {
+            padding-top: 90px;
+            padding-bottom: 50px;
+        }
 
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 40px; /* ⬅️ lebih lega seperti di gambar */
-}
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            /* ⬅️ lebih lega seperti di gambar */
+        }
 
-@media (max-width: 1200px) {
-    .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
 
-@media (max-width: 992px) {
-    .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+        @media (max-width: 992px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
-@media (max-width: 576px) {
-    .products-grid {
-        grid-template-columns: 1fr;
-    }
-}
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-/* ====== CARD ====== */
-.product-card {
-    text-align: center;
-    background: transparent; /* ⬅️ card terlihat ringan */
-    padding: 0;
-}
+        /* ====== CARD ====== */
+        .product-card {
+            text-align: center;
+            background: transparent;
+            /* ⬅️ card terlihat ringan */
+            padding: 0;
+        }
 
-/* ====== IMAGE ====== */
-.product-thumb {
-    background: #f5f5f5;
-    border-radius: 14px;
-    height: 230px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-bottom: 14px;
-}
+        /* ====== IMAGE ====== */
+        .product-thumb {
+            background: #f5f5f5;
+            border-radius: 14px;
+            height: 230px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
 
-.product-thumb img {
-    max-width: 90%;
-    max-height: 90%;
-    width: auto;
-    height: auto;
-    object-fit: contain; /* ⬅️ gambar utuh */
-    transition: transform 0.3s ease;
-}
+        .product-thumb img {
+            max-width: 90%;
+            max-height: 90%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            /* ⬅️ gambar utuh */
+            transition: transform 0.3s ease;
+        }
 
-.product-card:hover .product-thumb img {
-    transform: scale(1.06);
-}
+        .product-card:hover .product-thumb img {
+            transform: scale(1.06);
+        }
 
-/* ====== TEXT ====== */
-.product-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: #5b3a1e;
-    margin-bottom: 4px;
-    line-height: 1.3;
-}
+        /* ====== TEXT ====== */
+        .product-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #5b3a1e;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
 
-.product-price {
-    font-size: 14px;
-    font-weight: 500;
-    color: #8b8b8b;
-    margin-bottom: 14px;
-}
+        .product-price {
+            font-size: 14px;
+            font-weight: 500;
+            color: #8b8b8b;
+            margin-bottom: 14px;
+        }
 
-/* ====== BUTTON ====== */
-.product-action {
-    padding: 0 10px;
-}
+        /* ====== BUTTON ====== */
+        .product-action {
+            padding: 0 10px;
+        }
 
-.btn-cart-oval {
-    width: 100%;
-    padding: 9px 0;
-    border-radius: 999px;
-    border: 1px solid #d8c3a5;
-    background: transparent;
-    color: #5b3a1e;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    text-decoration: none;
-}
+        .btn-cart-oval {
+            width: 100%;
+            padding: 9px 0;
+            border-radius: 999px;
+            border: 1px solid #d8c3a5;
+            background: transparent;
+            color: #5b3a1e;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
 
-.btn-cart-oval:hover {
-    background: #5b3a1e;
-    color: #ffffff;
-}
-
+        .btn-cart-oval:hover {
+            background: #5b3a1e;
+            color: #ffffff;
+        }
     </style>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig" class="whatsapp-float"
-        target="_blank" aria-label="Chat via WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <a href="https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig"
+   class="whatsapp-float"
+   target="_blank"
+   data-aos="fade-up"
+   data-aos-duration="800"
+   data-aos-easing="ease-out-cubic">
+    <i class="fab fa-whatsapp"></i>
+</a>    
+<section id="product-store-new"
+    class="product-store-new position-relative padding-large no-padding-top"
+    data-aos="fade-up"
+    data-aos-duration="800">
 
-    <section id="product-store-new" class="product-store-new position-relative padding-large no-padding-top">
-        <div class="container">
-            <div class="row">
-                {{-- Tombol Kategori --}}
-                <div class="category-buttons mb-5">
-                    @foreach ($categories as $categoryName => $label)
-                        <button class="btn-category-oval {{ $selectedCategory == $categoryName ? 'active' : '' }}"
-                            data-category="{{ $categoryName }}">
-                            {{ $label }}
-                        </button>
-                    @endforeach
-                </div>
+    <div class="container">
+        <div class="row">
 
-                {{-- Produk Grid --}}
-                <div class="products-grid">
-                    @foreach ($produks as $produk)
-                        <div class="product-card">
-                            <div class="product-thumb">
-                                <a href="{{ route('detail.index', $produk->id) }}">
-                                    <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}">
-                                </a>
-                            </div>
-
-                            <div class="product-name">{{ $produk->nama }}</div>
-                            <div class="product-price">Rp {{ number_format($produk->harga, 0, ',', '.') }}</div>
-                            <div class="product-action">
-                                @auth
-                                    <form action="{{ route('keranjang.store') }}" method="POST" class="add-to-cart-form">
-                                        @csrf
-                                        <input type="hidden" name="produk_id" value="{{ $produk->id }}">
-                                        <input type="hidden" name="jumlah" value="1">
-                                        <button type="submit" class="btn-cart-oval">ADD TO CART</button>
-                                    </form>
-                                @else
-                                    <a href="{{ route('login') }}" class="btn-cart-oval" style="text-decoration:none;">ADD TO
-                                        CART</a>
-                                @endauth
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
-                {{-- Pagination --}}
-                <div class="mt-4 d-flex justify-content-center">
-                    {{ $produks->links() }}
-                </div>
+            {{-- TOMBOL KATEGORI --}}
+            <div class="category-buttons mb-5 d-flex flex-wrap justify-content-center gap-3"
+                 data-aos="fade-down"
+                 data-aos-delay="150">
+                @foreach ($categories as $categoryName => $label)
+                    <button
+                        class="btn-category-oval {{ $selectedCategory == $categoryName ? 'active' : '' }}"
+                        data-category="{{ $categoryName }}">
+                        {{ $label }}
+                    </button>
+                @endforeach
             </div>
+
+            {{-- PRODUK GRID --}}
+            <div class="products-grid">
+                @foreach ($produks as $index => $produk)
+                    <div class="product-card"
+                         data-aos="zoom-in"
+                         data-aos-delay="{{ 100 + ($index * 70) }}"
+                         data-aos-duration="650">
+
+                        <div class="product-thumb">
+                            <a href="{{ route('detail.index', $produk->id) }}">
+                                <img src="{{ asset('storage/' . $produk->gambar) }}"
+                                     alt="{{ $produk->nama }}">
+                            </a>
+                        </div>
+
+                        <div class="product-name">
+                            {{ $produk->nama }}
+                        </div>
+
+                        <div class="product-price">
+                            Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                        </div>
+
+                        <div class="product-action text-center">
+                            @auth
+                                <form action="{{ route('keranjang.store') }}"
+                                      method="POST"
+                                      class="d-inline add-to-cart-form">
+                                    @csrf
+                                    <input type="hidden" name="produk_id" value="{{ $produk->id }}">
+                                    <input type="hidden" name="jumlah" value="1">
+                                    <button type="submit" class="btn-cart-oval">
+                                        ADD TO CART
+                                    </button>
+                                </form>
+                            @else
+                                <a href="{{ route('login') }}"
+                                   class="btn-cart-oval d-inline-block text-center"
+                                   style="text-decoration:none;">
+                                    ADD TO CART
+                                </a>
+                            @endauth
+                        </div>
+
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- PAGINATION --}}
+            <div class="mt-4 d-flex justify-content-center"
+                 data-aos="fade-up"
+                 data-aos-delay="200">
+                {{ $produks->links() }}
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
+
 
     {{-- JS --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -14,8 +14,16 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $bulan  = $request->input('bulan'); // 1–12
-        $tahun  = $request->input('tahun', date('Y'));
+        $bulan  = $request->input('bulan');
+        $tahun  = $request->input('tahun');
+
+        // 🔹 Jika user belum pilih bulan/tahun, redirect ke bulan & tahun sekarang
+        if (!$bulan && !$tahun) {
+            return redirect()->route('orders.index', [
+                'bulan' => date('n'),
+                'tahun' => date('Y'),
+            ]);
+        }
 
         $orders = Order::with('user')
             ->when($search, function ($query, $search) {
@@ -28,7 +36,6 @@ class OrderController extends Controller
                 $query->whereYear('order_date', $tahun);
             })
             ->where('payment_status', 'paid')
-            // ->where('key', value, boolean)
             ->orderBy('order_date', 'desc')
             ->paginate(10)
             ->appends([
@@ -39,6 +46,7 @@ class OrderController extends Controller
 
         return view('admin.order.index', compact('orders', 'search', 'bulan', 'tahun'));
     }
+
 
 
     public function show($id)
@@ -100,5 +108,31 @@ class OrderController extends Controller
             ->setPaper('A4', 'landscape');
 
         return $pdf->stream('laporan_order_paid.pdf');
+    }
+    public function updateShippingStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $newStatus = $request->input('shipping_status');
+
+        $allowedTransitions = [
+            'pending' => ['processing'],
+            'processing' => ['shipped', 'cancelled'],
+            'shipped' => ['completed'],
+            'completed' => [], // tidak bisa diubah lagi
+            'cancelled' => []  // tidak bisa diubah lagi
+        ];
+
+        $currentStatus = $order->shipping_status;
+
+        // Cek apakah status baru valid berdasarkan status saat ini
+        if (!in_array($newStatus, $allowedTransitions[$currentStatus] ?? [])) {
+            return back()->with('error', "Status pengiriman tidak dapat diubah dari '{$currentStatus}' ke '{$newStatus}'.");
+        }
+
+        // Update status jika valid
+        $order->shipping_status = $newStatus;
+        $order->save();
+
+        return back()->with('success', "Status pengiriman berhasil diubah menjadi '{$newStatus}'.");
     }
 }

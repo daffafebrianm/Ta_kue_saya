@@ -8,114 +8,197 @@
 
     <!-- Floating WhatsApp Button -->
     <a href="https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig" class="whatsapp-float"
-        target="_blank" aria-label="Chat via WhatsApp">
+        target="_blank" data-aos="fade-up" data-aos-duration="800" data-aos-easing="ease-out-cubic">
         <i class="fab fa-whatsapp"></i>
     </a>
 
 
-    <!-- Banner Carousel -->
-    <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4500">
+  <!-- Banner Carousel -->
+<div id="bannerCarousel" class="carousel slide"
+     data-bs-ride="carousel"
+     data-bs-interval="4500"
+     data-aos="fade-up"
+     data-aos-duration="900"
+     data-aos-easing="ease-out-cubic">
 
-        <!-- Dot Indicators -->
-        <div class="carousel-indicators custom-indicators">
-            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true"
-                aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-
-        <div class="carousel-inner">
-
-            <!-- Slide 1 -->
-            <div class="carousel-item active position-relative">
-                <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1920&auto=format&fit=crop"
-                    class="d-block w-100 banner-img" alt="Kue Cokelat">
-                <div class="banner-overlay"></div>
-                <div class="banner-text position-absolute top-50 start-50 translate-middle text-center text-white">
-                    <h1 class="fw-bold mb-3 display-4 text-uppercase">Waroeng Koe Ree</h1>
-                    <p class="fs-5 fst-italic mb-4">Cake & Cookies yang dibuat dengan cinta dan bahan terbaik</p>
-                    <a href="{{ route('products.index') }}" class="btn-modern">Lihat Menu</a>
-                </div>
-            </div>
-
-            <!-- Slide 2 : Tentang Kami -->
-            <div class="carousel-item position-relative">
-                <img src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=1920&auto=format&fit=crop"
-                    class="d-block w-100 banner-img" alt="Cupcake Manis Buatan Kami">
-
-                <div class="banner-overlay"></div>
-
-                <div class="banner-text position-absolute top-50 start-50 translate-middle text-center text-white px-3">
-                    <h1 class="fw-bold mb-3 display-5 text-uppercase">
-                        Tentang Kami
-                    </h1>
-
-                    <p class="fs-5 fst-italic mb-4">
-                        Dari dapur kecil dengan cinta besar — kami menyajikan rasa,
-                        kualitas, dan kehangatan di setiap gigitan.
-                    </p>
-
-                    <a href="{{ route('about.index') }}" class="btn-modern">
-                        Kenali Cerita Kami
-                    </a>
-                </div>
-            </div>
-
-
-            <!-- Slide 3 -->
-            <div class="carousel-item position-relative">
-                <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=1920&auto=format&fit=crop"
-                    class="d-block w-100 banner-img" alt="Cookies Premium">
-                <div class="banner-overlay"></div>
-                <div class="banner-text position-absolute top-50 start-50 translate-middle text-center text-white">
-                    <h1 class="fw-bold mb-3 display-5 text-uppercase">Temukan Kue Favorit Kamu</h1>
-                    <p class="fs-5 fst-italic mb-4">Cookies renyah dan cake lembut — teman sempurna untuk hari Anda</p>
-                    <a href="{{ route('products.index') }}" class="btn-modern">Pesan Sekarang</a>
-                </div>
-            </div>
-
-        </div>
+    <!-- Dot Indicators -->
+    <div class="carousel-indicators custom-indicators">
+        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
 
-<section id="mobile-products" class="product-section">
-    <div class="container my-5">
+    <div class="carousel-inner">
 
-        <!-- Section Title -->
-        <div class="section-header text-center mb-4">
-            <h2>Kategori Favorit Kami</h2>
-            <p>Pilih kategori dan temukan camilan terbaik hari ini</p>
+        <!-- Slide 1 -->
+        <div class="carousel-item active position-relative">
+            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1920&auto=format&fit=crop"
+                class="d-block w-100 banner-img" alt="Kue Cokelat"
+                data-aos="zoom-out"
+                data-aos-duration="1000">
+
+            <div class="banner-overlay"
+                 data-aos="fade-in"
+                 data-aos-duration="900"></div>
+
+            <div class="banner-text position-absolute top-50 start-50 translate-middle text-center text-white"
+                 data-aos="fade-up"
+                 data-aos-delay="250"
+                 data-aos-duration="900"
+                 data-aos-easing="ease-out-cubic">
+                <h1 class="fw-bold mb-3 display-4 text-uppercase"
+                    data-aos="fade-down"
+                    data-aos-delay="350"
+                    data-aos-duration="800">
+                    Waroeng Koe Ree
+                </h1>
+
+                <p class="fs-5 fst-italic mb-4"
+                   data-aos="fade-up"
+                   data-aos-delay="450"
+                   data-aos-duration="800">
+                    Cake & Cookies yang dibuat dengan cinta dan bahan terbaik
+                </p>
+
+                <a href="{{ route('products.index') }}" class="btn-modern"
+                   data-aos="zoom-in"
+                   data-aos-delay="600"
+                   data-aos-duration="700">
+                    Lihat Menu
+                </a>
+            </div>
         </div>
 
-        <div class="category-grid">
+        <!-- Slide 2 : Tentang Kami -->
+        <div class="carousel-item position-relative">
+            <img src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=1920&auto=format&fit=crop"
+                class="d-block w-100 banner-img" alt="Cupcake Manis Buatan Kami"
+                data-aos="zoom-out"
+                data-aos-duration="1000">
 
-            <a href="{{ route('products.index') }}?category=Cookies" class="cat-card">
-                <div class="cat-img">
-                    <img src="{{ asset('user/assets/images/cookies.jpg') }}" alt="Cookies">
-                </div>
-                <div class="cat-title">Cookies</div>
-                <div class="cat-line"></div>
-            </a>
+            <div class="banner-overlay"
+                 data-aos="fade-in"
+                 data-aos-duration="900"></div>
 
-            <a href="{{ route('products.index') }}?category=Cakes" class="cat-card">
-                <div class="cat-img">
-                    <img src="{{ asset('user/assets/images/cakes.jpg') }}" alt="Cakes">
-                </div>
-                <div class="cat-title">Cakes</div>
-                <div class="cat-line"></div>
-            </a>
+            <div class="banner-text position-absolute top-50 start-50 translate-middle text-center text-white px-3"
+                 data-aos="fade-up"
+                 data-aos-delay="250"
+                 data-aos-duration="900"
+                 data-aos-easing="ease-out-cubic">
 
-            <a href="{{ route('products.index') }}?category=Dry%20Cake" class="cat-card">
-                <div class="cat-img">
-                    <img src="{{ asset('user/assets/images/dry-cakes.jpg') }}" alt="Dry Cake">
-                </div>
-                <div class="cat-title">Dry Cake</div>
-                <div class="cat-line"></div>
-            </a>
+                <h1 class="fw-bold mb-3 display-5 text-uppercase"
+                    data-aos="fade-down"
+                    data-aos-delay="350"
+                    data-aos-duration="800">
+                    Tentang Kami
+                </h1>
 
+                <p class="fs-5 fst-italic mb-4"
+                   data-aos="fade-up"
+                   data-aos-delay="450"
+                   data-aos-duration="800">
+                    Dari dapur kecil dengan cinta besar — kami menyajikan rasa,
+                    kualitas, dan kehangatan di setiap gigitan.
+                </p>
+
+                <a href="{{ route('about.index') }}" class="btn-modern"
+                   data-aos="zoom-in"
+                   data-aos-delay="600"
+                   data-aos-duration="700">
+                    Kenali Cerita Kami
+                </a>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item position-relative">
+            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=1920&auto=format&fit=crop"
+                class="d-block w-100 banner-img" alt="Cookies Premium"
+                data-aos="zoom-out"
+                data-aos-duration="1000">
+
+            <div class="banner-overlay"
+                 data-aos="fade-in"
+                 data-aos-duration="900"></div>
+
+            <div class="banner-text position-absolute top-50 start-50 translate-middle text-center text-white"
+                 data-aos="fade-up"
+                 data-aos-delay="250"
+                 data-aos-duration="900"
+                 data-aos-easing="ease-out-cubic">
+
+                <h1 class="fw-bold mb-3 display-5 text-uppercase"
+                    data-aos="fade-down"
+                    data-aos-delay="350"
+                    data-aos-duration="800">
+                    Temukan Kue Favorit Kamu
+                </h1>
+
+                <p class="fs-5 fst-italic mb-4"
+                   data-aos="fade-up"
+                   data-aos-delay="450"
+                   data-aos-duration="800">
+                    Cookies renyah dan cake lembut — teman sempurna untuk hari Anda
+                </p>
+
+                <a href="{{ route('products.index') }}" class="btn-modern"
+                   data-aos="zoom-in"
+                   data-aos-delay="600"
+                   data-aos-duration="700">
+                    Pesan Sekarang
+                </a>
+            </div>
         </div>
 
     </div>
-</section>
+</div>
+
+
+
+    <section id="mobile-products" class="product-section">
+        <div class="container my-5">
+
+            <!-- Section Title -->
+            <div class="section-header text-center mb-5" data-aos="fade-down" data-aos-duration="900"
+                data-aos-easing="ease-out-cubic">
+                <h2>Kategori Favorit Kami</h2>
+                <p>Pilih kategori dan temukan camilan terbaik hari ini</p>
+            </div>
+
+            <div class="category-grid">
+
+                <a href="{{ route('products.index') }}?category=Cookies" class="cat-card" data-aos="fade-up"
+                    data-aos-delay="0" data-aos-duration="800" data-aos-easing="ease-out-cubic">
+                    <div class="cat-img">
+                        <img src="{{ asset('user/assets/images/cookies.jpg') }}" alt="Cookies">
+                    </div>
+                    <div class="cat-title">Cookies</div>
+                    <div class="cat-line"></div>
+                </a>
+
+                <a href="{{ route('products.index') }}?category=Cakes" class="cat-card" data-aos="fade-up"
+                    data-aos-delay="150" data-aos-duration="800" data-aos-easing="ease-out-cubic">
+                    <div class="cat-img">
+                        <img src="{{ asset('user/assets/images/cakes.jpg') }}" alt="Cakes">
+                    </div>
+                    <div class="cat-title">Cakes</div>
+                    <div class="cat-line"></div>
+                </a>
+
+                <a href="{{ route('products.index') }}?category=Dry%20Cake" class="cat-card" data-aos="fade-up"
+                    data-aos-delay="300" data-aos-duration="800" data-aos-easing="ease-out-cubic">
+                    <div class="cat-img">
+                        <img src="{{ asset('user/assets/images/dry-cakes.jpg') }}" alt="Dry Cake">
+                    </div>
+                    <div class="cat-title">Dry Cake</div>
+                    <div class="cat-line"></div>
+                </a>
+
+            </div>
+
+        </div>
+    </section>
 
 
 
@@ -123,15 +206,16 @@
         <div class="container">
 
             <!-- SECTION HEADER -->
-            <div class="section-header text-center mb-5">
+            <div class="section-header text-center mb-5" data-aos="fade-up" data-aos-duration="700">
                 <h1>Produk Unggulan</h1>
                 <p>Kualitas terbaik untuk pengalaman terbaik</p>
             </div>
 
             <!-- PRODUCT GRID -->
             <div class="home-product-grid">
-                @foreach ($produks as $produk)
-                    <div class="product-card">
+                @foreach ($produks as $index => $produk)
+                    <div class="product-card" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}"
+                        data-aos-duration="700">
 
                         <a href="{{ route('detail.index', $produk->id) }}" class="product-thumb">
                             <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}">
@@ -147,7 +231,7 @@
 
                         <div class="product-action">
                             @auth
-                                <form action="{{ route('keranjang.store') }}" method="POST">
+                                <form action="{{ route('keranjang.store') }}" method="POST" class="d-inline">
                                     @csrf
                                     <input type="hidden" name="produk_id" value="{{ $produk->id }}">
                                     <input type="hidden" name="jumlah" value="1">
@@ -156,7 +240,7 @@
                                     </button>
                                 </form>
                             @else
-                                <a href="{{ route('login') }}" class="btn-cart-oval">
+                                <a href="{{ route('login') }}" class="btn-cart-oval d-inline-block text-center">
                                     ADD TO CART
                                 </a>
                             @endauth
@@ -170,13 +254,20 @@
     </section>
 
 
-  <!-- Feature Section Start -->
+
     <section class="features py-5" style="background-color: #fff9f0;">
         <div class="container text-center">
-            <h3 class="fw-bold mb-5">Kenapa Memilih Kami</h3>
+
+            <!-- SECTION TITLE -->
+            <h3 class="fw-bold mb-5" data-aos="fade-up" data-aos-duration="700">
+                Kenapa Memilih Kami
+            </h3>
+
             <div class="row g-4 justify-content-center">
+
                 <!-- Feature Card 1 -->
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-4 col-sm-6" data-aos="zoom-in-up" data-aos-delay="0" data-aos-duration="800"
+                    data-aos-easing="ease-out-cubic">
                     <div class="feature-card p-4 h-100 text-center shadow-sm border-0 rounded-4 bg-white hover-effect">
                         <div class="icon-wrapper mb-3">
                             <img src="{{ asset('user/assets/images/logo-1.png') }}" alt="Bahan Fresh" class="img-fluid"
@@ -188,7 +279,8 @@
                 </div>
 
                 <!-- Feature Card 2 -->
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-4 col-sm-6" data-aos="zoom-in-up" data-aos-delay="150" data-aos-duration="800"
+                    data-aos-easing="ease-out-cubic">
                     <div class="feature-card p-4 h-100 text-center shadow-sm border-0 rounded-4 bg-white hover-effect">
                         <div class="icon-wrapper mb-3">
                             <img src="{{ asset('user/assets/images/logo-2.png') }}" alt="Pengalaman" class="img-fluid"
@@ -200,7 +292,8 @@
                 </div>
 
                 <!-- Feature Card 3 -->
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-4 col-sm-6" data-aos="zoom-in-up" data-aos-delay="300" data-aos-duration="800"
+                    data-aos-easing="ease-out-cubic">
                     <div class="feature-card p-4 h-100 text-center shadow-sm border-0 rounded-4 bg-white hover-effect">
                         <div class="icon-wrapper mb-3">
                             <img src="{{ asset('user/assets/images/logo-3.png') }}" alt="Lezat" class="img-fluid"
@@ -210,51 +303,53 @@
                         <p class="text-muted mb-0">Kelezatan tiada tara, setiap gigitan memikat.</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
-    <!-- Feature Section End -->
 
     {{-- ===================== --}}
     {{-- PROMO SHOP --}}
     {{-- ===================== --}}
- <section class="promo-section">
-    <div class="container">
-        <div class="row align-items-center g-4 my-5">
+    <section class="promo-section">
+        <div class="container">
+            <div class="row align-items-center g-4 my-5">
 
-            <!-- Image -->
-            <div class="col-12 col-md-7">
-                <div class="promo-img-wrap">
-                    <img src="{{ asset('user/assets/images/dessertbox.jpg') }}"
-                         class="promo-image"
-                         alt="Promo Dessert">
+                <!-- Image -->
+                <div class="col-12 col-md-7" data-aos="fade-right" data-aos-duration="900"
+                    data-aos-easing="ease-out-cubic">
+                    <div class="promo-img-wrap">
+                        <img src="{{ asset('user/assets/images/dessertbox.jpg') }}" class="promo-image"
+                            alt="Promo Dessert">
+                    </div>
                 </div>
-            </div>
 
-            <!-- Content -->
-            <div class="col-12 col-md-5">
-                <div class="promo-content">
+                <!-- Content -->
+                <div class="col-12 col-md-5" data-aos="fade-left" data-aos-duration="900" data-aos-delay="120"
+                    data-aos-easing="ease-out-cubic">
+                    <div class="promo-content">
 
+                        <h2 data-aos="fade-up" data-aos-delay="220" data-aos-duration="700">
+                            Jadi yang Pertama<br>
+                            Nikmati Penawaran Spesial
+                        </h2>
 
-                    <h2>
-                        Jadi yang Pertama<br>
-                        Nikmati Penawaran Spesial
-                    </h2>
+                        <p data-aos="fade-up" data-aos-delay="320" data-aos-duration="700">
+                            Dapatkan produk pilihan dengan harga terbaik.
+                            Jangan lewatkan kesempatan ini!
+                        </p>
 
-                    <p>
-                        Dapatkan produk pilihan dengan harga terbaik.
-                        Jangan lewatkan kesempatan ini!
-                    </p>
+                        <a href="{{ route('products.index') }}" class="promo-link" data-aos="zoom-in"
+                            data-aos-delay="420" data-aos-duration="650">
+                            Belanja Sekarang
+                        </a>
 
-                    <a href="{{ route('products.index') }}" class="promo-link">
-                        Belanja Sekarang
-                    </a>
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
@@ -340,27 +435,32 @@
     </div>  --}}
 
     <section class="operational-section">
-        <div class="operational-card">
+        <div class="operational-card" data-aos="zoom-in" data-aos-duration="800" data-aos-easing="ease-out-cubic">
 
-            <div class="icon-operasional">
+            <div class="icon-operasional" data-aos="zoom-in" data-aos-delay="150" data-aos-duration="600">
                 <i class="bi bi-clock-fill"></i>
             </div>
 
-            <span class="status-badge">Buka Setiap Hari</span>
+            <span class="status-badge" data-aos="fade-up" data-aos-delay="250" data-aos-duration="600">
+                Buka Setiap Hari
+            </span>
 
-            <h4>Jam Operasional</h4>
+            <h4 data-aos="fade-up" data-aos-delay="320" data-aos-duration="600">
+                Jam Operasional
+            </h4>
 
-            <p class="schedule">
+            <p class="schedule" data-aos="fade-up" data-aos-delay="380" data-aos-duration="600">
                 <span>Senin – Minggu</span>
                 <strong>10:00 – 21:00 WIB</strong>
             </p>
 
-            <p class="subtext">
+            <p class="subtext" data-aos="fade-up" data-aos-delay="440" data-aos-duration="600">
                 Kami siap melayani Anda setiap hari dengan pelayanan terbaik.
             </p>
 
         </div>
     </section>
+
 
 
 
@@ -374,9 +474,7 @@
 
 @push('styles')
     <style>
-
-        {{--  ================ Jam Operasinal =================  --}}
-        .operational-section {
+        {{--  ================ Jam Operasinal =================  --}} .operational-section {
             min-height: 55vh;
             display: flex;
             align-items: center;
@@ -481,8 +579,7 @@
             }
         }
 
-       {{--  ============== Home Product ===============  --}}
-        .home-products {
+        {{--  ============== Home Product ===============  --}} .home-products {
             padding: 70px 0;
             background: #ffffff;
             font-family: "Poppins", sans-serif;
@@ -495,6 +592,7 @@
             color: #7a3e14;
             margin-bottom: 6px;
         }
+
         .section-header h2 {
             font-size: 38px;
             font-weight: 600;
@@ -594,15 +692,15 @@
 
 
         /* =====================
-                                                                    GENERAL
-                                                            ===================== */
+                                                                            GENERAL
+                                                                    ===================== */
         body {
             background-color: #FFF6EA;
         }
 
         /* =====================
-                                                                PRODUK SECTION
-                                                            ===================== */
+                                                                        PRODUK SECTION
+                                                                    ===================== */
         .product-section {
             padding: 80px 0;
         }
@@ -619,8 +717,8 @@
         }
 
         /* =====================
-                                                                                                           CATEGORY GRID (Klik Gambar) - ukuran rapi kayak contoh
-                                                                                                        ===================== */
+                                                                                                                   CATEGORY GRID (Klik Gambar) - ukuran rapi kayak contoh
+                                                                                                                ===================== */
         .category-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -763,134 +861,132 @@
             color: #fff;
         }
 
-       /* ===== PROMO SECTION ===== */
-.promo-section {
-    background: linear-gradient(135deg, #fffaf4, #ffffff);
-    padding: 80px 0;
-     font-family: "Poppins", sans-serif;
-}
+        /* ===== PROMO SECTION ===== */
+        .promo-section {
+            background: linear-gradient(135deg, #fffaf4, #ffffff);
+            padding: 80px 0;
+            font-family: "Poppins", sans-serif;
+        }
 
-/* ROW */
-.promo-row {
-    gap: 28px;
-    align-items: center;
-}
+        /* ROW */
+        .promo-row {
+            gap: 28px;
+            align-items: center;
+        }
 
-/* IMAGE */
-.promo-img-wrap {
-    max-width: 620px;
-    margin: 0 auto;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-    transition: transform .35s ease, box-shadow .35s ease;
-}
+        /* IMAGE */
+        .promo-img-wrap {
+            max-width: 620px;
+            margin: 0 auto;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+            transition: transform .35s ease, box-shadow .35s ease;
+        }
 
-.promo-img-wrap:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.18);
-}
+        .promo-img-wrap:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 60px rgba(0, 0, 0, 0.18);
+        }
 
-.promo-image {
-    width: 100%;
-    height: 340px;
-    object-fit: cover;
-    display: block;
-    transition: transform .45s ease;
-}
+        .promo-image {
+            width: 100%;
+            height: 340px;
+            object-fit: cover;
+            display: block;
+            transition: transform .45s ease;
+        }
 
-.promo-img-wrap:hover .promo-image {
-    transform: scale(1.05);
-}
+        .promo-img-wrap:hover .promo-image {
+            transform: scale(1.05);
+        }
 
-/* CONTENT */
-.promo-content h2 {
-    font-size: 40px;
-    font-weight: 800;
-    color: #111827;
-    line-height: 1.2;
-    margin-bottom: 20px;
-}
+        /* CONTENT */
+        .promo-content h2 {
+            font-size: 40px;
+            font-weight: 800;
+            color: #111827;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
 
-.promo-content p {
-    font-size: 15px;
-    color: #ffffff;
-    margin-bottom: 28px;
-    max-width: 420px;
-}
+        .promo-content p {
+            font-size: 15px;
+            color: #ffffff;
+            margin-bottom: 28px;
+            max-width: 420px;
+        }
 
-/* BUTTON */
-.promo-link {
-    display: inline-block;
-    padding: 14px 34px;
-    border-radius: 999px;
-    background: #d4b78e;
-    color: #ffffff !important;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: .06em;
-    text-decoration: none;
-    transition: all .3s ease;
-    border: none;
-    outline: none;
-}
+        /* BUTTON */
+        .promo-link {
+            display: inline-block;
+            padding: 14px 34px;
+            border-radius: 999px;
+            background: #d4b78e;
+            color: #ffffff !important;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-decoration: none;
+            transition: all .3s ease;
+            border: none;
+            outline: none;
+        }
 
-/* HOVER */
-.promo-link:hover {
-    background: #c7a874;
-    color: #ffffff !important;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(117, 87, 46, 0.5);
-}
+        /* HOVER */
+        .promo-link:hover {
+            background: #c7a874;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(117, 87, 46, 0.5);
+        }
 
-/* AKTIF + FOCUS + VISITED (INI YANG PENTING) */
-.promo-link:active,
-.promo-link:focus,
-.promo-link:visited {
-    background: #d4b78e;
-    color: #ffffff !important;
-    text-decoration: none;
-    outline: none;
-    box-shadow: 0 8px 20px rgba(117, 87, 46, 0.4);
-}
+        /* AKTIF + FOCUS + VISITED (INI YANG PENTING) */
+        .promo-link:active,
+        .promo-link:focus,
+        .promo-link:visited {
+            background: #d4b78e;
+            color: #ffffff !important;
+            text-decoration: none;
+            outline: none;
+            box-shadow: 0 8px 20px rgba(117, 87, 46, 0.4);
+        }
 
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 992px) {
-    .promo-img-wrap {
-        max-width: 520px;
-    }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .promo-img-wrap {
+                max-width: 520px;
+            }
 
-    .promo-image {
-        height: 280px;
-    }
+            .promo-image {
+                height: 280px;
+            }
 
-    .promo-content h2 {
-        font-size: 32px;
-    }
-}
+            .promo-content h2 {
+                font-size: 32px;
+            }
+        }
 
-@media (max-width: 576px) {
-    .promo-section {
-        padding: 60px 0;
-    }
+        @media (max-width: 576px) {
+            .promo-section {
+                padding: 60px 0;
+            }
 
-    .promo-img-wrap {
-        max-width: 100%;
-    }
+            .promo-img-wrap {
+                max-width: 100%;
+            }
 
-    .promo-image {
-        height: 220px;
-    }
+            .promo-image {
+                height: 220px;
+            }
 
-    .promo-content h2 {
-        font-size: 26px;
-    }
-}
+            .promo-content h2 {
+                font-size: 26px;
+            }
+        }
 
-   {{--  =============== Banner  ==============  --}}
-
-        .banner-img {
+        {{--  =============== Banner  ==============  --}} .banner-img {
             height: 100vh;
             object-fit: cover;
             filter: brightness(55%) saturate(120%);
@@ -1000,6 +1096,15 @@
             .features h3 {
                 font-size: 1.6rem;
             }
+        }
+
+        .feature-card {
+            transition: transform .35s ease, box-shadow .35s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .15);
         }
     </style>
 @endpush

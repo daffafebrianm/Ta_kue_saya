@@ -142,6 +142,16 @@
         .new-account a:hover {
             text-decoration: underline;
         }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 
     <body class="h-100">
@@ -193,7 +203,7 @@
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <input type="text" name="phone_number"
+                                    <input type="number" name="phone_number"
                                         class="form-control @error('phone_number') is-invalid @enderror"
                                         placeholder="Nomor Telepon" value="{{ old('phone_number') }}" required>
                                     @error('phone_number')
@@ -201,18 +211,23 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-3 position-relative">
                                     <input type="password" name="password"
-                                        class="form-control @error('password') is-invalid @enderror" placeholder="Password"
-                                        required>
+                                        class="form-control pe-5 @error('password') is-invalid @enderror" id="password"
+                                        placeholder="Password" required>
+                                    <i class="bi bi-eye position-absolute top-50 end-0 translate-middle-y pe-3"
+                                        style="cursor: pointer;" onclick="togglePassword('password', this)"></i>
                                     @error('password')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
                                 </div>
 
-                                <div class="form-group mb-4">
-                                    <input type="password" name="password_confirmation" class="form-control"
-                                        placeholder="Ulangi Password" required>
+                                <div class="form-group mb-4 position-relative">
+                                    <input type="password" name="password_confirmation" class="form-control pe-5"
+                                        id="password_confirmation" placeholder="Ulangi Password" required>
+                                    <i class="bi bi-eye position-absolute top-50 end-0 translate-middle-y pe-3"
+                                        style="cursor: pointer;"
+                                        onclick="togglePassword('password_confirmation', this)"></i>
                                 </div>
 
                                 <button type="submit" class="btn-register">Sign me up</button>
@@ -227,4 +242,20 @@
             </div>
         </div>
     </body>
+
+    <script>
+        function togglePassword(id, icon) {
+            const input = document.getElementById(id);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+            }
+        }
+    </script>
+
 @endsection

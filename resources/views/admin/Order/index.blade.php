@@ -194,9 +194,66 @@
                                     <td><span
                                             class="badge-pill {{ $payClass }}">{{ ucfirst($order->payment_status ?? '-') }}</span>
                                     </td>
-                                    <td><span
-                                            class="badge-pill {{ $shipClass }}">{{ ucfirst($order->shipping_status ?? '-') }}</span>
+
+                                    {{-- 🔄 Shipping Status (editable) --}}
+                                    <td>
+                                        @php
+                                            $current = $order->shipping_status;
+                                            $options = match ($current) {
+                                                'pending' => ['processing'],
+                                                'processing' => ['shipped', 'cancelled'],
+                                                'shipped' => ['completed'],
+                                                'completed', 'cancelled' => [],
+                                                default => [],
+                                            };
+
+                                            // Tentukan warna badge
+                                            $badgeColor = match ($current) {
+                                                'pending' => 'warning',
+                                                'processing' => 'info',
+                                                'shipped' => 'primary',
+                                                'completed' => 'success',
+                                                'cancelled' => 'danger',
+                                                default => 'secondary',
+                                            };
+                                        @endphp
+
+                                        @if (in_array($current, ['completed', 'cancelled']))
+                                            {{-- Jika sudah completed/cancelled, tampil badge saja --}}
+                                            <span
+                                                class="badge bg-{{ $badgeColor }} text-capitalize px-3 py-2 fw-semibold shadow-sm"
+                                                style="font-size: 0.85rem; min-width: 110px;">
+                                                {{ ucfirst($current) }}
+                                            </span>
+                                        @else
+                                            {{-- Jika belum selesai, tampil dropdown --}}
+                                            <form action="{{ route('orders.updateShippingStatus', $order->id) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                <select name="shipping_status"
+                                                    class="form-select form-select-sm fw-semibold text-capitalize shadow-sm"
+                                                    style="border: 1px solid #e5e7eb;
+                                                        border-radius: 10px;
+                                                        background-color: #f9fafb;
+                                                        color: #111827;
+                                                        font-size: 0.85rem;
+                                                        padding: 6px 10px;
+                                                        min-width: 140px;
+                                                        cursor: pointer;
+                                                        transition: all 0.2s ease;
+                                                    "
+                                                    onchange="this.form.submit()">
+                                                    <option value="{{ $current }}" selected>{{ ucfirst($current) }}
+                                                    </option>
+                                                    @foreach ($options as $opt)
+                                                        <option value="{{ $opt }}">{{ ucfirst($opt) }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </form>
+                                        @endif
                                     </td>
+
+
                                     <td class="text-center">
                                         <a href="{{ route('orders.show', $order->id) }}"
                                             class="btn btn-sm btn-primary me-1" title="Lihat Order">
