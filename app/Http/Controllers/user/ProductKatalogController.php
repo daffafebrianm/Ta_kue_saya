@@ -15,7 +15,8 @@ class ProductKatalogController extends Controller
             ''          => 'Semua',
             'Cookies'   => 'Cookies',
             'Cake'     => 'Cake',
-            'Kue kering'  => 'Kue kering',
+            'Dry Cake' => 'Dry Cake',
+
         ];
 
         // Ambil kategori dari parameter URL
