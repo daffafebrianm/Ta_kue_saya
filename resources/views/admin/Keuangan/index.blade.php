@@ -8,11 +8,10 @@
     }
 </style>
 
-
     <div class="container mt-5">
         <h3 class="fw-semibold mb-4 text-primary">Laporan Keuangan</h3>
 
-        {{-- Filter Bulan & Tahun (otomatis submit, tanpa tombol) --}}
+        {{-- Filter Bulan, Minggu & Tahun --}}
         <form method="GET" action="{{ route('keuangan.index') }}" id="filterForm" class="row g-3 mb-4">
             @php
                 $currentMonth = date('n'); // bulan sekarang (1–12)
@@ -26,6 +25,18 @@
                         <option value="{{ $i }}"
                             {{ request('bulan') == $i || (!request('bulan') && $currentMonth == $i) ? 'selected' : '' }}>
                             {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+
+            {{-- 🔹 Filter Mingguan --}}
+            <div class="col-md-3">
+                <select name="minggu" class="form-select" id="mingguSelect">
+                    <option value="">-- Semua Minggu --</option>
+                    @for ($i = 1; $i <= 5; $i++)
+                        <option value="{{ $i }}" {{ request('minggu') == $i ? 'selected' : '' }}>
+                            Minggu ke-{{ $i }}
                         </option>
                     @endfor
                 </select>
@@ -51,6 +62,7 @@
                     <a href="{{ route('Keuangan.pdf', [
                         'bulan' => request('bulan'),
                         'tahun' => request('tahun') ?? date('Y'),
+                        'minggu' => request('minggu'),
                     ]) }}"
                         class="btn btn-success d-flex align-items-center gap-2" target="_blank">
                         <i class="bi bi-file-earmark-pdf fs-5"></i>
@@ -84,7 +96,7 @@
         </div>
     </div>
 
-    {{-- Chart.js (Modern Glassmorphism Style) --}}
+    {{-- Chart.js --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -92,8 +104,11 @@
             const filterForm = document.getElementById('filterForm');
             const bulanSelect = document.getElementById('bulanSelect');
             const tahunSelect = document.getElementById('tahunSelect');
+            const mingguSelect = document.getElementById('mingguSelect');
+
             bulanSelect.addEventListener('change', () => filterForm.submit());
             tahunSelect.addEventListener('change', () => filterForm.submit());
+            mingguSelect.addEventListener('change', () => filterForm.submit());
 
             // === Chart.js Setup ===
             const ctx = document.getElementById('keuanganChart').getContext('2d');

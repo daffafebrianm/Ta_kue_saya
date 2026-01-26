@@ -241,6 +241,11 @@
             background: #f1f5f9;
         }
     </style>
+    <!-- Floating WhatsApp Button -->
+    <a href="https://api.whatsapp.com/message/LSTUC4YSGLHVL1?autoload=1&app_absent=0&utm_source=ig" class="whatsapp-float"
+        target="_blank" aria-label="Chat via WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <section class="product-detail">
         <div class="container">
