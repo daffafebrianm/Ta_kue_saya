@@ -110,6 +110,7 @@
         <h3 class="fw-semibold mb-4  page-title">
             <span> Laporan Keuangan</span>
             <a href="{{ route('Keuangan.pdf', [
+                'tanggal' => request('tanggal'),
                 'bulan' => request('bulan'),
                 'tahun' => request('tahun') ?? date('Y'),
                 'minggu' => request('minggu'),
@@ -125,6 +126,18 @@
                 $currentMonth = date('n');
                 $currentYear = date('Y');
             @endphp
+
+            <div class="col-md-3">
+                <label class="form-label fw-semibold text-secondary">Tanggal</label>
+                <select name="tanggal" class="form-select" id="tanggalSelect">
+                    <option value="">-- Semua Tanggal --</option>
+                    @for ($i = 1; $i <= 31; $i++)
+                        <option value="{{ $i }}" {{ request('tanggal') == $i ? 'selected' : '' }}>
+                            Tanggal {{ $i }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
 
             <div class="col-md-3">
                 <label class="form-label fw-semibold text-secondary">Bulan</label>
@@ -303,17 +316,26 @@
 
                 @php
                     use Carbon\Carbon;
-
+                    $tanggal = request('tanggal');
                     $bulan = request('bulan');
                     $tahun = request('tahun', date('Y'));
                     $minggu = request('minggu');
                     $periodeTeks = '';
 
-                    if ($bulan && $minggu) {
-                        // 🔹 Awal bulan
-                        $awalBulan = Carbon::create($tahun, $bulan, 1, 0, 0, 0, 'Asia/Jakarta');
+                    if ($tanggal) {
+                        $bulan = request('bulan');
+                        $tahun = request('tahun', date('Y'));
 
-                        // 🔹 Hitung tanggal mulai dan akhir minggu ke-n dalam bulan tersebut
+                        if ($bulan) {
+                            $periodeTeks =
+                                "Tanggal $tanggal " .
+                                Carbon::createFromDate($tahun, $bulan, 1)->translatedFormat('F') .
+                                " $tahun";
+                        } else {
+                            $periodeTeks = "Tanggal $tanggal Tahun $tahun";
+                        }
+                    } elseif ($bulan && $minggu) {
+                        $awalBulan = Carbon::create($tahun, $bulan, 1, 0, 0, 0, 'Asia/Jakarta');
                         $startDate = $awalBulan
                             ->copy()
                             ->addWeeks($minggu - 1)
@@ -323,7 +345,6 @@
                             ->addWeeks($minggu - 1)
                             ->endOfWeek(Carbon::SUNDAY);
 
-                        // 🔹 Pastikan tanggalnya masih di bulan yang sama
                         if ($startDate->month != $bulan) {
                             $startDate = $awalBulan->copy();
                         }
@@ -338,10 +359,8 @@
                             $endDate->translatedFormat('d F Y') .
                             ')';
                     } elseif ($bulan) {
-                        // 🔹 Kalau hanya pilih bulan
                         $periodeTeks = Carbon::createFromDate(null, $bulan, 1)->translatedFormat('F') . " $tahun";
                     } else {
-                        // 🔹 Default: keseluruhan tahun
                         $periodeTeks = "Keseluruhan Tahun $tahun";
                     }
                 @endphp
@@ -393,7 +412,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const filterForm = document.getElementById('filterForm');
-            ['bulanSelect', 'tahunSelect', 'mingguSelect'].forEach(id => {
+            ['tanggalSelect', 'bulanSelect', 'tahunSelect', 'mingguSelect'].forEach(id => {
                 document.getElementById(id).addEventListener('change', () => filterForm.submit());
             });
 
