@@ -44,7 +44,7 @@ class OrderController extends Controller
                 'tahun'  => $tahun,
             ]);
 
-        return view('admin.order.index', compact('orders', 'search', 'bulan', 'tahun'));
+        return view('admin.Order.index', compact('orders', 'search', 'bulan', 'tahun'));
     }
 
 
@@ -52,7 +52,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::with('user', 'orderDetails.produk')->findOrFail($id);
-        return view('admin.order.show', compact('order'));
+        return view('admin.Order.show', compact('order'));
     }
 
 
@@ -97,7 +97,7 @@ class OrderController extends Controller
         });
 
         // Load view PDF dan kirim data ke dalamnya
-        $pdf = Pdf::loadView('admin.order.laporan', compact(
+        $pdf = Pdf::loadView('admin.Order.laporan', compact(
             'orders',
             'total_penjualan',
             'total_modal',
