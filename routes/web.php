@@ -3,23 +3,23 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\admin\UserController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\user\CekOutController;
 use App\Http\Controllers\admin\ProdukController;
 use App\Http\Controllers\user\AboutUsController;
 use App\Http\Controllers\user\ProfileController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\user\LocationController;
 use App\Http\Controllers\admin\KategoriController;
-use App\Http\Controllers\User\KeranjangController;
+use App\Http\Controllers\user\KeranjangController;
 use App\Http\Controllers\user\PembayaranController;
 use App\Http\Controllers\admin\BarangMasukController;
 use App\Http\Controllers\user\DetailProdukController;
 use App\Http\Controllers\user\ProductKatalogController;
 use App\Http\Controllers\user\RiwayatPesananController;
-use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\admin\DashboardAdminController;
 
 // LANDING PAGE (Tampilan awal user & admin)
 
@@ -27,10 +27,10 @@ Route::get('/', [LandingPageController::class, 'user'])->name('landing');
 // Route::get('/dashboard', [LandingPageController::class, 'user']);
 // LOGIN
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::get('/logout', [LoginController::class, 'logout']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/logout', [LoginController::class, 'logout']);
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 // REGISTER
