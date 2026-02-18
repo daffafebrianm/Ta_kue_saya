@@ -168,7 +168,7 @@
             <div class="container-fluid h-100">
                 <div class="login-wrap">
                     <div class="login-card">
-                        <h2 class="login-title">Sign In</h2>
+                        <h2 class="login-title">Sign In</h2> 
 
                         {{-- ALERTS --}}
                         @if (session('success'))
