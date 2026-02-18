@@ -43,7 +43,7 @@ class ProductKatalogController extends Controller
         // Pagination (8 produk per halaman)
         $produks = $produksQuery->paginate(8)->withQueryString();
 
-        return view('user.produk.produk', [
+        return view('user.Produk.produk', [
             'produks' => $produks,
             'categories' => $categories,
             'selectedCategory' => $selectedCategory,
