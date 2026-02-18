@@ -151,7 +151,7 @@ class KeuanganController extends Controller
             $query->whereDate('order_date', $tanggalFull);
 
         } else {
-
+    
             // 🔹 Tahunan
             if ($tahun) {
                 $query->whereYear('order_date', $tahun);
